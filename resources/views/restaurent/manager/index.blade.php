@@ -25,7 +25,8 @@
                 <div class="card">
                     <div class="card-header custom_col">
                         <div class="col-md-2 filter_btn_div">
-                            <a href="{{url('restaurent/manager/create')}}" class="btn btn-primary px-5 radius-0">Add New</a>
+                            <a href="{{url('restaurent/manager/create')}}" 
+                            class="btn btn-primary px-5 radius-0">Add New</a>
                         </div>
                     </div>
                 </div>

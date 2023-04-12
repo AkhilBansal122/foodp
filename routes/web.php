@@ -8,15 +8,12 @@ use App\Http\Controllers\HomeController;
 
 use App\Http\Controllers\MenusController;
 use App\Http\Controllers\SubMenusController;
-use App\Http\Controllers\ManagerController;
 use App\Http\Controllers\WebsiteController;
 use App\Http\Controllers\TablesController;
-use App\Http\Controllers\BranchController;
 
 use App\Http\Controllers\ChefsController;
-use App\Http\Controllers\BannersController;
+
 use App\Http\Controllers\AboutUsController;
-use App\Http\Controllers\ServicesController;
 
 use App\Http\Controllers\OrderController;
 
