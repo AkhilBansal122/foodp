@@ -41,6 +41,7 @@
             <input type="text" 
             required 
             class="form-control" 
+            pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}"
              name="pen_card" value="{{isset($data) ? $data->pen_card:''}}" 
             placeholder="Enter Pen Card">
             @if($errors->has('pen_card'))<div class="error">{{ $errors->first('pen_card') }}</div>@endif
