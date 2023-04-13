@@ -163,7 +163,16 @@ Route::any('restaurent/dashboard', [App\Http\Controllers\HomeController::class, 
    Route::any('restaurent/manager/store', [App\Http\Controllers\ManagerController::class, 'store'])->name('restaurent.manager.store');
    Route::any('restaurent/manager/update', [App\Http\Controllers\ManagerController::class, 'update'])->name('restaurent.manager.update');
    Route::any('restaurent/manager/status_change', [App\Http\Controllers\ManagerController::class, 'status_change'])->name('restaurent.manager.status_change');
- 
+   
+    //Menu /Category
+    Route::any('restaurent/menu/restaurentdata', [App\Http\Controllers\MenusController::class, 'restaurentdata'])->name('restaurent.menu.data');
+    Route::any('restaurent/menus', [App\Http\Controllers\MenusController::class, 'index'])->name('restaurent/menus');
+    Route::any('restaurent/menu/create', [App\Http\Controllers\MenusController::class, 'create'])->name('restaurent.menu.create');
+    Route::any('restaurent/menu/edit/{id}', [App\Http\Controllers\MenusController::class, 'edit'])->name('restaurent.menu.edit');
+    Route::any('restaurent/menu/store', [App\Http\Controllers\MenusController::class, 'store'])->name('restaurent.menu.store');
+    Route::any('restaurent/menu/update', [App\Http\Controllers\MenusController::class, 'update'])->name('restaurent.menu.update');
+    Route::any('restaurent/menu/status_change', [App\Http\Controllers\MenusController::class, 'status_change'])->name('restaurent.menu.status_change');
+
 });
 
 

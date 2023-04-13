@@ -37,7 +37,6 @@ class MenusController extends Controller
         if(!is_null($user)){
             if($user->is_admin==1){
                 $restaurentList = User::where('is_admin',2)->get();
-               
                 return view('admin/menu/create',compact('page','restaurentList'));
             }else if($user->is_admin==2){
                 return view('restaurent/menu/create',compact('page'));
@@ -49,15 +48,16 @@ class MenusController extends Controller
     }
     
     public function store(Request $request){
+     //   dd($request->all());
         $user = auth()->user();
         $request->validate([
-            'user_id' => 'required',
+           // 'user_id' => 'required',
             'type' => 'required',
             'name' => 'required|unique:categories,user_id,' . $user->id,
             'image' => 'required|image|mimes:png,jpg,jpeg|max:2048',
         ],
         [
-            'user_id.required' => 'Please Select Restaurent.',
+            //'user_id.required' => 'Please Select Restaurent.',
             'type.required' => 'Please Select Type.',
             'name.required' => 'Please Enter Name',
             'image.required' => 'Please Select Image'
@@ -132,8 +132,9 @@ class MenusController extends Controller
 
     public function update(Request $request){
         $user = auth()->user();
+  //      dd($request->type);
         $request->validate([
-            'type' => 'required|',
+            'type' => 'required',
             'name' => 'required|unique:categories,user_id,' . $user->id,
         ],
         [
