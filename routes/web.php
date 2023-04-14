@@ -183,6 +183,8 @@ Route::any('restaurent/dashboard', [App\Http\Controllers\HomeController::class, 
    Route::any('restaurent/sub_menu/update', [App\Http\Controllers\SubMenusController::class, 'update'])->name('restaurent.sub_menu.update');
    Route::any('restaurent/sub_menu/status_change', [App\Http\Controllers\SubMenusController::class, 'status_change'])->name('restaurent.sub_menu.status_change');
 
+   Route::get('restaurent/logout', [LoginController::class, 'logout']);
+
 });
 
 

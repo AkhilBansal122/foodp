@@ -245,10 +245,10 @@ class SubMenusController extends Controller
                 $image="";
                 if($request->hasfile('image'))
                 {
-                    unlink("public/".$sub_categories->image);
+                   // unlink("public/".$sub_categories->image);
                     $imageName = time().'.'.$request->image->extension();
                     $request->image->move($path, $imageName);
-                    $image.=$sub_categories->image .",". '/upload/restaurent/sub_menus/'.$imageName;
+                    $image.= '/upload/restaurent/sub_menus/'.$imageName;
                     $sub_categories->image = $image;
                 } 
                 //multiple image
