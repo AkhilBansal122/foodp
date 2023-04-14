@@ -1,151 +1,124 @@
-<div class="row">
-<input type="hidden" name="_token" value="{{ csrf_token() }}" />
-    <div class="col-xl-12">
-        <div class="mb-3 row">
-            <label class="col-lg-4 col-form-label" for="validationCustom01">Select Menu
-                <span class="text-danger">*</span>
-            </label>
-            <div class="col-lg-6">
-               <select class="form-control ms-0 wide" name="category_id" required>
+
+<div class="col-md-2">
+    <div class="form-group">
+        <label for="title" class="form-label">Select Menu:  <span class="text-danger">*</span></label>
+        
+        <select class="form-control" name="category_id" required>
                <option value="">Select Menu</option> 
                @if(!empty($menu))
                     @foreach($menu as $row)
                         <option value="{{$row->id}}" {{ (isset($data->category_id) && $row->id == $data->category_id) ? 'selected' : '' }} >{{$row->name}}</option>
                     @endforeach
                 @endif
-               </select>
-                    @if ($errors->has('category_id'))
-                       <span class="text-danger text-left">{{$errors->first('category_id')}}</span>
-                    @endif
-            </div>
-        </div>
-        <div class="mb-3 row">
-            <label class="col-lg-4 col-form-label" for="validationCustom01">Name
-                <span class="text-danger">*</span>
-            </label>
-            <div class="col-lg-6">
-                <input type="text" 
-                    class="form-control" 
-                    value="{{ old('name',(isset($data->name) && $data->name) ? $data->name : '') }}" 
-                    placeholder="Enter a name.." 
-                    name="name"
-                    <?php echo isset($data) ? '' : 'required'   ?>
-                    title="This field should not be left blank."
-                    >
-                    @if ($errors->has('name'))
-                       <span class="text-danger text-left">{{$errors->first('name')}}</span>
-                    @endif
-            </div>
-        </div>
-        <div class="mb-3 row">
-            <label class="col-lg-4 col-form-label" for="validationCustom02">Menu Image (One)
-                <span class="text-danger">*</span>
-            </label>
-            <div class="col-lg-6">
-                <input 
-                type="file" 
-                class="form-control" 
-                name="image"
-               <?php echo isset($data->image) ? '' : 'required'   ?>>
-                    @if ($errors->has('image'))
-                       <span class="text-danger text-left">{{$errors->first('image')}}</span>
-                    @endif
+        </select>
 
-            </div>
-        </div>
-        @if(!empty($data->image))
-            <div class="mb-3 row">
-            <label class="col-lg-4 col-form-label" for="validationCustom02">Menu Image Preview
-                <span class="text-danger">*</span>
-            </label>
-            <div class="col-lg-6">
-              <img src="{{asset('public/')}}/{{$data->image}}" width="200" height="100"/>
-            </div>
-            </div>
-        @endif
-        <div class="mb-3 row">
-            <label class="col-lg-4 col-form-label" for="validationCustom02">Menu Multiple
-                <span class="text-danger">*</span>
-            </label>
-            <div class="col-lg-6">
-                <input 
-                type="file" 
-                class="form-control" 
-                name="images[]"
-                multiple=""
-               <?php echo isset($data->images) ? '' : 'required'   ?>>
-                    @if ($errors->has('images'))
-                       <span class="text-danger text-left">{{$errors->first('images')}}</span>
-                    @endif
-            </div>
-        </div>
-        @if(!empty($data->images))
-            <div class="mb-3 row">
-            <label class="col-lg-4 col-form-label" for="validationCustom02">Menu Image Preview
-                <span class="text-danger">*</span>
-            </label>
-            <div class="col-lg-6">
-           
-            @foreach(explode(",",rtrim($data->images,",")) as $img)  
-            <img src="{{asset('public/')}}/{{$img}}" width="100" height="100"/>
-            @endforeach
-            </div>
-           
-            </div>
-        @endif
-        
-        <div class="mb-3 row">
-            <label class="col-lg-4 col-form-label" for="validationCustom01">Price
-                <span class="text-danger">*</span>
-            </label>
-            <div class="col-lg-6">
-            <input type="text" 
-                    class="form-control" 
-                    value="{{ old('price',(isset($data->price) && $data->price) ? $data->price : '') }}" 
-                    id="validationCustom01" 
-                    placeholder="Enter a price.." 
-                    name="price"
-                    <?php echo isset($data) ? '' : 'required'   ?>
-                    title="This field should not be left blank."
-                    >
-                    @if ($errors->has('price'))
-                       <span class="text-danger text-left">{{$errors->first('price')}}</span>
-                    @endif
-            </div>
-        </div>
-        <div class="mb-3 row">
-            <label class="col-lg-4 col-form-label" for="validationCustom01">Discount
-                <span class="text-danger">*</span>
-            </label>
-            <div class="col-lg-6">
-            <input type="text" 
-                    class="form-control" 
-                    value="{{ old('discount',(isset($data->discount) && $data->discount) ? $data->discount : '') }}" 
-                    id="validationCustom01" 
-                    placeholder="Enter a discount.." 
-                    name="discount"
-                    title="This field should not be left blank.">
-                    @if ($errors->has('discount'))
-                       <span class="text-danger text-left">{{$errors->first('discount')}}</span>
-                    @endif
-            </div>
-        </div>
-        <div class="mb-3 row">
-            <label class="col-lg-4 col-form-label" for="validationCustom01">Description
-                <span class="text-danger">*</span>
-            </label>
-            <div class="col-lg-6">
-                <textarea placeholder="Enter a description.." name="description"  class="form-control" >{{ old('description',(isset($data->description) && $data->description) ? $data->description : '') }}</textarea>
-                    @if ($errors->has('description'))
-                       <span class="text-danger text-left">{{$errors->first('description')}}</span>
-                    @endif
-            </div>
-        </div>
-        <div class="mb-3 row">
-            <div class="col-lg-8 ms-auto">
-                <button type="submit" class="btn btn-primary">{{isset($data) ? 'Update' :'Save' }}</button>
-                <a href="{{route('restaurent.sub_menu')}}" class="btn  btn-light">Back</a>
-            </div>
-        </div>
+        @if($errors->has('category_id'))<div class="error">{{ $errors->first('category_id') }}</div>@endif
     </div>
 </div>
+
+<div class="col-md-3">
+    <div class="form-group">
+        <label for="title" class="form-label">Name: <span style="color:red">*</span></label>
+        <input type="text" name="name" 
+        title="This field should not be left blank."
+        value="{{(isset($data ) && !empty($data->name)) ? $data->name:''}}" 
+        class="form-control" placholder="Please Enter Name" placeholder="Please enter name" required id="name">
+        @if($errors->has('name'))<div class="error">{{ $errors->first('name') }}</div>@endif
+    </div>
+</div>
+<div class="col-md-3">
+    <div class="form-group">
+        <label for="image" class="form-label">Menu Image (One): <span style="color:red">*</span></label>
+        <input type="file" name="image" 
+        {{ isset($data->image ) ? '' : 'required' }}
+        class="form-control" 
+
+        placeholder="Please enter image"  id="image">
+        @if($errors->has('image'))<div class="error">{{ $errors->first('image') }}</div>@endif
+    </div>
+</div>
+@if (!empty($data->image))
+<div class="col-md-3">
+    <div class="form-group">
+        <label for="image" class="form-label">Image Preview: <span style="color:red">*</span></label>
+        <img src="{{ asset('public/') }}/{{ $data->image }}" width="100" height="100" />
+    </div>
+</div>
+@endif
+
+<div class="col-md-3">
+    <div class="form-group">
+        <label for="images[]" class="form-label">Menu Image (Multiple): <span style="color:red">*</span></label>
+        <input type="file" name="images[]" 
+        multiple=""
+        {{ isset($data->images) ? '' : 'required' }}
+        class="form-control" 
+        
+        placeholder="Please enter image"  id="images">
+        @if($errors->has('images'))<div class="error">{{ $errors->first('images') }}</div>@endif
+    </div>
+</div>
+@if (!empty($data->images))
+<div class="col-md-3">
+    <div class="form-group">
+        <label for="image" class="form-label">Image Preview: <span style="color:red">*</span></label>
+        @foreach(explode(",",rtrim($data->images,",")) as $img)  
+            <img src="{{ asset('public/') }}/{{ $img }}" width="100" height="100" />
+        @endforeach
+    </div>
+</div>
+@endif
+
+<div class="col-md-3">
+    <div class="form-group">
+        <label for="title" class="form-label">Price: <span style="color:red">*</span></label>
+        <input type="text" name="price" 
+        id="validationCustom01" 
+        value="{{(isset($data ) && !empty($data->price)) ? $data->price:''}}" 
+        class="form-control" 
+        placeholder="Enter a price.." 
+        name="price"
+        <?php echo isset($data) ? '' : 'required'   ?>
+        title="This field should not be left blank."
+        
+        >
+        @if($errors->has('price'))<div class="error">{{ $errors->first('price') }}</div>@endif
+    </div>
+</div>
+<div class="col-md-3">
+    <div class="form-group">
+        <label for="title" class="form-label">Discount: <span style="color:red">*</span></label>
+        <input type="text" name="discount" 
+        id="validationCustom01" 
+        value="{{(isset($data ) && !empty($data->discount)) ? $data->discount:''}}" 
+        class="form-control" 
+        placeholder="Enter a discount.." 
+        name="discount"
+        <?php echo isset($data) ? '' : 'required'   ?>
+        title="This field should not be left blank."
+        >
+        @if($errors->has('discount'))<div class="error">{{ $errors->first('discount') }}</div>@endif
+    </div>
+</div>
+
+<div class="col-md-3">
+    <div class="form-group">
+        <label for="title" class="form-label">description: <span style="color:red">*</span></label>
+        <textarea name="description" 
+        id="description" 
+        class="form-control" 
+        placeholder="Enter a discount.." 
+        name="description"
+        <?php echo isset($data) ? '' : 'required'   ?>
+        title="This field should not be left blank."
+        >{{(isset($data ) && !empty($data->description)) ? $data->description:''}}
+</textarea>
+        @if($errors->has('description'))<div class="error">{{ $errors->first('description') }}</div>@endif
+    </div>
+</div>
+
+<div class="col-12">
+    <button type="submit" class="btn btn-light px-5"> {{isset($data->id) ?'Update' :'Save' }}</button>
+    <a href="{{route('restaurent.sub_menu')}}" class="btn btn-primary px-5">Back</a>
+</div>
+		

@@ -126,11 +126,14 @@ $url = Request::segment(2);
 						<div class="parent-icon"><i class="bx bx-user" aria-hidden="true"></i></div>
 						<div class="menu-title">Menu Manage</div>
 					</a>
+				</li>
+				<li  class="@if($url=='sub_menu') mm-active @endif ">
+					<a href="{{route('restaurent.sub_menu')}}">
+						<div class="parent-icon"><i class="bx bx-user" aria-hidden="true"></i></div>
+						<div class="sub_menu-title">Sub Menu Manage</div>
+					</a>
 				</li>	
-
 				@endif
-
-				
 			
 			</ul>
 			<!--end navigation-->
@@ -166,12 +169,22 @@ $url = Request::segment(2);
 							</div>
 						</a>
 						<ul class="dropdown-menu dropdown-menu-end">
+							@if(auth()->user()->is_admin==1)
 							<li><a class="dropdown-item" href="{{url('admin/change_password')}}"><i class="bx bx-user"></i><span>Change Password</span></a>
 							</li>
 							<li><a class="dropdown-item" href="{{url('admin/settings')}}"><i class="bx bx-cog"></i><span>Settings</span></a>
 							</li>
 							<li><a class="dropdown-item" href="{{url('admin/logout')}}"><i class='bx bx-log-out-circle'></i><span>Logout</span></a>
 							</li>
+							@endif
+							@if(auth()->user()->is_admin==2)
+							<li><a class="dropdown-item" href="{{url('admin/change_password')}}"><i class="bx bx-user"></i><span>Change Password</span></a>
+							</li>
+							<li><a class="dropdown-item" href="{{url('admin/settings')}}"><i class="bx bx-cog"></i><span>Settings</span></a>
+							</li>
+							<li><a class="dropdown-item" href="{{url('restaurent/logout')}}"><i class='bx bx-log-out-circle'></i><span>Logout</span></a>
+							</li>
+							@endif
 						</ul>
 					</div>
 				</nav>

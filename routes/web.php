@@ -173,6 +173,18 @@ Route::any('restaurent/dashboard', [App\Http\Controllers\HomeController::class, 
     Route::any('restaurent/menu/update', [App\Http\Controllers\MenusController::class, 'update'])->name('restaurent.menu.update');
     Route::any('restaurent/menu/status_change', [App\Http\Controllers\MenusController::class, 'status_change'])->name('restaurent.menu.status_change');
 
+   //Sub Category
+   Route::any('restaurent/sub_menu/data', [App\Http\Controllers\SubMenusController::class, 'restaurentdata'])->name('restaurent/sub_menu/data');
+   Route::any('restaurent/sub_menu', [App\Http\Controllers\SubMenusController::class, 'index'])->name('restaurent.sub_menu');
+   Route::any('restaurent/sub_menu/create', [App\Http\Controllers\SubMenusController::class, 'create'])->name('restaurent.sub_menu.create');
+   Route::any('restaurent/sub_menu/edit/{id}', [App\Http\Controllers\SubMenusController::class, 'edit'])->name('restaurent.sub_menu.edit');
+   Route::any('restaurent/sub_menu/show/{id}', [App\Http\Controllers\SubMenusController::class, 'show'])->name('restaurent.sub_menu.show');
+   Route::any('restaurent/sub_menu/store', [App\Http\Controllers\SubMenusController::class, 'store'])->name('restaurent.sub_menu.store');
+   Route::any('restaurent/sub_menu/update', [App\Http\Controllers\SubMenusController::class, 'update'])->name('restaurent.sub_menu.update');
+   Route::any('restaurent/sub_menu/status_change', [App\Http\Controllers\SubMenusController::class, 'status_change'])->name('restaurent.sub_menu.status_change');
+
+   Route::get('restaurent/logout', [LoginController::class, 'logout']);
+
 });
 
 
