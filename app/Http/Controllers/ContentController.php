@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Content;
 use Str;
+use DataTables;
+use Helper;
 class ContentController extends Controller
 {
     public function index()
@@ -58,17 +60,77 @@ class ContentController extends Controller
        return view('restaurent/content/view',compact('data'));
     }
     
-
-    public function status_change(Request $request)
-    {
-        $getData= Content::findOrFail($request->id);
-        if(!empty($getData) && !empty($request->status))
-        {
-            $getData->status = $request->status;
-            if($getData->update())
-            {
-                return response()->json(['status'=>true,"data"=>"Status Change Successfully"]);
+    public function data(Request $request){
+        if ($request->ajax()) {
+            $limit = $request->input('length');
+            $start = $request->input('start');
+           
+            $search = $request['search'];
+            $orderby = $request['order']['0']['column'];
+            $order = $orderby != "" ? $request['order']['0']['dir'] : "";
+            $draw = $request['draw'];
+     
+            $querydata = Content::where('user_id',auth()->user()->id)->latest();
+            if (!is_null($search) && !empty($search)) {
+                $querydata->where(function($query) use ($search) {
+                    $query->where('title', 'LIKE', '%' . $search . '%');
+                });
             }
+
+             $totaldata = $querydata->count();
+             $response = $querydata->offset($start)
+                    ->limit($limit)
+                    ->get();
+            if (!$response) {
+                $data = [];
+                
+            } else {
+                $data = $response;
+            }
+            $datas = array();
+            $i = 1;
+
+            foreach ($data as $value) {
+                $id = $value->id;
+
+                $row['id'] = $i;
+                $row['title'] = isset($value->title)? $value->title:'-';
+                $row['slug'] = isset($value->slug)? $value->slug:'-';
+               
+                $edit = Helper::editAction(url('/restaurent/content/edit/'),encrypt($value->id));
+                $view = Helper::viewAction(url('/restaurent/content/view/'),encrypt($value->id));
+                
+                $sel = "<select class='form-control statusAction' data-path=".route('restaurent.content.status_change')."  data-value=".$value->status." data-id = ".$value->id."  >";
+                $sel .= "<option value='Active' " . ((isset($value->status) && $value->status == 'Active') ? 'Selected' : '') . ">Active</option>";
+                $sel .= "<option value='Inactive' " . ((isset($value->status) && $value->status == 'Inactive') ? 'Selected' : '') . ">Inactive</option>";
+                $sel .= "</select>";
+
+            $row['status'] =$sel;
+                $row['action'] = Helper::action($edit." ".$view);
+                $datas[] = $row;
+            $i++;
+            }
+           // dd($datas);
+            $return = [
+                "draw" => intval($draw),
+                "recordsFiltered" => intval($totaldata),
+                "recordsTotal" => intval($totaldata),
+                "data" => $datas
+            ];
+            return response()->json($return);
         }
     }
+
+    public function status_change(Request $request){
+        //   dd($request->all());
+           $change     =   $this->changeStatus('Contents',$request);
+           if($change){
+   
+               return ['status'=>1,'type'=>'success','message'=>"Status Change Successfully"];
+           }else{
+               return ['status'=>0,'type'=>'danger','message'=>"Status Change Failed"];
+           }
+    }
+
+    
 }

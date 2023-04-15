@@ -188,7 +188,8 @@ Route::any('restaurent/dashboard', [App\Http\Controllers\HomeController::class, 
    Route::get('/restaurent/content/edit/{id}', [App\Http\Controllers\ContentController::class, 'edit'])->name('restaurent/emailcontent_template/edit');
    Route::get('/restaurent/content/view/{id}', [App\Http\Controllers\ContentController::class, 'view'])->name('restaurent/content/view');
    Route::any('/restaurent/content/update', [App\Http\Controllers\ContentController::class, 'update'])->name('restaurent/content/update');
-   Route::any('/restaurent/content/status_change', [App\Http\Controllers\ContentController::class, 'status_change'])->name('restaurent/content/status_change');
+   Route::any('/restaurent/content/status_change', [App\Http\Controllers\ContentController::class, 'status_change'])->name('restaurent.content.status_change');
+   Route::any('/restaurent/content/data', [App\Http\Controllers\ContentController::class, 'data'])->name('restaurent/content/data');
 
    Route::get('restaurent/logout', [LoginController::class, 'logout']);
 

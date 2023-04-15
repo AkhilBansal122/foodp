@@ -255,5 +255,5 @@ class ServicesController extends Controller
            }else{
                return ['status'=>0,'type'=>'danger','message'=>"Status Change Failed"];
            }
-       }
+    }
 }
