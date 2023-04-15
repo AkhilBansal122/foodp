@@ -209,6 +209,11 @@ $url = Request::segment(2);
 							<li><a class="dropdown-item" href="{{url('restaurent/logout')}}"><i class='bx bx-log-out-circle'></i><span>Logout</span></a>
 							</li>
 							@endif
+							@if(auth()->user()->is_admin==3)
+						
+							<li><a class="dropdown-item" href="{{url('manager/logout')}}"><i class='bx bx-log-out-circle'></i><span>Logout</span></a>
+							</li>
+							@endif
 						</ul>
 					</div>
 				</nav>

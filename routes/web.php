@@ -208,7 +208,7 @@ Route::any('restaurent/dashboard', [App\Http\Controllers\HomeController::class, 
     Route::any('manager/table/update', [App\Http\Controllers\TablesController::class, 'update'])->name('manager.table.update');
     Route::any('manager/table/status_change', [App\Http\Controllers\TablesController::class, 'status_change'])->name('manager.table.status_change');
    
-   
+    Route::get('manager/logout', [LoginController::class, 'logout']);
 });
 
 

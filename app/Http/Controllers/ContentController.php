@@ -37,6 +37,7 @@ class ContentController extends Controller
     public function update(Request $request){
        
         $content = Content::findOrFail($request->id);
+        $content->user_id = $user = auth()->user()->id;
         $content->title =  isset($request->title)  ? $request->title : $content->title;
         $content->description =  isset($request->description)  ? encrypt($request->description)  : $content->description;
         $content->slug= isset($request->title) ?  Str::Slug($request->title) : $content->slug; 
