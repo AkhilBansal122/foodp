@@ -183,6 +183,13 @@ Route::any('restaurent/dashboard', [App\Http\Controllers\HomeController::class, 
    Route::any('restaurent/sub_menu/update', [App\Http\Controllers\SubMenusController::class, 'update'])->name('restaurent.sub_menu.update');
    Route::any('restaurent/sub_menu/status_change', [App\Http\Controllers\SubMenusController::class, 'status_change'])->name('restaurent.sub_menu.status_change');
 
+   //Content Manager
+   Route::get('/restaurent/content', [App\Http\Controllers\ContentController::class, 'index'])->name('restaurent/content');
+   Route::get('/restaurent/content/edit/{id}', [App\Http\Controllers\ContentController::class, 'edit'])->name('restaurent/emailcontent_template/edit');
+   Route::get('/restaurent/content/view/{id}', [App\Http\Controllers\ContentController::class, 'view'])->name('restaurent/content/view');
+   Route::any('/restaurent/content/update', [App\Http\Controllers\ContentController::class, 'update'])->name('restaurent/content/update');
+   Route::any('/restaurent/content/status_change', [App\Http\Controllers\ContentController::class, 'status_change'])->name('restaurent/content/status_change');
+
    Route::get('restaurent/logout', [LoginController::class, 'logout']);
 
 });

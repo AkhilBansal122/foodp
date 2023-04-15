@@ -64,7 +64,7 @@ $url = Request::segment(2);
 		<div class="sidebar-wrapper" data-simplebar="true">
 			<div class="sidebar-header">
 				<div>
-					<img src="{{asset('/public/admin/assets/images/logo-icon.png')}}" alt="logo icon">
+					<img style="display:none" src="{{asset('/public/admin/assets/images/logo-icon.png')}}" alt="logo icon">
 				</div>
 				
 				<div class="toggle-icon ms-auto"><i class='bx bx-arrow-to-left'></i>
@@ -131,6 +131,12 @@ $url = Request::segment(2);
 					<a href="{{route('restaurent.sub_menu')}}">
 						<div class="parent-icon"><i class="bx bx-user" aria-hidden="true"></i></div>
 						<div class="sub_menu-title">Sub Menu Manage</div>
+					</a>
+				</li>
+				<li  class="@if($url=='content') mm-active @endif ">
+					<a href="{{route('restaurent/content')}}">
+						<div class="parent-icon"><i class="bx bx-user" aria-hidden="true"></i></div>
+						<div class="contents-title">Contents Manage</div>
 					</a>
 				</li>	
 				@endif
