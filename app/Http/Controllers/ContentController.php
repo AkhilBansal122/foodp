@@ -123,7 +123,7 @@ class ContentController extends Controller
 
     public function status_change(Request $request){
         //   dd($request->all());
-           $change     =   $this->changeStatus('Contents',$request);
+           $change     =   $this->changeStatus('Content',$request);
            if($change){
    
                return ['status'=>1,'type'=>'success','message'=>"Status Change Successfully"];

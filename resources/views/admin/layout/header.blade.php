@@ -97,6 +97,12 @@ $url = Request::segment(2);
 						<div class="menu-title">Dashboard</div>
 					</a>
 				</li>
+				<li  class="@if($url=='manager') mm-active @endif ">
+					<a href="{{route('restaurent.manager')}}">
+						<div class="parent-icon"><i class="bx bx-user" aria-hidden="true"></i></div>
+						<div class="menu-title">Manager Manage</div>
+					</a>
+				</li>
 				<li  class="@if($url=='banner') mm-active @endif ">
 					<a href="{{route('restaurent.banner')}}">
 						<div class="parent-icon"><i class="bx bx-user" aria-hidden="true"></i></div>
@@ -115,12 +121,7 @@ $url = Request::segment(2);
 						<div class="menu-title">Branch Manage</div>
 					</a>
 				</li>
-				<li  class="@if($url=='manager') mm-active @endif ">
-					<a href="{{route('restaurent.manager')}}">
-						<div class="parent-icon"><i class="bx bx-user" aria-hidden="true"></i></div>
-						<div class="menu-title">Manager Manage</div>
-					</a>
-				</li>	
+					
 				<li  class="@if($url=='menu') mm-active @endif ">
 					<a href="{{route('restaurent/menus')}}">
 						<div class="parent-icon"><i class="bx bx-user" aria-hidden="true"></i></div>
@@ -139,7 +140,24 @@ $url = Request::segment(2);
 						<div class="contents-title">Contents Manage</div>
 					</a>
 				</li>	
+				@elseif(auth()->user()->is_admin==3)
+				<li class="@if($url=='dashboard')  mm-active  @endif ">
+					<a href="{{url('manager.dashboard')}}">
+						<div class="parent-icon"><i class="bx bx-tachometer" aria-hidden="true"></i>
+
+						</div>
+						<div class="menu-title">Dashboard</div>
+					</a>
+				</li>
+				<li  class="@if($url=='table') mm-active @endif ">
+					<a href="{{route('manager.table')}}">
+						<div class="parent-icon"><i class="bx bx-user" aria-hidden="true"></i></div>
+						<div class="sub_menu-title">Table Manage</div>
+					</a>
+				</li>
+				
 				@endif
+
 			
 			</ul>
 			<!--end navigation-->

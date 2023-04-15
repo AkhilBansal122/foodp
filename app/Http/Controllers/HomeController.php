@@ -55,6 +55,13 @@ class HomeController extends Controller
               $total_order=0;
               return view('restaurent/dashboard',compact('total_branch','total_manager','total_chef','total_order'));
           }
+          else if($is_admin==3){
+               
+            $total_chef = User::where('user_id',auth()->user()->id)->where('is_admin',4)->count();
+            $total_order = Orders::where('branch_id',auth()->user()->branch_id)->count();
+            $total_customer = User::where('is_admin',5)->count();
+            return view('manager/dashboard',compact('total_chef','total_customer','total_order'));
+        }
     }
 }
 public function restaurentGraphs(){

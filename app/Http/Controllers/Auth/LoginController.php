@@ -75,9 +75,9 @@ class LoginController extends Controller
                 else  if (auth()->user()->is_admin == 2) {
                     return redirect()->route('restaurent.dashboard')->with("success","Login Successfully");
                 }
-                // else  if (auth()->user()->is_admin == 3) {
-                //     return redirect()->route('manager.dashboard')->with("success","Login Successfully");;
-                // }
+                else  if (auth()->user()->is_admin == 3) {
+                    return redirect()->route('manager.dashboard')->with("success","Login Successfully");
+                }
                 // else  if (auth()->user()->is_admin == 4) {// chef
                 //     return redirect()->route('chef.dashboard')->with("success","Login Successfully");;
                 // } 

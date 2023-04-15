@@ -1,6 +1,8 @@
 @include('admin.layout.header')
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
+
+
 <script type="text/javascript" src='https://cdn.jsdelivr.net/sweetalert2/6.3.8/sweetalert2.min.js'></script>
     <link media="screen" rel="stylesheet" href='https://cdn.jsdelivr.net/sweetalert2/6.3.8/sweetalert2.min.css' />
     <link media="screen" rel="stylesheet" href='https://cdn.jsdelivr.net/sweetalert2/6.3.8/sweetalert2.css' />
@@ -9,37 +11,45 @@
 			<div class="page-content">
 				<!--breadcrumb-->
 				<div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
-				@include('flash-message')
+                @include('flash-message')
 							
 					<div class="ps-3">
 						<nav aria-label="breadcrumb">
 							<ol class="breadcrumb mb-0 p-0">
 								<li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
 								</li>
-								<li class="breadcrumb-item active" aria-current="page">Content Details</li>
+								<li class="breadcrumb-item active" aria-current="page">Table Details</li>
 							</ol>
 						</nav>
 					</div>
 				</div>
-
+				
                 <div class="card">
-                    <div class="card-body">
-                       <div class="table-responsive">
-                            <table id="example" class="table table-bordered data-table" style="width:100%">
-                                <thead>
-                                <tr>
-                                        <th>No</th>
-                                        <th>title</th>
-                                        <th>Slug</th>
-                                        <th>Status</th>
-                                        <th width="100px">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody></tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
+							<div class="card-header custom_col">
+									<div class="col-md-2 filter_btn_div">
+										<a href="{{route('manager.table.create')}}" class="btn btn-primary px-5 radius-0">Add New</a>
+									</div>
+							</div>
+						</div>
+
+                        <div class="card">
+							<div class="card-body">
+								<div class="table-responsive">
+									<table id="example" class="table table-bordered data-table" style="width:100%">
+										<thead>
+                                        <tr>
+                                                <th>No</th>
+                                                <th>Table Id</th>
+                                                <th>QR Code</th>
+                                            </tr>   
+										</thead>
+										<tbody>
+										</tbody>
+										
+									</table>
+								</div>
+							</div>
+						</div>
 				<!--end row-->
 			</div>
 		</div>
@@ -56,11 +66,11 @@
         pageLength:10,
         retrieve:true,
         ajax: {
-          url: "{{ route('restaurent/content/data') }}",
+          url: "{{ route('manager/table/data') }}",
             data: function (d) {
                 d.search = $('input[type="search"]').val(),
-                d.search_key = $('.searchRestaurentName').val()
-               
+                d.searchStart_date = $('.searchStart_date').val(),
+                d.searchEndDate = $('.searchEndDate').val()
             },
         },
         columns: [
@@ -69,10 +79,9 @@
 					return meta.row + meta.settings._iDisplayStart + 1;
 				}
 			},
-            {data:'title',name:'title'},
-            {data:'slug',name:'slug'},
-            {data: 'status', name: 'status'},
-            {data: 'action', name: 'action', orderable: false, searchable: false},
+		     {data:'unique_id',name:"unique_id"},
+            {data:'qrcode',name:'qrcode'},
+       
         ]
     });
 

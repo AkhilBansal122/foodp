@@ -194,6 +194,22 @@ Route::any('restaurent/dashboard', [App\Http\Controllers\HomeController::class, 
    Route::get('restaurent/logout', [LoginController::class, 'logout']);
 
 });
+  //IsManager
+  Route::group(['middleware' => ['IsManager']], function(){
+
+   Route::any('manager/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('manager.dashboard');
+    //Table  Management
+    Route::any('manager/table/data', [App\Http\Controllers\TablesController::class, 'data'])->name('manager/table/data');
+    Route::any('manager/table', [App\Http\Controllers\TablesController::class, 'index'])->name('manager.table');
+    Route::any('manager/table/create', [App\Http\Controllers\TablesController::class, 'create'])->name('manager.table.create');
+    Route::any('manager/table/edit/{id}', [App\Http\Controllers\TablesController::class, 'edit'])->name('manager.table.edit');
+    Route::any('manager/table/show/{id}', [App\Http\Controllers\TablesController::class, 'show'])->name('manager.table.show');
+    Route::any('manager/table/store', [App\Http\Controllers\TablesController::class, 'store'])->name('manager.table.store');
+    Route::any('manager/table/update', [App\Http\Controllers\TablesController::class, 'update'])->name('manager.table.update');
+    Route::any('manager/table/status_change', [App\Http\Controllers\TablesController::class, 'status_change'])->name('manager.table.status_change');
+   
+   
+});
 
 
 
