@@ -208,7 +208,17 @@ Route::any('restaurent/dashboard', [App\Http\Controllers\HomeController::class, 
     Route::any('manager/table/update', [App\Http\Controllers\TablesController::class, 'update'])->name('manager.table.update');
     Route::any('manager/table/status_change', [App\Http\Controllers\TablesController::class, 'status_change'])->name('manager.table.status_change');
    
-    Route::get('manager/logout', [LoginController::class, 'logout']);
+   //Chefs
+   Route::any('manager/chefs/data', [App\Http\Controllers\ChefsController::class, 'data'])->name('manager/chefs/data');
+   Route::any('manager/chefs', [App\Http\Controllers\ChefsController::class, 'index'])->name('manager.chefs');
+   Route::any('manager/chefs/create', [App\Http\Controllers\ChefsController::class, 'create'])->name('manager.chefs.create');
+   Route::any('manager/chefs/edit/{id}', [App\Http\Controllers\ChefsController::class, 'edit'])->name('manager.chefs.edit');
+   Route::any('manager/chefs/show/{id}', [App\Http\Controllers\ChefsController::class, 'show'])->name('manager.chefs.show');
+   Route::any('manager/chefs/store', [App\Http\Controllers\ChefsController::class, 'store'])->name('manager.chefs.store');
+   Route::any('manager/chefs/update', [App\Http\Controllers\ChefsController::class, 'update'])->name('manager.chefs.update');
+   Route::any('manager/chefs/status_change', [App\Http\Controllers\ChefsController::class, 'status_change'])->name('manager.chefs.status_change');
+
+   Route::get('manager/logout', [LoginController::class, 'logout']);
 });
 
 

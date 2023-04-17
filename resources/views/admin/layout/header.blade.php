@@ -149,10 +149,16 @@ $url = Request::segment(2);
 						<div class="menu-title">Dashboard</div>
 					</a>
 				</li>
+				<li  class="@if($url=='chefs') mm-active @endif ">
+					<a href="{{route('manager.chefs')}}">
+						<div class="parent-icon"><i class="bx bx-user" aria-hidden="true"></i></div>
+						<div class="menu-title">User Manager</div>
+					</a>
+				</li>
 				<li  class="@if($url=='table') mm-active @endif ">
 					<a href="{{route('manager.table')}}">
 						<div class="parent-icon"><i class="bx bx-user" aria-hidden="true"></i></div>
-						<div class="sub_menu-title">Table Manage</div>
+						<div class="sub_menu-title">Table Manager</div>
 					</a>
 				</li>
 				
