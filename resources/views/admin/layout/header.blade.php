@@ -140,6 +140,19 @@ $url = Request::segment(2);
 						<div class="contents-title">Contents Manage</div>
 					</a>
 				</li>	
+				<li  class="@if($url=='product_manage') mm-active @endif ">
+					<a href="{{route('restaurent.product_manage')}}">
+						<div class="parent-icon"><i class="bx bx-user" aria-hidden="true"></i></div>
+						<div class="inventory_manage-title">Product Manage</div>
+					</a>
+				</li>
+				<li  class="@if($url=='inventory_manage') mm-active @endif ">
+					<a href="{{route('restaurent.inventory_manage')}}">
+						<div class="parent-icon"><i class="bx bx-user" aria-hidden="true"></i></div>
+						<div class="inventory_manage-title">Inventory Manage</div>
+					</a>
+				</li>	
+
 				@elseif(auth()->user()->is_admin==3)
 				<li class="@if($url=='dashboard')  mm-active  @endif ">
 					<a href="{{url('manager.dashboard')}}">
