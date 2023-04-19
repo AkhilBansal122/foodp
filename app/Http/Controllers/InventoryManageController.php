@@ -184,7 +184,6 @@ class InventoryManageController extends Controller
                     $query->where('title', 'LIKE', '%' . $search . '%');
                 });
             }
-
              $totaldata = $querydata->count();
              $response = $querydata->offset($start)
                     ->limit($limit)
