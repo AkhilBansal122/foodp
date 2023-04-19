@@ -14,41 +14,37 @@
 			<div class="page-content">
 				<!--breadcrumb-->
 				<div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
-					<div class="breadcrumb-title pe-3">Product Manage</div>
+					<div class="breadcrumb-title pe-3">Table Manage</div>
 
 					<div class="ps-3">
 						<nav aria-label="breadcrumb">
 							<ol class="breadcrumb mb-0 p-0">
 								<li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
 								</li>
-								<li class="breadcrumb-item active" aria-current="page">Add New Product</li>
+								<li class="breadcrumb-item active" aria-current="page">Edit Table</li>
 							</ol>
 						</nav>
 					</div>
 				</div>
-                
+				@include('flash-message')
 				<!--end breadcrumb-->
 				<div class="row">
 					<div class="col-xl-12 mx-auto">
 						
 						<div class="card ">
 							<div class="card-body p-3">
-							@include('flash-message')
-								<form class="row" action="{{route('restaurent.product_manage.store')}}" method="POST" enctype="multipart/form-data">
+				          	@include('flash_message')
+							<form class="row" action="{{route('manager.table.update')}}" method="POST" enctype="multipart/form-data">
 									@csrf
-									@include('restaurent.product.form')
-								</form>
-							</div>
+                                    <input type="hidden" value="{{$data->id}}" name="id"/>
+									@include('restaurent.tables.form')
+							</form>
 						</div>
-						
-						
 					</div>
+				</div>
 				</div>
 				<!--end row-->
 			</div>
 		</div>
 
-
-		
-		
 @include('admin.layout.footer')

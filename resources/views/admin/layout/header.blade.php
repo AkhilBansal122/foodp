@@ -174,6 +174,11 @@ $url = Request::segment(2);
 						<div class="sub_menu-title">Table Manager</div>
 					</a>
 				</li>
+				<li><a href="{{route('manager.order')}}" class="" aria-expanded="false">
+							<i class="bi bi-gear-wide"></i>
+							<span class="nav-text">Order Manager</span>
+						</a>
+					</li>
 				
 				@endif
 

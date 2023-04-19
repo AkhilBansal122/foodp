@@ -1,44 +1,56 @@
+<div class="col-md-4">
+    <div class="form-group">
+        <label for="title" class="form-label">Select Product:  <span class="text-danger">*</span></label>
+        
+        <select class="form-control" name="product_id" required>
+               <option value="">Select Product</option> 
+               @if(!empty($product))
+                    @foreach($product as $row)
+                        <option value="{{$row->id}}" {{ (isset($data->product_id) && $row->id == $data->product_id) ? 'selected' : '' }} >{{$row->product_name}}</option>
+                    @endforeach
+                @endif
+        </select>
 
-<div class="col-md-3">
-    <div class="form-group">
-        <label for="title" class="form-label">Inventory Name: <span style="color:red">*</span></label>
-        <input type="text" name="title" 
-        value="{{(isset($data ) && !empty($data->title)) ? $data->title:''}}" 
-        class="form-control" placholder="Please Enter Name" placeholder="Please enter name" required id="title">
-        @if($errors->has('title'))<div class="error">{{ $errors->first('title') }}</div>@endif
+        @if($errors->has('product_id'))<div class="error">{{ $errors->first('product_id') }}</div>@endif
     </div>
 </div>
-<div class="col-md-3">
+<div class="col-md-4">
     <div class="form-group">
-        <label for="image" class="form-label">Icon: <span style="color:red">*</span></label>
-        <input type="file" name="icon" 
-        {{ isset($data->icon ) ? '' : 'required' }}
-        class="form-control" title="Please Enter Name" 
-        placeholder="Please enter image" required id="image">
-        @if($errors->has('icon'))<div class="error">{{ $errors->first('icon') }}</div>@endif
+        <label for="qty_num" class="form-label">Qty Number : <span style="color:red">*</span></label>
+        <input type="text" name="qty_num" 
+        value="{{(isset($data ) && !empty($data->qty_num)) ? $data->qty_num:''}}" 
+        class="form-control qty_num" placholder="Please Enter Qty in Number" required id="qty_num">
+        @if($errors->has('qty_num'))<div class="error">{{ $errors->first('qty_num') }}</div>@endif
     </div>
 </div>
-@if (!empty($data->icon))
-<div class="col-md-3">
+<div class="col-md-4">
     <div class="form-group">
-        <label for="image" class="form-label">Image Preview: <span style="color:red">*</span></label>
-        <img src="{{ asset('public/') }}/{{ $data->icon }}" width="100" height="100" />
+        <label for="qty_opt" class="form-label">Qty Option : <span style="color:red">*</span></label>
+        <select class="form-control" id="qty_opt" name="qty_opt">
+          <?php
+            $qty_optArr = array('kg','Quintal','Tons');
+            ?>
+             @if(!empty($qty_optArr))
+                    @foreach($qty_optArr as $row)
+                        <option value="{{$row}}" {{ (isset($data->qty_opt) && $row == $data->qty_opt) ? 'selected' : '' }} >{{$row}}</option>
+                    @endforeach
+                @endif
+        </select>
+        @if($errors->has('qty_opt'))<div class="error">{{ $errors->first('qty_opt') }}</div>@endif
     </div>
 </div>
-@endif
-<div class="col-md-3">
+<div class="col-md-4">
     <div class="form-group">
-       <label for="passsword" class="form-label">Description: <span style="color:red">*</span> </label>
-            <div class="input-group" id="description">
-            <textarea name="description" class="form-control mb-3" required style="height:116px"
-                placeholder="Please enter description">{{(isset($data ) && !empty($data->description)) ? $data->description:''}}</textarea>
-            </div>
-            @if($errors->has('description'))<div class="error">{{ $errors->first('description') }}</div>@endif
+        <label for="price" class="form-label">Price : <span style="color:red">*</span></label>
+        <input type="text" name="price" 
+        value="{{(isset($data ) && !empty($data->price)) ? $data->price:''}}" 
+        class="form-control price" placholder="Please Enter Price" required id="price">
+        @if($errors->has('price'))<div class="error">{{ $errors->first('price') }}</div>@endif
     </div>
-</div>	
+</div>
 
 <div class="col-12">
     <button type="submit" class="btn btn-light px-5"> {{isset($data->id) ? 'Update' :'Save' }}</button>
-    <a href="{{route('restaurent.services')}}" class="btn btn-primary px-5">Back</a>
+    <a href="{{route('restaurent.inventory_manage')}}" class="btn btn-primary px-5">Back</a>
 </div>
 		

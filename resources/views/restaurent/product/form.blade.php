@@ -1,5 +1,5 @@
 
-<div class="col-md-3">
+<div class="col-md-4">
     <div class="form-group">
         <label for="product_name" class="form-label">Product Name: <span style="color:red">*</span></label>
         <input type="text" name="product_name" 

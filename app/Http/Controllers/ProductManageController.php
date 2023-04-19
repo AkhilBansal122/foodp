@@ -17,7 +17,7 @@ class ProductManageController extends Controller
         
         $user = auth()->user();
         if(!is_null($user)){
-            $query =Product::where('id',1);
+            $query =Product::where('id','!=',0);
             if($user->is_admin==2)
             {
                 $query->where(['user_id'=>$user->id]);
@@ -63,20 +63,18 @@ class ProductManageController extends Controller
             if(!empty($request->all())){
             $check= User::where('id',"!=",0);
                     
-                    $ProductData->user_id = $user->id;
-                    
-                  //  $ProductData->icon = $icon;
+                    // $ProductData->user_id = $user->id;
                     
                         $productData->user_id = $user->id;
                     
-                        $productData->title = $request->product_name;     
+                        $productData->product_name = $request->product_name;     
                         if($productData->save()){
                         $productData->save();
-                        return redirect('restaurent/product')->with('success','Product Added Successfully');
+                        return redirect('restaurent/product_manage')->with('success','Product Added Successfully');
                     }
                     else
                     {
-                        return redirect('restaurent/product')->with('error','Product Added Failed');
+                        return redirect('restaurent/product_manage')->with('error','Product Added Failed');
                     }
                 }
         
@@ -122,10 +120,10 @@ class ProductManageController extends Controller
                 $productData->product_name = isset($request->product_name) ? $request->product_name :$ProductData->product_name;
                 
                 if($productData->save()){
-                    return redirect('restaurent/product')->with('success','Data updated Successfully');
+                    return redirect('restaurent/product_manage')->with('success','Data updated Successfully');
                 }
                 else{
-                    return redirect('restaurent/product')->with('error','Data updated Failed');
+                    return redirect('restaurent/product_manage')->with('error','Data updated Failed');
                 }
             }
         }
@@ -174,9 +172,9 @@ class ProductManageController extends Controller
                 $row['id'] = $i;
                 $row['product_name'] = isset($value->product_name)? $value->product_name:'-';
                
-                $edit = Helper::editAction(url('/restaurent/product/edit/'),encrypt($value->id));
+                $edit = Helper::editAction(url('/restaurent/product_manage/edit/'),encrypt($value->id));
                 
-                $sel = "<select class='form-control statusAction' data-path=".route('restaurent.product.status_change')."  data-value=".$value->status." data-id = ".$value->id."  >";
+                $sel = "<select class='form-control statusAction' data-path=".route('restaurent.product_manage.status_change')."  data-value=".$value->status." data-id = ".$value->id."  >";
                 $sel .= "<option value='Active' " . ((isset($value->status) && $value->status == 'Active') ? 'Selected' : '') . ">Active</option>";
                 $sel .= "<option value='Inactive' " . ((isset($value->status) && $value->status == 'Inactive') ? 'Selected' : '') . ">Inactive</option>";
                 $sel .= "</select>";

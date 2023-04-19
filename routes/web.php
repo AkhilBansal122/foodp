@@ -191,26 +191,27 @@ Route::any('restaurent/dashboard', [App\Http\Controllers\HomeController::class, 
    Route::any('/restaurent/content/status_change', [App\Http\Controllers\ContentController::class, 'status_change'])->name('restaurent.content.status_change');
    Route::any('/restaurent/content/data', [App\Http\Controllers\ContentController::class, 'data'])->name('restaurent/content/data');
 
-   //Product_Manage
-   Route::any('restaurent/product_manage', [App\Http\Controllers\ProductManageController::class, 'index'])->name('restaurent.product_manage');
-   Route::any('restaurent/product_manage/data', [App\Http\Controllers\ProductManageController::class, 'data'])->name('restaurent/product_manage/data');
-   Route::any('restaurent/product_manage/create', [App\Http\Controllers\ProductManageController::class, 'create'])->name('restaurent.product_manage.create');
-   Route::any('restaurent/product_manage/edit/{id}', [App\Http\Controllers\ProductManageController::class, 'edit'])->name('restaurent.product_manage.edit');
-   Route::any('restaurent/product_manage/show/{id}', [App\Http\Controllers\ProductManageController::class, 'show'])->name('restaurent.product_manage.show');
-   Route::any('restaurent/product_manage/store', [App\Http\Controllers\ProductManageController::class, 'store'])->name('restaurent.product.store');
-   Route::any('restaurent/product_manage/update', [App\Http\Controllers\ProductManageController::class, 'update'])->name('restaurent.product_manage.update');
-   Route::any('restaurent/product_manage/status_change', [App\Http\Controllers\ProductManageController::class, 'status_change'])->name('restaurent.product_manage.status_change');
-   
-   
-   //Inventory_Manage
-   Route::any('restaurent/inventory_manage', [App\Http\Controllers\InventoryManageController::class, 'index'])->name('restaurent.inventory_manage');
-   Route::any('restaurent/inventory_manage/data', [App\Http\Controllers\InventoryManageController::class, 'data'])->name('restaurent/inventory_manage/data');
-   Route::any('restaurent/inventory_manage/create', [App\Http\Controllers\InventoryManageController::class, 'create'])->name('restaurent.inventory_manage.create');
-   Route::any('restaurent/inventory_manage/edit/{id}', [App\Http\Controllers\InventoryManageController::class, 'edit'])->name('restaurent.inventory_manage.edit');
-   Route::any('restaurent/inventory_manage/show/{id}', [App\Http\Controllers\InventoryManageController::class, 'show'])->name('restaurent.inventory_manage.show');
-   Route::any('restaurent/inventory_manage/store', [App\Http\Controllers\InventoryManageController::class, 'store'])->name('restaurent.inventory_manage.store');
-   Route::any('restaurent/inventory_manage/update', [App\Http\Controllers\InventoryManageController::class, 'update'])->name('restaurent.inventory_manage.update');
-   Route::any('restaurent/inventory_manage/status_change', [App\Http\Controllers\InventoryManageController::class, 'status_change'])->name('restaurent.inventory_manage.status_change');
+ //Product_Manage
+ Route::any('restaurent/product_manage', [App\Http\Controllers\ProductManageController::class, 'index'])->name('restaurent.product_manage');
+ Route::any('restaurent/product_manage/data', [App\Http\Controllers\ProductManageController::class, 'data'])->name('restaurent/product_manage/data');
+ Route::any('restaurent/product_manage/create', [App\Http\Controllers\ProductManageController::class, 'create'])->name('restaurent.product_manage.create');
+ Route::any('restaurent/product_manage/edit/{id}', [App\Http\Controllers\ProductManageController::class, 'edit'])->name('restaurent.product_manage.edit');
+ Route::any('restaurent/product_manage/show/{id}', [App\Http\Controllers\ProductManageController::class, 'show'])->name('restaurent.product_manage.show');
+ Route::any('restaurent/product_manage/store', [App\Http\Controllers\ProductManageController::class, 'store'])->name('restaurent.product_manage.store');
+ Route::any('restaurent/product_manage/update', [App\Http\Controllers\ProductManageController::class, 'update'])->name('restaurent.product_manage.update');
+ Route::any('restaurent/product_manage/status_change', [App\Http\Controllers\ProductManageController::class, 'status_change'])->name('restaurent.product_manage.status_change');
+ 
+ 
+ //Inventory_Manage
+ Route::any('restaurent/inventory_manage', [App\Http\Controllers\InventoryManageController::class, 'index'])->name('restaurent.inventory_manage');
+ Route::any('restaurent/inventory_manage/data', [App\Http\Controllers\InventoryManageController::class, 'data'])->name('restaurent/inventory_manage/data');
+ Route::any('restaurent/inventory_manage/create', [App\Http\Controllers\InventoryManageController::class, 'create'])->name('restaurent.inventory_manage.create');
+ Route::any('restaurent/inventory_manage/edit/{id}', [App\Http\Controllers\InventoryManageController::class, 'edit'])->name('restaurent.inventory_manage.edit');
+ Route::any('restaurent/inventory_manage/show/{id}', [App\Http\Controllers\InventoryManageController::class, 'show'])->name('restaurent.inventory_manage.show');
+ Route::any('restaurent/inventory_manage/store', [App\Http\Controllers\InventoryManageController::class, 'store'])->name('restaurent.inventory_manage.store');
+ Route::any('restaurent/inventory_manage/update', [App\Http\Controllers\InventoryManageController::class, 'update'])->name('restaurent.inventory_manage.update');
+ Route::any('restaurent/inventory_manage/status_change', [App\Http\Controllers\InventoryManageController::class, 'status_change'])->name('restaurent.inventory_manage.status_change');
+ 
    Route::get('restaurent/logout', [LoginController::class, 'logout']);
 
 });
@@ -238,6 +239,17 @@ Route::any('restaurent/dashboard', [App\Http\Controllers\HomeController::class, 
    Route::any('manager/chefs/update', [App\Http\Controllers\ChefsController::class, 'update'])->name('manager.chefs.update');
    Route::any('manager/chefs/status_change', [App\Http\Controllers\ChefsController::class, 'status_change'])->name('manager.chefs.status_change');
 
+   Route::any('manager/order/data', [App\Http\Controllers\OrderController::class, 'data'])->name('manager/order/data');
+    
+   Route::any('manager/order/assigndata', [App\Http\Controllers\OrderController::class, 'assigndata'])->name('manager/order/assigndata');
+   Route::any('manager/order/acceptdata', [App\Http\Controllers\OrderController::class, 'acceptdata'])->name('manager/order/acceptdata');
+   Route::any('manager/order/preparendata', [App\Http\Controllers\OrderController::class, 'preparendata'])->name('manager/order/preparendata');
+   Route::any('manager/order/deliverndata', [App\Http\Controllers\OrderController::class, 'deliverndata'])->name('manager/order/deliverndata');
+  
+  
+   Route::any('manager/order', [App\Http\Controllers\OrderController::class, 'index'])->name('manager.order');
+   Route::any('manager/order_status_change', [App\Http\Controllers\OrderController::class, 'order_status'])->name('manager/order_status_change');
+   Route::any('manager/order/edit/{id}', [App\Http\Controllers\OrderController::class, 'edit'])->name('manager.order.edit');
    Route::get('manager/logout', [LoginController::class, 'logout']);
 });
 

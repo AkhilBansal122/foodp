@@ -26,8 +26,8 @@
 				
                 <div class="card">
 							<div class="card-header custom_col">
-									<div class="col-md-2 filter_btn_div">
-										<a href="{{route('restaurent.product_manage.create')}}" class="btn btn-primary px-5 radius-0">Add New</a>
+									<div class="col-md-3 filter_btn_div">
+										<a href="{{route('restaurent.product_manage.create')}}" class="btn btn-primary px-5 radius-0">Add New Product</a>
 									</div>
 							</div>
 						</div>

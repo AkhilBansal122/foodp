@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Inventory;
+use App\Models\InventoryTracking;
+use App\Models\Product;
 use File;
 use DataTables;
 use Str;
@@ -17,7 +19,7 @@ class InventoryManageController extends Controller
         
         $user = auth()->user();
         if(!is_null($user)){
-            $query =Inventory::where('id',1);
+            $query =Inventory::where('id','!=',0);
             if($user->is_admin==2)
             {
                 $query->where(['user_id'=>$user->id]);
@@ -31,12 +33,13 @@ class InventoryManageController extends Controller
 
     public function create(){
         $user = auth()->user();
+        $product = Product::where('status','Active')->get();
 
       //  dd($user);
         if(!is_null($user)){
             if($user->is_admin==2){
-                $data= Inventory::where("user_id",auth()->user()->id)->get();
-                return view('restaurent/inventory/create',compact('data'));
+             //   $data= Inventory::where("user_id",auth()->user()->id)->get();
+                return view('restaurent/inventory/create',compact('product'));
             }
         }else{
             return redirect('login');
@@ -52,13 +55,15 @@ class InventoryManageController extends Controller
             
 
             $request->validate([
-                'qty' => 'required',
-                'qty' => 'required',
+                'product_id' => 'required',
+                'qty_num' => 'required',
+                'qty_opt' => 'required',
                 'price' => 'required',
             ],
             [
-                'qty.required' => 'Please Enter Qty in Number',
-                'qtyo.required' => 'Please Enter Qty in Kg/Quintal/Ton',
+                'product_id.required' => 'Please Enter Select Product',
+                'qty_num.required' => 'Please Enter Qty in Number',
+                'qty_opt.required' => 'Please Enter Qty in Kg/Quintal/Ton',
                 'price.required' => 'Please Enter Qty in Number',
             ]);
 
@@ -67,22 +72,28 @@ class InventoryManageController extends Controller
             if(!empty($request->all())){
             $check= User::where('id',"!=",0);
                     
-                    $InventoryData->user_id = $user->id;
+                    $InventoryData->product_id = $request->product_id;
                     
                   //  $InventoryData->icon = $icon;
                     
                         $inventoryData->user_id = $user->id;
                     
-                        $inventoryData->title = $request->qty;
-                        $inventoryData->title = $request->qtyo;   
-                        $inventoryData->title = $request->price;        
-                        if($InventoryData->save()){
-                        $InventoryData->save();
-                        return redirect('restaurent/Inventory')->with('success','Inventory Added Successfully');
+                        $inventoryData->qty_num = $request->qty_num;
+                        $inventoryData->qty_opt = $request->qty_opt;   
+                        $inventoryData->price = $request->price;        
+                        if($inventoryData->save()){
+                        $inventoryData->save();
+                        $InventoryTracking = new InventoryTracking();
+                        $InventoryTracking->product_id = $request->product_id;
+                        $InventoryTracking->user_id = $user->id;
+                        $InventoryTracking->cr_qty = $request->qty_num;
+                        $InventoryTracking->save();
+                        
+                        return redirect('restaurent/inventory_manage')->with('success','Inventory Added Successfully');
                     }
                     else
                     {
-                        return redirect('restaurent/Inventory')->with('error','Inventory Added Failed');
+                        return redirect('restaurent/inventory_manage')->with('error','Inventory Added Failed');
                     }
                 }
         
@@ -96,10 +107,12 @@ class InventoryManageController extends Controller
         if(!is_null($user)){
            $data = Inventory::find(decrypt($id));
             if(!is_null($data)){
+                $product = Product::where('status','Active')->get();
+
             if($user->is_admin==1){
-                return view('admin/inventory/edit',compact('data'));
+                return view('admin/inventory/edit',compact('data','product'));
                 }else if($user->is_admin==2){
-                 return view('restaurent/inventory/edit',compact('data'));
+                 return view('restaurent/inventory/edit',compact('data','product'));
                 }
             }
         }
@@ -114,13 +127,16 @@ class InventoryManageController extends Controller
             if($user->id_admin==2)
             {
                 $request->validate([
-                    'qty' => 'required',
-                    'qtyo' => 'required',
+                    'product_id' => 'required',
+                    'qty_num' => 'required',
+                    'qty_opt' => 'required',
                     'price' => 'required',
                 ],
                 [
-                    'qty.required' => 'Please Enter Qty in Number',
-                    'qtyo.required' => 'Please Enter Qty in Kg/Quintal/Ton',
+                    'product_id.required' => 'Please Select Product',
+                   
+                    'qty_num.required' => 'Please Enter Qty in Number',
+                    'qty_opt.required' => 'Please Enter Qty in Kg/Quintal/Ton',
                     'price.required' => 'Please Enter Qty in Number',
                 ]);
          
@@ -128,20 +144,18 @@ class InventoryManageController extends Controller
 
             if(!empty($request->all())){
                 $inventoryData =  Inventory::find($request->id);
-                 
-                // $inventoryData->qty(num) = isset($request->qty(num)) ? $request->qty(num) :$inventoryData->qty(num);
-                // $inventoryData->qty(k/q/t) = isset($request->qty(k/q/t)) ? $request->qty(k/q/t) :$inventoryData->qty(k/q/t);
-                // $inventoryData->price = isset($request->price) ? $request->price :$inventoryData->price;
-                $inventoryData->qty = isset($request->qty) ? $request->qty :$inventoryData->qty;
-                $inventoryData->qtyo = isset($request->qtyo) ? $request->qty(k/q/t) :$inventoryData->qtyo;
+                $inventoryData->product_id = isset($request->product_id) ? $request->product_id :$inventoryData->product_id;
+                  
+                $inventoryData->qty_num = isset($request->qty_num) ? $request->qty_num :$inventoryData->qty_num;
+                $inventoryData->qty_opt = isset($request->qty_opt) ? $request->qty_opt :$inventoryData->qty_opt;
                 $inventoryData->price = isset($request->price) ? $request->price :$inventoryData->price;
 
 
                 if($inventoryData->save()){
-                    return redirect('restaurent/inventory')->with('success','Data updated Successfully');
+                    return redirect('restaurent/inventory_manage')->with('success','Data updated Successfully');
                 }
                 else{
-                    return redirect('restaurent/inventory')->with('error','Data updated Failed');
+                    return redirect('restaurent/inventory_manage')->with('error','Data updated Failed');
                 }
             }
         }
@@ -188,11 +202,13 @@ class InventoryManageController extends Controller
                 $id = $value->id;
 
                 $row['id'] = $i;
-                $row['qty'] = isset($value->qty)? $value->qty:'-';
-                $row['qtyo'] = isset($value->qtyo)? $value->qtyo:'-';
+                $row['product_id'] = isset($value->product_id)? $value->product_id:'-';
+                
+                $row['qty_num'] = isset($value->qty_num)? $value->qty_num:'-';
+                $row['qty_opt'] = isset($value->qty_opt)? $value->qty_opt:'-';
                 $row['price'] = isset($value->price)? $value->price:'-';
                
-                $edit = Helper::editAction(url('/restaurent/inventory/edit/'),encrypt($value->id));
+                $edit = Helper::editAction(url('/restaurent/inventory_manage/edit/'),encrypt($value->id));
                 
                 $sel = "<select class='form-control statusAction' data-path=".route('restaurent.inventory_manage.status_change')."  data-value=".$value->status." data-id = ".$value->id."  >";
                 $sel .= "<option value='Active' " . ((isset($value->status) && $value->status == 'Active') ? 'Selected' : '') . ">Active</option>";

@@ -34,9 +34,9 @@
 						<div class="card ">
 							<div class="card-body p-3">
 				          	@include('flash_message')
-							<form class="row" action="{{route('restaurent.product.update')}}" method="POST" enctype="multipart/form-data">
+							<form class="row" action="{{route('restaurent.product_manage.update')}}" method="POST" enctype="multipart/form-data">
 									@csrf
-                                    <input type="hidden" value="{{$data->id}}" name="id"/>
+                  <input type="hidden" value="{{$data->id}}" name="id"/>
 									@include('restaurent.product.form')
 							</form>
 						</div>

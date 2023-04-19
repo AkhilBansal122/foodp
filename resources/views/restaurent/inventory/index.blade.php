@@ -26,7 +26,7 @@
 				
                 <div class="card">
 							<div class="card-header custom_col">
-									<div class="col-md-2 filter_btn_div">
+									<div class="col-md-3 filter_btn_div">
 										<a href="{{route('restaurent.inventory_manage.create')}}" class="btn btn-primary px-5 radius-0">Add New Inventory</a>
 									</div>
 							</div>
@@ -82,8 +82,8 @@
 					return meta.row + meta.settings._iDisplayStart + 1;
 				}
 			},
-		     {data:'qty(num)',name:"qty(num)"},
-            {data:'qty(kg/quintal/tone)',name:'qty(kg/quintal/tone)'},
+		     {data:'qty_num',name:"qty_num"},
+            {data:'qty_opt',name:'qty_opt'},
             {data:'price',name:'price'},
             {data: 'status', name: 'status'},
             {data: 'action', name: 'action', orderable: false, searchable: false},

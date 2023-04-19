@@ -12,7 +12,7 @@
 					<div class="card-body">
 						<div class="form-validation">
 						@include('flash-message')
-							<form enctype='multipart/form-data' action="{{route('restaurent.product.store')}}" method="post">
+							<form enctype='multipart/form-data' action="{{route('restaurent.product_manage.store')}}" method="post">
 							@csrf
                             <div class="bacic-info mb-3">
     <h4 class="mb-3">Basic info</h4>
@@ -32,7 +32,7 @@
 <div class="Security">
     <div class="row">
         <div class="col-xl-12">
-            <a href="{{ route('restaurent.product') }}" class="btn btn-outline-primary float-end ms-3">Back</a>
+            <a href="{{ route('restaurent.product_manage') }}" class="btn btn-outline-primary float-end ms-3">Back</a>
         </div>
     </div>
 </div>
