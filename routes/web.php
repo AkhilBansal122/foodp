@@ -10,7 +10,6 @@ use App\Http\Controllers\MenusController;
 use App\Http\Controllers\SubMenusController;
 use App\Http\Controllers\WebsiteController;
 use App\Http\Controllers\TablesController;
-
 use App\Http\Controllers\ChefsController;
 
 use App\Http\Controllers\AboutUsController;
@@ -24,8 +23,21 @@ use App\Http\Controllers\RestaurentWebsiteController;
 
 
 //Route::group(['middleware' => 'prevent-back-history'],function(){
+   Route::get('/qrcode', 'App\Http\Controllers\QRCodeController@index')->name('home.index');
 
+   Route::post('user/signup/store',[WebsiteController::class,'user_signup_store'])->name('user/signup/store');
+   
+   Route::get('customlogout',[WebsiteController::class,'logout'])->name('customlogout');
+   
+   
+   
+Route::get('/',[RestaurentWebsiteController::class,'index']);
+      
 Auth::routes();
+Route::post('logins',[WebsiteController::class,'login'])->name('logins');
+
+Route::get('thenkYou',[WebsiteController::class,'thenkYou']);
+
 //Login
 Route::get('/', [LoginController::class, 'index'])->name('userlogin');
 
@@ -35,7 +47,23 @@ Route::post('/forgot-password', [LoginController::class, 'forgotPassword'])->nam
 
 Route::get('/resetpassword/{token}', [LoginController::class, 'resetpassword']);
 Route::post('/resetpassword', [LoginController::class, 'resetpassword'])->name('admin/resetpassword');
-
+Route::any('/{tblid}', [App\Http\Controllers\WebsiteController::class, 'index']);
+Route::group(['middleware' => ['is_customer']], function(){
+   Route::any('{tblid}/about', [App\Http\Controllers\WebsiteController::class, 'about'])->name('about');
+   Route::any('{tblid}/service', [App\Http\Controllers\WebsiteController::class, 'service'])->name('service');
+   Route::any('{tblid}/menu', [App\Http\Controllers\WebsiteController::class, 'menu'])->name('menu');
+   Route::any('{tblid}/booking', [App\Http\Controllers\WebsiteController::class, 'booking'])->name('booking');
+   Route::any('{tblid}/team', [App\Http\Controllers\WebsiteController::class, 'team'])->name('team');
+   Route::any('{tblid}/testimonial', [App\Http\Controllers\WebsiteController::class, 'testimonial'])->name('testimonial');
+   Route::any('{tblid}/contact', [App\Http\Controllers\WebsiteController::class, 'contact'])->name('contact');
+   Route::any('{tblid}/getsub_menu_by_menu_id', [App\Http\Controllers\WebsiteController::class, 'getsub_menu_by_menu_id'])->name('getsub_menu_by_menu_id');
+   Route::any('{tblid}/cartItem', [App\Http\Controllers\WebsiteController::class, 'cartItem'])->name('cartItem');
+   Route::any('{tblid}/add_tocart', [App\Http\Controllers\OrderController::class, 'add_tocart'])->name('add_tocart');
+   Route::any('{tblid}/cartItemList', [App\Http\Controllers\WebsiteController::class, 'cartItemList'])->name('cartItemList');
+   Route::any('{tblid}/CartItemIncDec', [App\Http\Controllers\OrderController::class, 'CartItemIncDec'])->name('CartItemIncDec');
+   Route::any('{tblid}/remove_cartItem', [App\Http\Controllers\OrderController::class, 'remove_cartItem'])->name('remove_cartItem');
+   Route::any('{tblid}/checkout', [App\Http\Controllers\OrderController::class, 'checkout'])->name('checkout');
+});
 
 Route::group(['middleware' => ['is_admin']], function(){
 
@@ -111,7 +139,7 @@ Route::group(['middleware' => ['is_admin']], function(){
 });
 
 Route::group(['middleware' => ['is_restaurent']], function(){
-Route::any('restaurent/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('restaurent.dashboard');
+   Route::any('restaurent/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('restaurent.dashboard');
 
    //Branch  Management
    Route::any('restaurent/branch/data', [App\Http\Controllers\BranchController::class, 'branchdata'])->name('restaurent/branch/data');

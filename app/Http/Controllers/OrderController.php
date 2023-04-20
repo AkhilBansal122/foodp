@@ -24,12 +24,13 @@ use Helper;
 class OrderController extends Controller
 {
     public function add_tocart(Request $request,$id){
-        // dd($request->all());
-        
+       
+        $id= $request->table_id;
          if((auth()->user()) && (auth()->user()->is_admin==5)){
-             $request->all();
+           //  dd($request->all());
              $user_id = auth()->user()->id;
             $table= Tables::where("unique_id",$id)->first();
+           // dd($table);
             $gst =  $table->get_restaurent->GST;
       
             $cart = Cart::where("user_id",$user_id)->first();
