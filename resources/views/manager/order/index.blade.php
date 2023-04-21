@@ -132,7 +132,7 @@
                                     </div>
 									<div class="tab-pane fade" id="assign" role="tabpanel">
                                         <div class="table-responsive">
-                                            <table class="table table-striped table-bordered  mb-0 example"  style="width:100%">
+                                            <table id="assigndata" class="table table-striped table-bordered  mb-0 example"  style="width:100%">
                                             <thead>
                                                     <tr>
                                                         <th scope="col">No</th>
@@ -158,7 +158,7 @@
 									</div>
                                     <div class="tab-pane fade" id="accepted" role="tabpanel">
                                         <div class="table-responsive">
-                                            <table class="table table-striped table-bordered  mb-0 example"  style="width:100%">
+                                            <table class="table table-striped table-bordered  mb-0 example" id="acceptdata"  style="width:100%">
                                             <thead>
                                                     <tr>
                                                         <th scope="col">No</th>
@@ -184,7 +184,7 @@
 									</div>
 									<div class="tab-pane fade" id="shipped" role="tabpanel">
                                         <div class="table-responsive">
-                                            <table class="table table-striped table-bordered  mb-0 example"  style="width:100%">
+                                            <table id="preparendata" class="table table-striped table-bordered  mb-0 example"  style="width:100%">
                                             <thead>
                                                     <tr>
                                                         <th scope="col">No</th>
@@ -260,23 +260,26 @@
                 }
             },
             columns: [
-                {data: 'DT_RowIndex', name: 'DT_RowIndex'},
-                 {data:'unique_id',name:"unique_id"},
+                {mData: 'id',
+				render: function (data, type, row, meta) {
+					return meta.row + meta.settings._iDisplayStart + 1;
+				}
+			},  
+                {data:'unique_id',name:"unique_id"},
                  {data:'table_id',name:"table_id"},
                 {data:'assign_chef_name',name:"assign_chef_name"},
                  {data:'transation_id',name:'transation_id'},
                 {data:"customer_name",name:"customer_name"},
                  {data:'price',name:"price"},
-                // {data:'discount_amount',name:"discount_amount"},
-                // {data:'final_amount',name:'final_amount'},
-                // {data:'prepared_time',name:'prepared_time'},
-            
-                // {data: 'status', name: 'status'},
-                // {data: 'assign', name: 'assign'},
-                // {data: 'action', name: 'action'},
+                 {data:'discount_amount',name:"discount_amount"},
+                 {data:'final_amount',name:'final_amount'},
+                 {data:'prepared_time',name:'prepared_time'},
+                 {data: 'status', name: 'status'},
+                 {data: 'assign', name: 'assign'},
+                 {data: 'action', name: 'action'},
             ]
         });
-        var table = $('#assign').DataTable({
+        var table = $('#assigndata').DataTable({
             processing: true,
             serverSide: true,
             ajax: {
@@ -289,7 +292,11 @@
                 }
             },
             columns: [
-                {data: 'DT_RowIndex', name: 'DT_RowIndex'},
+                {mData: 'id',
+				render: function (data, type, row, meta) {
+					return meta.row + meta.settings._iDisplayStart + 1;
+				}
+			},
                 {data:'unique_id',name:"unique_id"},
                 {data:'table_id',name:"table_id"},
                 {data:'assign_chef_name',name:"assign_chef_name"},
@@ -329,7 +336,6 @@
                 {data:'discount_amount',name:"discount_amount"},
                 {data:'final_amount',name:'final_amount'},
                 {data:'prepared_time',name:'prepared_time'},
-            
                 {data: 'status', name: 'status'},
                 {data: 'assign', name: 'assign'},
                 {data: 'action', name: 'action'},
@@ -397,14 +403,19 @@
 });
 
 
-function select_changes2(id,value){
+function select_changes2(selectoption){
+    console.log(selectoption.value);
+   // console.log("--->",);
+    id = $(selectoption).find(':selected').data('id');
+    value = selectoption.value;
+
     formData={
         id:id,
         order_in_process:1,
         assign_chef_id:value
     };
-    route =  "{{ route('manager/order_status_change') }}";
-    ajaxCall(route,formData)
+   route =  "{{ route('manager/order_status_change') }}";
+   ajaxCall(route,formData)
 }
     
 

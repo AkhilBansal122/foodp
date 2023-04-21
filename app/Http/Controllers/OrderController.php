@@ -392,22 +392,23 @@ class OrderController extends Controller
             $datas = array();
             $i = 1;
 
-            
             foreach ($data as $value) {
                 $id = $value->id;
-
-               // $row['id'] = $i;
-
-                $$row['is_admin'] = $user->is_admin;
-
+                $row['id'] = $i;
+                //$row['is_admin'] = $user->is_admin;
+                $row['unique_id'] = isset($value->unique_id)? $value->unique_id:'-';
                 $row['prepared_time']  = date("h:i A", strtotime($value->prepared_time));
                 $row['customer_name'] = $value->customerDetails->name;
                 $row['transation_id'] = $value->transationDetails->unique_id ?? '-';
                 $row['table_id'] = $value->table_id ?? '-';
                 $row['assign_chef_name'] = isset($value->chefDetails->firstname) ? $value->chefDetails->firstname ." ".$value->chefDetails->lastname :'-';
                 $row['transation_id'] = $value->transation_id?? '-';
+                $row['discount_amount'] = $value->discount_amount ?? 0;
+                $row['final_amount'] = $value->final_amount ?? 0;
+                $row['shipping_price'] = $value->shipping_price ?? 0;
                 $row['price'] = $value->price ?? '-';
                 $row['discount_amount'] = $value->customerDetails->discount_amount ?? '-';
+                
                 if($value->order_in_process==0)
                 {
                     $row['status'] ="Pending";
@@ -458,19 +459,18 @@ class OrderController extends Controller
                 $query->where("id","!=",$value->assign_chef_id);
                }
                 $row['chef'] =$query->get(['id','firstname','unique_id']);
-                $options="";
-                foreach($value->chef as $rs){
+                $options="<select class='form-control select_changes2' onChange=\"select_changes2(this);return false;\">";
+                foreach($row['chef'] as $rs){
                       $id = $rs->id;
-                      $options .= "<select class='form-control' onChange=\"select_changes2('$id',this.value);return false;\">";
-                      $options .= "<option value=".$id." " . ((isset($rs->id) && $rs->id == $id) ? 'Selected' : '') . ">".$rs->firstname."</option>";
-                      $options .= "</select>";
-                    }
-                    $row['action'] = $options;
-                 $row['unique_id'] = isset($value->unique_id)? $value->unique_id:'-';
-              
-                $edit = Helper::editAction(url('/manager/tables/edit/'),encrypt($value->id));
-                $view = Helper::viewAction(url('/manager/tables/show/'),encrypt($value->id));
-                $row['action'] = Helper::action($edit." ".$view." ".$options);
+                    //  $options .= "<select class='form-control' onChange=\"select_changes2('$id',this.value);return false;\">";
+                      $options .= "<option data-id=".$value->id." value=".$id." " . ((isset($rs->id) && $rs->id == $id) ? 'Selected' : '') . ">".$rs->firstname."</option>";
+                      
+                }
+                $options .= "</select>";
+                $row['assign'] = $options;
+                $edit = Helper::editAction(url('/manager/order/edit/'),encrypt($value->id));
+                $view = Helper::viewAction(url('/manager/order/show/'),encrypt($value->id));
+                $row['action'] = Helper::action($edit." ".$view);
                 $datas[] = $row;
             $i++;
             }
