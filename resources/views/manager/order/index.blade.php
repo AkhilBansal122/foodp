@@ -210,7 +210,7 @@
                                     </div>
                                     <div class="tab-pane fade" id="delived" role="tabpanel">
                                         <div class="table-responsive">
-                                            <table class="table table-striped table-bordered  mb-0 example"  style="width:100%">
+                                            <table class="table table-striped table-bordered  mb-0 example" id="deliverndata"  style="width:100%">
                                             <thead>
                                                     <tr>
                                                         <th scope="col">No</th>
@@ -326,7 +326,11 @@
                 }
             },
             columns: [
-                {data: 'DT_RowIndex', name: 'DT_RowIndex'},
+                {mData: 'id',
+				render: function (data, type, row, meta) {
+					return meta.row + meta.settings._iDisplayStart + 1;
+				}
+			},
                 {data:'unique_id',name:"unique_id"},
                 {data:'table_id',name:"table_id"},
                 {data:'assign_chef_name',name:"assign_chef_name"},
@@ -354,7 +358,11 @@
                 }
             },
             columns: [
-                {data: 'DT_RowIndex', name: 'DT_RowIndex'},
+                {mData: 'id',
+				render: function (data, type, row, meta) {
+					return meta.row + meta.settings._iDisplayStart + 1;
+				}
+			},
                 {data:'unique_id',name:"unique_id"},
                 {data:'table_id',name:"table_id"},
                 {data:'assign_chef_name',name:"assign_chef_name"},
@@ -383,7 +391,11 @@
                 }
             },
             columns: [
-                {data: 'DT_RowIndex', name: 'DT_RowIndex'},
+                {mData: 'id',
+				render: function (data, type, row, meta) {
+					return meta.row + meta.settings._iDisplayStart + 1;
+				}
+			},
                 {data:'unique_id',name:"unique_id"},
                 {data:'table_id',name:"table_id"},
                 {data:'assign_chef_name',name:"assign_chef_name"},
