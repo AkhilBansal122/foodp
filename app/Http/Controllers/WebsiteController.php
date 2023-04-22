@@ -7,8 +7,10 @@ use App\Models\User;
 use App\Models\Tables;
 use App\Models\Category;
 use App\Models\SubCategories;
-
+use App\Models\Contact;
 use App\Models\CartItem;
+use App\Models\Banners;
+use App\Models\Service;
 use App\Models\Cart;
 
 use Auth;
@@ -19,6 +21,7 @@ class WebsiteController extends Controller
         
         if(substr($id, 0, 4)==="TBL-")
         {
+            // dd($id);
             Session::put("table_id",$id);
             if(is_null(auth()->user()))
             {
@@ -29,7 +32,10 @@ class WebsiteController extends Controller
                 $getChefData="";
                 if(!empty($id)){
                  $getMenu = Tables::where('unique_id',$id)->first();
-              
+              // dd( $getMenu);
+                 $getBanner = Banners::select('title','images','description')->where('user_id',$getMenu->restaurent_id)->first(); 
+                $getservices = Service::select('title','icon','description')->where(['user_id'=>$getMenu->restaurent_id,'status'=>'Active'])->get(); 
+                
                   if(!is_null($getMenu)){
                         $manager_id = $getMenu->user_id;
                         $getChefData = User::where(['user_id'=>$manager_id,'is_admin'=>4,'status'=>"Active"])->get();
@@ -44,12 +50,12 @@ class WebsiteController extends Controller
                         $getMenu->menu  = $getmenu;
                     }
                     $restaurentName="";
-                    return view('website.layout.main',compact('getMenu','getChefData','restaurentName'));
+                    return view('website.layout.main',compact('getMenu','getChefData','restaurentName','getBanner','getservices'));
                 }
             }
         }
         else{
-            $restaurentName= $id;
+           $restaurentName= $id;
            $getRestaurent = User::where("name",$restaurentName)->where('is_admin',2)->first();
            $manager_id = [];
            $getMenu =[];
@@ -122,6 +128,8 @@ class WebsiteController extends Controller
         $restaurentName="";
         if(substr($id, 0, 4)==="TBL-")
         {
+            $getMenu = Tables::where('unique_id',$id)->first();
+            $getservices = Service::select('title','icon','description')->where(['user_id'=>$getMenu->restaurent_id,'status'=>'Active'])->get();   
             if(auth()->user()->is_admin==5){
                 auth()->user()->table_id = $id;
             }
@@ -131,7 +139,7 @@ class WebsiteController extends Controller
             $restaurentName = $id;
 
         }
-       return view('website.service',compact('restaurentName'));
+       return view('website.service',compact('restaurentName','getservices'));
     }
 
 
@@ -209,10 +217,26 @@ class WebsiteController extends Controller
     	return view('website.testimonial');
     }
 
-    public function contact($id){
+    public function contact($id, Request $request){
         $restaurentName="";
         if(substr($id, 0, 4)==="TBL-")
         {
+            $gettables = Tables::where("unique_id",$id)->first();
+            $user_id = $gettables->user_id;
+
+            // Create a new instance of the model
+            $post = new Contact;
+
+            // Set the properties with the data from the form
+            $post->name = $request->input('name');
+            // dd($post->name);
+            $post ->user_id=$user_id;
+            $post->email = $request->input('email');
+            $post->subject = $request->input('subject');
+            $post->message = $request->input('message');
+
+            // Save the data in the database
+            $post->save();
 
         if(auth()->user()->is_admin==5){
             auth()->user()->table_id = $id;
@@ -221,7 +245,7 @@ class WebsiteController extends Controller
             // Session::get('restaurent_id');
         }
 
-        return view('website.contact',compact('restaurentName'));
+        return view('website.contact',compact('restaurentName','post'));
     }
 
     public function getsub_menu_by_menu_id(Request $request,$id){

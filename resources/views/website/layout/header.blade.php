@@ -85,14 +85,14 @@ if(substr($uri1, 0, 4)==="TBL-")
                         <a href="{{url('/')}}/{{auth()->user()->table_id}}/about" class="nav-item nav-link {{$uri2=='about' ? 'active' :'' }}">About</a>
                         <a href="{{url('/')}}/{{auth()->user()->table_id}}/service" class="nav-item nav-link {{$uri2=='service' ? 'active' :'' }}">Service</a>
                         <a href="{{url('/')}}/{{auth()->user()->table_id}}/menu" class="nav-item nav-link {{$uri2=='menu' ? 'active' :'' }}">Menu</a>
-                        <div class="nav-item dropdown">
+                        <!-- <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
                             <div class="dropdown-menu m-0">
                                 <a href="{{url('/')}}/{{auth()->user()->table_id}}/booking" class="dropdown-item {{$uri2=='booking' ? 'active' :'' }}">Booking</a>
                                 <a href="{{url('/')}}/{{auth()->user()->table_id}}/team" class="dropdown-item {{$uri2=='booking' ? 'active' :'' }}">Our Team</a>
                                 <a href="{{url('/')}}/{{auth()->user()->table_id}}/testimonial" class="dropdown-item {{$uri2=='booking' ? 'active' :'' }}">Testimonial</a>
                             </div>
-                        </div>
+                        </div> -->
                         <a href="{{url('')}}/{{auth()->user()->table_id}}/contact" class="nav-item nav-link {{$uri2=='contact' ? 'active' :'' }}">Contact</a>
                     </div>
                     <a href="{{route('customlogout')}}" class="btn btn-primary py-2 px-4">Logout</a>
@@ -105,14 +105,14 @@ if(substr($uri1, 0, 4)==="TBL-")
                         <a href="{{url('/')}}/{{$restaurentName}}/about" class="nav-item nav-link {{$uri2=='about' ? 'active' :'' }}">About</a>
                         <a href="{{url('/')}}/{{$restaurentName}}/service" class="nav-item nav-link {{$uri2=='service' ? 'active' :'' }}">Service</a>
                         <a href="{{url('/')}}/{{$restaurentName}}/menu" class="nav-item nav-link {{$uri2=='menu' ? 'active' :'' }}">Menu</a>
-                        <div class="nav-item dropdown">
+                        <!-- <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
                             <div class="dropdown-menu m-0">
                                 <a href="{{url('/')}}/booking" class="dropdown-item {{$uri2=='booking' ? 'active' :'' }}">Booking</a>
                                 <a href="{{url('/')}}/team" class="dropdown-item {{$uri2=='booking' ? 'active' :'' }}">Our Team</a>
                                 <a href="{{url('/')}}/testimonial" class="dropdown-item {{$uri2=='booking' ? 'active' :'' }}">Testimonial</a>
                             </div>
-                        </div>
+                        </div> -->
                         <a href="{{url('')}}/contact" class="nav-item nav-link {{$uri2=='contact' ? 'active' :'' }}">Contact</a>
                     </div>
                     <!-- <a href="{{route('customlogout')}}" class="btn btn-primary py-2 px-4">Login</a>

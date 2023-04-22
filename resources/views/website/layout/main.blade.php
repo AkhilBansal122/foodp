@@ -4,12 +4,12 @@
                 <div class="container my-5 py-5">
                     <div class="row align-items-center g-5">
                         <div class="col-lg-6 text-center text-lg-start">
-                            <h1 class="display-3 text-white animated slideInLeft">Enjoy Our<br>Delicious Meal</h1>
-                            <p class="text-white animated slideInLeft mb-4 pb-2">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam et eos. Clita erat ipsum et lorem et sit, sed stet lorem sit clita duo justo magna dolore erat amet</p>
-                            <a href="" class="btn btn-primary py-sm-3 px-sm-5 me-3 animated slideInLeft">Book A Table</a>
-                        </div>
+                            <h1 class="display-3 text-white animated slideInLeft">{{$getBanner->title}}</h1>
+                            <p class="text-white animated slideInLeft mb-4 pb-2">{{$getBanner->description}}</p>
+                            <!-- <a href="" class="btn btn-primary py-sm-3 px-sm-5 me-3 animated slideInLeft">Book A Table</a>
+ -->                        </div>
                         <div class="col-lg-6 text-center text-lg-end overflow-hidden">
-                            <img class="img-fluid" src="{{asset('public/assets/website/img/hero.png')}}" alt="">
+                            <img class="img-fluid" src="{{asset('public/'.$getBanner->images)}}" alt="">
                         </div>
                     </div>
                 </div>
@@ -22,42 +22,21 @@
         <div class="container-xxl py-5">
             <div class="container">
                 <div class="row g-4">
+                    @foreach($getservices as $val)
                     <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
                         <div class="service-item rounded pt-3">
                             <div class="p-4">
+                                @if(!empty($val->icon))
+                                <img src="{{asset('public/'.$val->icon)}}"/>
+                                @else
                                 <i class="fa fa-3x fa-user-tie text-primary mb-4"></i>
-                                <h5>Master Chefs</h5>
-                                <p>Diam elitr kasd sed at elitr sed ipsum justo dolor sed clita amet diam</p>
+                                @endif
+                                <h5>{{$val->title}}</h5>
+                                <p>{{$val->description}}</p>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.3s">
-                        <div class="service-item rounded pt-3">
-                            <div class="p-4">
-                                <i class="fa fa-3x fa-utensils text-primary mb-4"></i>
-                                <h5>Quality Food</h5>
-                                <p>Diam elitr kasd sed at elitr sed ipsum justo dolor sed clita amet diam</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.5s">
-                        <div class="service-item rounded pt-3">
-                            <div class="p-4">
-                                <i class="fa fa-3x fa-cart-plus text-primary mb-4"></i>
-                                <h5>Online Order</h5>
-                                <p>Diam elitr kasd sed at elitr sed ipsum justo dolor sed clita amet diam</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.7s">
-                        <div class="service-item rounded pt-3">
-                            <div class="p-4">
-                                <i class="fa fa-3x fa-headset text-primary mb-4"></i>
-                                <h5>24/7 Service</h5>
-                                <p>Diam elitr kasd sed at elitr sed ipsum justo dolor sed clita amet diam</p>
-                            </div>
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
             </div>
         </div>
@@ -76,7 +55,7 @@
 
 
         <!-- Reservation Start -->
-        <div class="container-xxl py-5 px-0 wow fadeInUp" data-wow-delay="0.1s">
+        <div class="container-xxl py-5 px-0 wow fadeInUp d-none" data-wow-delay="0.1s">
             <div class="row g-0">
                 <div class="col-md-6">
                     <div class="video">
@@ -135,7 +114,7 @@
             </div>
         </div>
 
-        <div class="modal fade" id="videoModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade d-none"  id="videoModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" >
             <div class="modal-dialog">
                 <div class="modal-content rounded-0">
                     <div class="modal-header">
@@ -161,7 +140,7 @@
 
 
         <!-- Testimonial Start -->
-        <div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
+        <!-- <div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
             <div class="container">
                 <div class="text-center">
                     <h5 class="section-title ff-secondary text-center text-primary fw-normal">Testimonial</h5>
@@ -214,7 +193,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
         <!-- Testimonial End -->
         
 <script>
