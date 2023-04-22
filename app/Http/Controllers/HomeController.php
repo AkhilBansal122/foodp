@@ -61,7 +61,15 @@ class HomeController extends Controller
             $total_order = Orders::where('branch_id',auth()->user()->branch_id)->count();
             $total_customer = User::where('is_admin',5)->count();
             return view('manager/dashboard',compact('total_chef','total_customer','total_order'));
-        }
+        }else if($is_admin==4){
+          $total_order=  Orders::where(['assign_chef_id'=>auth()->user()->id])->count();
+          $total_order_pending=  Orders::where(['assign_chef_id'=>auth()->user()->id,'order_in_process'=>0])->count();
+          $total_order_assign=  Orders::where(['assign_chef_id'=>auth()->user()->id,'order_in_process'=>1])->count();
+          $total_order_accepted=  Orders::where(['assign_chef_id'=>auth()->user()->id,'order_in_process'=>2])->count();
+          $total_order_prepared=  Orders::where(['assign_chef_id'=>auth()->user()->id,'order_in_process'=>3])->count();
+          $total_order_pelivered=  Orders::where(['assign_chef_id'=>auth()->user()->id,'order_in_process'=>4])->count();
+          return view('chef/dashboard',compact('total_order_pelivered','total_order_prepared','total_order','total_order_pending','total_order_assign','total_order_accepted'));
+      }
     }
 }
 public function restaurentGraphs(){

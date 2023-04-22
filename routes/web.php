@@ -281,6 +281,22 @@ Route::group(['middleware' => ['is_restaurent']], function(){
    Route::get('manager/logout', [LoginController::class, 'logout']);
 });
 
+ //IsChef
+ Route::group(['middleware' => ['IsChef']], function(){
+   Route::any('chef/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('chef.dashboard');
+   Route::any('chef/order', [App\Http\Controllers\OrderController::class, 'index'])->name('chef.order');
+   Route::any('chef/order/data', [App\Http\Controllers\OrderController::class, 'data'])->name('chef/order/data');
+   Route::any('chef/order/assigndata', [App\Http\Controllers\OrderController::class, 'assigndata'])->name('chef/order/assigndata');
+   Route::any('chef/order/acceptdata', [App\Http\Controllers\OrderController::class, 'acceptdata'])->name('chef/order/acceptdata');
+ 
+   Route::any('chef/order/preparendata', [App\Http\Controllers\OrderController::class, 'preparendata'])->name('chef/order/preparendata');
+   Route::any('chef/order/deliverndata', [App\Http\Controllers\OrderController::class, 'deliverndata'])->name('chef/order/deliverndata');
+   
+   Route::any('chef/order_status_change', [App\Http\Controllers\OrderController::class, 'order_status'])->name('chef/order_status_change');
+   Route::any('chef/order/edit/{id}', [App\Http\Controllers\OrderController::class, 'edit'])->name('chef.order.edit');
+   Route::get('chef/logout', [LoginController::class, 'logout']);
+});
+
 
 
 

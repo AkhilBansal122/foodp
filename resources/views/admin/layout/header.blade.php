@@ -88,6 +88,21 @@ $url = Request::segment(2);
 						<div class="menu-title">User Manager</div>
 					</a>
 				</li>	
+				@elseif(auth()->user()->is_admin==4)
+				<li class="@if($url=='dashboard')  mm-active  @endif ">
+					<a href="{{url('chef/dashboard')}}">
+						<div class="parent-icon"><i class="bx bx-tachometer" aria-hidden="true"></i>
+
+						</div>
+						<div class="menu-title">Dashboard</div>
+					</a>
+				</li>
+				<li  class="@if($url=='order') mm-active @endif ">
+					<a href="{{route('chef.order')}}">
+						<div class="parent-icon"><i class="bx bx-user" aria-hidden="true"></i></div>
+						<div class="menu-title">Order Manager</div>
+					</a>
+				</li>	
 				@elseif(auth()->user()->is_admin==2)
 				<li class="@if($url=='dashboard')  mm-active  @endif ">
 					<a href="{{url('restaurent.dashboard')}}">
@@ -234,8 +249,11 @@ $url = Request::segment(2);
 							</li>
 							@endif
 							@if(auth()->user()->is_admin==3)
-						
 							<li><a class="dropdown-item" href="{{url('manager/logout')}}"><i class='bx bx-log-out-circle'></i><span>Logout</span></a>
+							</li>
+							@endif
+							@if(auth()->user()->is_admin==4)
+							<li><a class="dropdown-item" href="{{url('chef/logout')}}"><i class='bx bx-log-out-circle'></i><span>Logout</span></a>
 							</li>
 							@endif
 						</ul>
