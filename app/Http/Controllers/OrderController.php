@@ -1235,6 +1235,7 @@ class OrderController extends Controller
                   {
                     $row['action'] = Helper::action($view);
                   }
+                  
                   else{
                     $row['action'] = Helper::action($edit." ".$view);
 
