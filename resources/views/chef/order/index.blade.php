@@ -16,7 +16,7 @@
                 </div>
         </div>
         <!--end breadcrumb-->
-   
+        @include('flash-message')
                 <div class="card ">
                     <div class="card-header">
                         
@@ -178,6 +178,33 @@
                                         </div>
 									</div>
 								</div>
+                                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+											<h5 class="modal-title" id="exampleModalLabel">Prepared Time</h5>
+                                           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+											<div class="row">
+												<div class="col-xl-12 mb-3">
+													<form method="POST" id="Form" action="#">
+														<label class="form-label">Prepared Time</label>
+														<input type="hidden"   id="order_id" >
+                                                        <input type="hidden"   id="order_in_process" >
+                                                        <input type="time" required class="form-control" name="prepared_time" id="prepared_time" placeholder="">
+                                                        <span style="color:red" id="time_error">Please enter time</span>
+                                                    </form>
+												</div>
+											</div>
+										  </div>
+										  <div class="modal-footer">
+											<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+											<button type="submit" class="btn btn-primary" id="prepared_time_submit">Save</button>
+										  </div>
+										</div>
+                                    </div>
+                            </div>
 							</div>
 						</div>
 					</div>
@@ -298,25 +325,86 @@
             ]
         });
     
+
+        $("#prepared_time_submit").on("click",function(){
+    route =  "{{ route('chef/order_status_change') }}";
+    var prepared_time = $("#prepared_time").val();
+    if(prepared_time=='')
+    {
+        $("#time_error").show();
+        return false;
+    }
+    else{
+        id = $("#order_id").val();
+        order_in_process = $("#order_in_process").val();
+     	 
+        formData={
+           id:id,
+            order_in_process:order_in_process,
+            prepared_time:prepared_time,
+        }
+        ajaxCall(route,formData);
+
+    }
+   });
+
 });
 
-
-function select_changes2(selectoption){
-    console.log(selectoption.value);
+/*
+function select_changes3(selectoption){
+   // console.log(selectoption.value);
    // console.log("--->",);
     id = $(selectoption).find(':selected').data('id');
     value = selectoption.value;
-
-    formData={
-        id:id,
-        order_in_process:1,
-        assign_chef_id:value
+    if(value==3)
+    {
+        $("#order_id").val(id);
+        $("#order_in_process").val(value);
+        $('#exampleModal').modal('toggle');
+    }
+    else{
+        formData={
+            id:id,
+            order_in_process:value,
+       // assign_chef_id:value
     };
    route =  "{{ route('chef/order_status_change') }}";
    ajaxCall(route,formData)
 }
+
+}*/
     
 
+
+function select_changes3(id,selectoption){
+  
+    value = selectoption;
+    console.log("-->",value);
+    if(value==3)
+    {
+        $("#order_id").val(id);
+        $("#order_in_process").val(value);
+        $('#exampleModal').modal('toggle');
+    }
+    else{
+        formData={
+            id:id,
+            order_in_process:value,
+       // assign_chef_id:value
+        }
+      route =  "{{ route('chef/order_status_change') }}";
+       ajaxCall(route,formData)
+
+    };
+    // formData={
+    //     id:id,
+    //     order_in_process:selectoption
+
+    // };
+//    route =  "{{ route('chef/order_process_change') }}";
+  // ajaxCall(route,formData)
+
+}
 </script>    
 
 </script>

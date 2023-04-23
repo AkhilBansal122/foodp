@@ -289,36 +289,36 @@ class OrderController extends Controller
                 {
                     $row['status'] ="Prepared";
                 }
-                    else if($value->order_in_process==4)
-                    {
-                        $row['status'] ="Delivered";
-                    }
+                else if($value->order_in_process==4)
+                {
+                    $row['status'] ="Delivered";
+                }
 
-                    $sel = "<select class='form-control' onChange=\"select_changes2('$id',this.value);return false;\">";
-                    if($value->order_in_process == 1)
-                    {
-                        $sel .= "<option value='1' " . ((isset($value->order_in_process) && $value->order_in_process == 1) ? 'Selected' : '') . ">Assign</option>";
-                        $sel .= "<option value='2' " . ((isset($value->order_in_process) && $value->order_in_process == 2) ? 'Selected' : '') . ">Accepted</option>";
-                        $sel .= "<option value='3' " . ((isset($value->order_in_process) && $value->order_in_process == 3) ? 'Selected' : '') . ">Prepared</option>";
-                        $sel .= "<option value='4' " . ((isset($value->order_in_process) && $value->order_in_process == 4) ? 'Selected' : '') . ">Delivered</option>";
-                    }
-                    if($value->order_in_process == 2){
-                        $sel .= "<option value='2' " . ((isset($value->order_in_process) && $value->order_in_process == 2) ? 'Selected' : '') . ">Accepted</option>";
-                        $sel .= "<option value='3' " . ((isset($value->order_in_process) && $value->order_in_process == 3) ? 'Selected' : '') . ">Prepared</option>";
-                        $sel .= "<option value='4' " . ((isset($value->order_in_process) && $value->order_in_process == 4) ? 'Selected' : '') . ">Delivered</option>";
-                    }
-                    if($value->order_in_process == 3){
-                        $sel .= "<option value='3' " . ((isset($value->order_in_process) && $value->order_in_process == 3) ? 'Selected' : '') . ">Prepared</option>";
-                        $sel .= "<option value='4' " . ((isset($value->order_in_process) && $value->order_in_process == 4) ? 'Selected' : '') . ">Delivered</option>";
-                    }
-                    if($value->order_in_process == 4){
-                        $sel .= "<option value='4' " . ((isset($value->order_in_process) && $value->order_in_process == 4) ? 'Selected' : '') . ">Delivered</option>";
-                    }
-
-                    $sel .= "</select>";
-
-               $query= User::where(['user_id'=>$user->id,'is_admin'=>4,'status'=>"Active"]);
-               if(!is_null($value->assign_chef_id) && $value->assign_chef_id!=0)
+                $sel = "<select class='form-control' onChange=\"select_changes3('$id',this.value);return false;\">";
+                if($value->order_in_process == 1)
+                {
+                    $sel .= "<option value='1' " . ((isset($value->order_in_process) && $value->order_in_process == 1) ? 'Selected' : '') . ">Assign</option>";
+                    $sel .= "<option value='2' " . ((isset($value->order_in_process) && $value->order_in_process == 2) ? 'Selected' : '') . ">Accepted</option>";
+                    $sel .= "<option value='3' " . ((isset($value->order_in_process) && $value->order_in_process == 3) ? 'Selected' : '') . ">Prepared</option>";
+                    $sel .= "<option value='4' " . ((isset($value->order_in_process) && $value->order_in_process == 4) ? 'Selected' : '') . ">Delivered</option>";
+                }
+                if($value->order_in_process == 2){
+                    $sel .= "<option value='2' " . ((isset($value->order_in_process) && $value->order_in_process == 2) ? 'Selected' : '') . ">Accepted</option>";
+                    $sel .= "<option value='3' " . ((isset($value->order_in_process) && $value->order_in_process == 3) ? 'Selected' : '') . ">Prepared</option>";
+                    $sel .= "<option value='4' " . ((isset($value->order_in_process) && $value->order_in_process == 4) ? 'Selected' : '') . ">Delivered</option>";
+                }
+                if($value->order_in_process == 3){
+                    $sel .= "<option value='3' " . ((isset($value->order_in_process) && $value->order_in_process == 3) ? 'Selected' : '') . ">Prepared</option>";
+                    $sel .= "<option value='4' " . ((isset($value->order_in_process) && $value->order_in_process == 4) ? 'Selected' : '') . ">Delivered</option>";
+                }
+                if($value->order_in_process == 4){
+                    $sel .= "<option value='4' " . ((isset($value->order_in_process) && $value->order_in_process == 4) ? 'Selected' : '') . ">Delivered</option>";
+                }
+                $sel .= "</select>";
+                $row['order_in_process'] =$sel; 
+                $query= User::where(['user_id'=>$user->id,'is_admin'=>4,'status'=>"Active"]);
+               
+                if(!is_null($value->assign_chef_id) && $value->assign_chef_id!=0)
                {
                 $query->where("id","!=",$value->assign_chef_id);
                }
@@ -331,13 +331,11 @@ class OrderController extends Controller
                 }
                 $options .= "</select>";
                 $row['assign'] = $options;
-                $edit = Helper::editAction(url('/manager/order/edit/'),encrypt($value->id));
                 $view = Helper::viewAction(url('/manager/order/show/'),encrypt($value->id));
-                $row['action'] = Helper::action($edit." ".$view);
+                $row['action'] = Helper::action($view);
                 $datas[] = $row;
             $i++;
             }
-           // dd($datas);
             $return = [
                 "draw" => intval($draw),
                 "recordsFiltered" => intval($totaldata),
@@ -438,7 +436,7 @@ class OrderController extends Controller
                           $row['status'] ="Delivered";
                       }
   
-                      $sel = "<select class='form-control' onChange=\"select_changes2('$id',this.value);return false;\">";
+                      $sel = "<select class='form-control' onChange=\"select_changes3('$id',this.value);return false;\">";
                       if($value->order_in_process == 1)
                       {
 
@@ -464,7 +462,8 @@ class OrderController extends Controller
 
   
                       $sel .= "</select>";
-  
+                      $row['order_process_status'] = $sel;
+                 
                  $query= User::where(['user_id'=>$user->id,'is_admin'=>4,'status'=>"Active"]);
                  if(!is_null($value->assign_chef_id) && $value->assign_chef_id!=0)
                  {
@@ -478,18 +477,17 @@ class OrderController extends Controller
                         $options .= "<option data-id=".$value->id." value=".$id." " . ((isset($rs->id) && $rs->id == $id) ? 'Selected' : '') . ">".$rs->firstname."</option>";
                   }
                   $options .= "</select>";
-                  $row['order_process_status'] = $sel;
                   $row['assign'] = $options;
-                  $edit = Helper::editAction(url('/manager/order/edit/'),encrypt($value->id));
-                  $view = Helper::viewAction(url('/manager/order/show/'),encrypt($value->id));
+                //  $edit = Helper::editAction(url('/manager/order/edit/'),encrypt($value->id));
                   if(auth()->user()->is_admin==4)
                   {
-                    $row['action'] = Helper::action($view);
+                    $view = Helper::viewAction(url('/chef/order/show/'),encrypt($value->id));
                   }
                   else{
-                    $row['action'] = Helper::action($edit." ".$view);
-
+                    $view = Helper::viewAction(url('/manager/order/show/'),encrypt($value->id));
                   }
+                  $row['action'] = Helper::action($view);
+              
                   $datas[] = $row;
               $i++;
               }
@@ -597,7 +595,7 @@ class OrderController extends Controller
                           $row['status'] ="Delivered";
                       }
   
-                      $sel = "<select class='form-control' onChange=\"select_changes2('$id',this.value);return false;\">";
+                      $sel = "<select class='form-control' onChange=\"select_changes3('$id',this.value);return false;\">";
                       if($value->order_in_process == 1)
                       {
 
@@ -609,7 +607,7 @@ class OrderController extends Controller
                       if($value->order_in_process == 2){
                           $sel .= "<option value='2' " . ((isset($value->order_in_process) && $value->order_in_process == 2) ? 'Selected' : '') . ">Accepted</option>";
                           $sel .= "<option value='3' " . ((isset($value->order_in_process) && $value->order_in_process == 3) ? 'Selected' : '') . ">Prepared</option>";
-                          $sel .= "<option value='4' " . ((isset($value->order_in_process) && $value->order_in_process == 4) ? 'Selected' : '') . ">Delivered</option>";
+                        //  $sel .= "<option value='4' " . ((isset($value->order_in_process) && $value->order_in_process == 4) ? 'Selected' : '') . ">Delivered</option>";
   
                       }
                       if($value->order_in_process == 3){
@@ -639,16 +637,17 @@ class OrderController extends Controller
                   }
                   $options .= "</select>";
                   $row['assign'] = $options;
-                  $edit = Helper::editAction(url('/manager/order/edit/'),encrypt($value->id));
-                  $view = Helper::viewAction(url('/manager/order/show/'),encrypt($value->id));
+                //  $edit = Helper::editAction(url('/manager/order/edit/'),encrypt($value->id));
                   if(auth()->user()->is_admin==4)
                   {
-                    $row['action'] = Helper::action($view);
+                    $view = Helper::viewAction(url('/chef/order/show/'),encrypt($value->id));
+               //     $row['action'] = Helper::action($view);
                   }
                   else{
-                    $row['action'] = Helper::action($edit." ".$view);
-
+                    $view = Helper::viewAction(url('/manager/order/show/'),encrypt($value->id));
+                 
                   }
+                  $row['action'] = Helper::action($view);
 
                   $datas[] = $row;
               $i++;
@@ -663,7 +662,7 @@ class OrderController extends Controller
               return response()->json($return);
           }
     }
-
+/*
     public function preparendata2(Request $request)
     {
         if ($request->ajax()) {
@@ -742,7 +741,7 @@ class OrderController extends Controller
                 })
                 ->addColumn('order_process_status', function($row){
                     $id = $row->id;
-                        $sel = "<select class='form-control' onChange=\"select_changes2('$id',this.value);return false;\">";
+                        $sel = "<select class='form-control' onChange=\"select_changes3('$id',this.value);return false;\">";
                         if($row['order_in_process'] == 1)
                         {
 
@@ -801,7 +800,7 @@ class OrderController extends Controller
             }
             
         }
-    }
+    }*/
 
     public function preparendata(Request $request){
         //  dd($request->All());
@@ -824,9 +823,7 @@ class OrderController extends Controller
               {
                   $querydata->where("branch_id",$user->branch_id);
                   $querydata->where("order_in_process",3);
-
-                  
-              }
+             }
               else if($user->is_admin==4){
                   $querydata->where("assign_chef_id",$user->id);
                   $querydata->where("order_in_process",3);
@@ -895,14 +892,14 @@ class OrderController extends Controller
                           $row['status'] ="Delivered";
                       }
   
-                      $sel = "<select class='form-control' onChange=\"select_changes2('$id',this.value);return false;\">";
+                      $sel = "<select class='form-control' onChange=\"select_changes3('$id',this.value);return false;\">";
                       if($value->order_in_process == 1)
                         {
 
                             $sel .= "<option value='1' " . ((isset($value->order_in_process) && $value->order_in_process == 1) ? 'Selected' : '') . ">Assign</option>";
                             $sel .= "<option value='2' " . ((isset($value->order_in_process) && $value->order_in_process == 2) ? 'Selected' : '') . ">Accepted</option>";
                             $sel .= "<option value='3' " . ((isset($value->order_in_process) && $value->order_in_process == 3) ? 'Selected' : '') . ">Prepared</option>";
-                            $sel .= "<option value='4' " . ((isset($value->order_in_process) && $value->order_in_process == 4) ? 'Selected' : '') . ">Delivered</option>";
+                           // $sel .= "<option value='4' " . ((isset($value->order_in_process) && $value->order_in_process == 4) ? 'Selected' : '') . ">Delivered</option>";
                         }
                         if($value->order_in_process == 2){
                             $sel .= "<option value='2' " . ((isset($value->order_in_process) && $value->order_in_process == 2) ? 'Selected' : '') . ">Accepted</option>";
@@ -937,16 +934,19 @@ class OrderController extends Controller
                   }
                   $options .= "</select>";
                   $row['assign'] = $options;
-                  $edit = Helper::editAction(url('/manager/order/edit/'),encrypt($value->id));
-                  $view = Helper::viewAction(url('/manager/order/show/'),encrypt($value->id));
+                //  $edit = Helper::editAction(url('/manager/order/edit/'),encrypt($value->id));
                   if(auth()->user()->is_admin==4)
                   {
-                    $row['action'] = Helper::action($view);
+                    $view = Helper::viewAction(url('/chef/order/show/'),encrypt($value->id));
+             
+                  //  $row['action'] = Helper::action($view);
                   }
                   else{
-                    $row['action'] = Helper::action($edit." ".$view);
-
+                    $view = Helper::viewAction(url('/manager/order/show/'),encrypt($value->id));
+                 
+                  
                   }
+                  $row['action'] = Helper::action($view);
 
                   $datas[] = $row;
               $i++;
@@ -961,6 +961,7 @@ class OrderController extends Controller
               return response()->json($return);
           }
     }
+  /*
     public function deliverndata2(Request $request)
     {
         if ($request->ajax()) {
@@ -1097,7 +1098,7 @@ class OrderController extends Controller
             
         }
     }
-
+    */
     public function deliverndata(Request $request){
         //  dd($request->All());
           if ($request->ajax()) {
@@ -1187,9 +1188,9 @@ class OrderController extends Controller
                           $row['status'] ="Delivered";
                       }
   
-                      $sel = "<select class='form-control' onChange=\"select_changes2('$id',this.value);return false;\">";
+                      $sel = "<select class='form-control' onChange=\"select_changes3('$id',this.value);return false;\">";
                       
-                      $sel = "<select class='form-control' onChange=\"select_changes2('$id',this.value);return false;\">";
+                   //   $sel = "<select class='form-control' onChange=\"select_changes2('$id',this.value);return false;\">";
                         if($value->order_in_process == 1)
                         {
 
@@ -1229,18 +1230,21 @@ class OrderController extends Controller
                   }
                   $options .= "</select>";
                   $row['assign'] = $options;
-                  $edit = Helper::editAction(url('/manager/order/edit/'),encrypt($value->id));
-                  $view = Helper::viewAction(url('/manager/order/show/'),encrypt($value->id));
+               //   $edit = Helper::editAction(url('/manager/order/edit/'),encrypt($value->id));
                   if(auth()->user()->is_admin==4)
                   {
-                    $row['action'] = Helper::action($view);
+                    $view = Helper::viewAction(url('/chef/order/show/'),encrypt($value->id));
+                  //  $row['action'] = Helper::action($view);
                   }
                   
                   else{
-                    $row['action'] = Helper::action($edit." ".$view);
+                    $view = Helper::viewAction(url('/manager/order/show/'),encrypt($value->id));
+              
+                //    $row['action'] = Helper::action($edit." ".$view);
 
                   }
-
+                  $row['action'] = Helper::action($view);
+                
                   $datas[] = $row;
               $i++;
               }
@@ -1302,6 +1306,51 @@ class OrderController extends Controller
         }
         else if(auth()->user()->is_admin==4){
             return view('chef/order/show',compact('data'));
+
+        }
+    }
+
+    public function show($id){
+        $data = OrdersItem::where('order_id',decrypt($id))->get();
+        if(!empty($data)){
+            foreach($data as $row){
+                $row->order_id = $row->orderDetails->unique_id;
+                $row->customer_name = $row->customerDetails->firstname;
+                $row->product_name = $row->productDetails->name;
+            }
+        }
+        if(auth()->user()->is_admin==3)
+        {
+            return view('manager/order/show',compact('data'));
+        }
+        else if(auth()->user()->is_admin==4){
+            return view('chef/order/show',compact('data'));
+
+        }
+    
+    }
+
+    public function order_process_change(Request $request){
+        $user = auth()->user();
+        if(!is_null($user) && $user->is_admin!=0){
+           $order =  Orders::find($request->id);
+          // $order =  Orders::find($request->id);
+           if(!is_null($order)){
+               $query  = Orders::where("id",$request->id);
+               if(!empty($request->order_in_process))
+               {
+                $update= $query->update(array('order_in_process'=>$request->order_in_process));
+               }
+               if($update){
+                   return response()->json(['status'=>true,"message"=>"Status Change Successfully"]);
+               }
+               else{
+                   return response()->json(['status'=>false,"message"=>"Status Change Failed"]);
+               }
+           }
+           else{
+               return redirect('login');
+           }
 
         }
     }

@@ -18,7 +18,7 @@
 							<ol class="breadcrumb mb-0 p-0">
 								<li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
 								</li>
-								<li class="breadcrumb-item active" aria-current="page">Inventory Details</li>
+								<li class="breadcrumb-item active" aria-current="page">Services Details</li>
 							</ol>
 						</nav>
 					</div>
@@ -26,8 +26,8 @@
 				
                 <div class="card">
 							<div class="card-header custom_col">
-									<div class="col-md-3 filter_btn_div">
-										<a href="{{route('restaurent.inventory_manage.create')}}" class="btn btn-primary px-5 radius-0">Add New Inventory</a>
+									<div class="col-md-2 filter_btn_div">
+										<a href="{{route('restaurent.services.create')}}" class="btn btn-primary px-5 radius-0">Add New</a>
 									</div>
 							</div>
 						</div>
@@ -40,12 +40,10 @@
                                         <tr>
                                                 <th>No</th>
                                                 <th>Product Name</th>
-                                                <th>Qty(Number)</th>
-                                                <th>Qty(Kg/Quintal/Tone)</th>
-                                                <th>Price</th>
-                                                
-                                                <th width="100px">Action</th>
-                                            </tr>
+                                                <th>Total Stock</th>
+												<th>Sellout Stock</th>
+												<th>qty_opt</th>
+                                       		</tr>
 										</thead>
 										<tbody>
 										</tbody>
@@ -70,7 +68,7 @@
         pageLength:10,
         retrieve:true,
         ajax: {
-          url: "{{ route('restaurent/inventory_manage/data') }}",
+          url: "{{ route('warehouse_manage/data') }}",
             data: function (d) {
                 d.search = $('input[type="search"]').val(),
                 d.searchStart_date = $('.searchStart_date').val(),
@@ -83,42 +81,13 @@
 					return meta.row + meta.settings._iDisplayStart + 1;
 				}
 			},
-            {data:'product_name',name:"product_name"},
-            {data:'qty_num',name:"qty_num"},
-            {data:'qty_opt',name:'qty_opt'},
-            {data:'price',name:'price'},
-          //  {data: 'status', name: 'status'},
-            {data: 'action', name: 'action', orderable: false, searchable: false},
-        ]
+		     {data:'product_name',name:"product_name"},
+			 {data:'total_available',name:'total_available'},
+			 {data:'total_dr',name:'total_dr'},
+			 {data:'qty_opt',name:'qty_opt'},
+          
+		]
     });
 
-    $(document).on('change','.statusAction',function(){
-        var id = $(this).attr('data-id');
-        var value = $(this).val();
-        let statusMsg = "";
-        if(value == 'Active') {
-            statusMsg = 'Are you sure you want to active?';
-        } else if(value == 'Inactive') {
-            statusMsg = 'Are you sure you want to inactive?';
-        }
-        if(window.confirm(statusMsg)) {
-            var path = $(this).data('path');               
-       //     $('.loader').show();
-            $.ajax({
-                url:path,
-                method: 'post',
-                data: {'id':id,'value':value},
-                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                success: function(result){
-                toastr.success(result.type,result.message);
-                table.ajax.reload();  
-            }
-            });        
-        }else{
-            var oldValue = $(this).attr('data-value');
-            $(this).val(oldValue);
-            return false;
-        }
-    });
 });
 	</script>

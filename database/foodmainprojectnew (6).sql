@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Apr 15, 2023 at 05:56 AM
+-- Generation Time: Apr 23, 2023 at 04:27 PM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -140,6 +140,13 @@ CREATE TABLE `carts` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `carts`
+--
+
+INSERT INTO `carts` (`id`, `user_id`, `product_id`, `coupon_id`, `coupon_code`, `price`, `discount_amount`, `final_amount`, `shipping_price`, `created_at`, `updated_at`) VALUES
+(15, 69, 0, 0, NULL, '0.00', '0.00', '0.00', '0.00', '2023-04-22 06:47:41', '2023-04-22 17:39:37');
+
 -- --------------------------------------------------------
 
 --
@@ -188,7 +195,8 @@ INSERT INTO `categories` (`id`, `user_id`, `type`, `name`, `image`, `status`, `c
 (7, 2, 'veg', 'TestIng', '/upload/restaurent/menus/1677390439.jpg', 'Active', '2023-02-26 05:47:19', '2023-03-01 16:29:41'),
 (8, 2, 'veg', 'Lunchs', '/upload/restaurent/menus/1677390726.jpg', 'Inactive', '2023-02-26 05:52:06', '2023-03-01 16:29:31'),
 (9, 2, 'veg', 'Lunchss', '/upload/restaurent/menus/1677390923.jpg', 'Active', '2023-02-26 05:55:23', '2023-04-13 20:47:10'),
-(10, 2, 'veg', 'sssss33', '/upload/restaurent/menus/1681400462.jpg', 'Active', '2023-04-13 21:11:02', '2023-04-13 21:18:57');
+(10, 2, 'veg', 'sssss33', '/upload/restaurent/menus/1681400462.jpg', 'Active', '2023-04-13 21:11:02', '2023-04-13 21:18:57'),
+(11, 2, 'veg', 'Deepak Barger', '/upload/restaurent/menus/1682185008.png', 'Active', '2023-04-22 23:06:48', '2023-04-22 23:06:48');
 
 -- --------------------------------------------------------
 
@@ -239,14 +247,54 @@ CREATE TABLE `chat_rooms` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `contacts`
+--
+
+CREATE TABLE `contacts` (
+  `id` int NOT NULL,
+  `user_id` int NOT NULL,
+  `name` varchar(250) DEFAULT NULL,
+  `email` varchar(250) DEFAULT NULL,
+  `subject` varchar(250) DEFAULT NULL,
+  `message` varchar(250) DEFAULT NULL,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `contacts`
+--
+
+INSERT INTO `contacts` (`id`, `user_id`, `name`, `email`, `subject`, `message`, `created_at`, `updated_at`) VALUES
+(1, 0, NULL, NULL, NULL, NULL, '2023-04-22 16:18:55', '2023-04-22 16:18:55'),
+(2, 0, NULL, NULL, NULL, NULL, '2023-04-22 16:19:19', '2023-04-22 16:19:19'),
+(3, 0, NULL, NULL, NULL, NULL, '2023-04-22 16:23:20', '2023-04-22 16:23:20'),
+(4, 0, NULL, NULL, NULL, NULL, '2023-04-22 16:25:38', '2023-04-22 16:25:38'),
+(5, 0, NULL, 'aaaaa@gmail.com', 'sdfghjkl;', 'wehgj,.', '2023-04-22 16:26:04', '2023-04-22 16:26:04'),
+(6, 0, NULL, 'aaaaa@gmail.com', 'sdfghjkl;', 'wehgj,.', '2023-04-22 16:26:44', '2023-04-22 16:26:44'),
+(7, 0, 'Priyanka', 'Priyanka@gmail.com', 'Hello', 'HIiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii', '2023-04-22 16:27:06', '2023-04-22 16:27:06'),
+(8, 0, NULL, NULL, NULL, NULL, '2023-04-22 16:35:09', '2023-04-22 16:35:09'),
+(9, 67, NULL, NULL, NULL, NULL, '2023-04-22 17:10:10', '2023-04-22 17:10:10'),
+(10, 67, NULL, NULL, NULL, NULL, '2023-04-22 17:11:38', '2023-04-22 17:11:38'),
+(11, 67, NULL, NULL, NULL, NULL, '2023-04-22 17:36:38', '2023-04-22 17:36:38'),
+(12, 67, 'test', 'test@yopmail.com', 'adas', 'asdad', '2023-04-22 17:36:51', '2023-04-22 17:36:51'),
+(13, 67, NULL, NULL, NULL, NULL, '2023-04-22 23:11:13', '2023-04-22 23:11:13'),
+(14, 67, 'Deepak', 'deepak@gmail.com', 'tst', 'test', '2023-04-22 23:11:36', '2023-04-22 23:12:16'),
+(15, 67, NULL, NULL, NULL, NULL, '2023-04-23 10:50:56', '2023-04-23 10:50:56');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `contents`
 --
 
 CREATE TABLE `contents` (
   `id` int NOT NULL,
+  `user_id` int NOT NULL,
   `slug` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `title` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
   `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `images` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `status` enum('Active','Inactive') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'Active',
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
@@ -256,10 +304,10 @@ CREATE TABLE `contents` (
 -- Dumping data for table `contents`
 --
 
-INSERT INTO `contents` (`id`, `slug`, `title`, `description`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'about-us', 'About Us', 'eyJpdiI6ImFFVERJaGRDYzcvaWcxbUh1RWFaMUE9PSIsInZhbHVlIjoiWGJoM25BY1hxbDBkbHNNcllCVmVhL2RDeGg0U1lueWQzc1dLNU41NmFvc1J5d0NSZHppRFEvREthTm5kUkVKS0hiK05uL1kvbXJPZlpqK3hQUWZoNjFSL1g0b3o4VjB5Vkg2dUdHL0d1N0owTnBEaHlzQmRsSkVFRm81enZ3V3AvUGluc1M1bkJvVitNQVdlbTFmNWZuaDFtTVJSWlhaVVFMZ0RWcmJpOWVCOHBWUklVQVRWT1R4MmQrb29VMExnOEpqb2wyNmNBVWhMZ1ZRc0ozSVczOURUcVhDVytBRW1sRDZ2OXJFYXhWWmRkMHNDakR5bUtpL1ZJZjRUNnF0cXlJQkVhR1FqMktFdTB4Nzc2NFhmUDZzY0ZHS3BCN0VhNkxyM0lyOUxTRlhHaEcxdm13cGYvZUtGM242dHNIVnAxc0FjS1pOV3VNUUVzdnlnZCtES1dOMGpqVW9Dc1diaTlWNFVYMXArVFVubzBRZXh0akltalhFVElnQXFCOHhTUnFLZndYdzRLWDl5L0dhWHA4R1VJMmJwNDczZ3lvZHVVdTliREhtNXVVNEhEV1JEZ1BMeW5MblkxT01TK3EwVlJFSmZ0TjVxU0w1emYzakVhdUkraFFNUVlObjJhc0lIME84WENqbjFqTzBtY2QyQnE2aVBYcHNUYU1xMDVUSkpid1FSR1Z5eHd4VkI1SXBLTVZPY2R0aVJYUW5pQmkzWEJ0RDMyOFBybS83U1ZvMWJvZXlaNjVPRUNtaE9ZajVqK2NwUWovWXk2QTAza0JoalpubnB6eTBXWWdFSmkydUN5cW1rRkl3MEZGQWFvOVJrRU16OFJodVovSVhpbXRYMisrZDl4dmVzYnFseXpyMGNEMzBLM0svbHdRY0JTSkRId3dCWFVKMzI3cFNTZkhaRSsxUmpoeEJDVXRCelorT1BVUkgyOCtOYStrWWIyUlpPSlY0UktDdVZtSnA5MjE4OE1hWmdjQkFhVnZjR0kyNUFqRjh2WkNnQ2FoUkNkdDk2eTVaeDNBN0E1ZklSRHVSYVNLWVd3bnFtU2JJdUpycnQ2NUd0OWkrcjA0WFpPVnFTbW1mdk0zNUFnbUc2T1JINng5ZGU4OWxlQWNrV0dEelYzdkt0dUNTdlFzdlcxNmNQWkFSUUh3MFhYdXJpL2dVZzRSb25BNlFwVGlNWjFKV2UzOGFDbCtSZ0xJVVVNRHJMUFNxVzJ5UEp6UHAvMVRUOUVvb0NwMTlRUlZScjErbk1jbG5QN2YzaU1VbWxDRVpVbTNnWERYcWMrd1pvYk56dk9hNDJzd0xrYmoza0tyR3RkUGVYN200eGJLcUEyeUM3OHVGVTN6Q0IrdjhPc0dqL3JyV2xEd2dDZGhXMytWTGlyZzFNWUpHSy9jYmt4RU9jSlN1ckkxMUVOaHYvekFHUFlaWmR2UWxZZmlmRmRhLzRPUnh4cHVLSlE0UFp3dy92UTdFanU3ZXl5T3AyeE5BbGVPeU1TM3d6blF5WkZZWFg1dDk3YUpyMi8zaVY0UURwUlpYdGVLa1h0MWJGYTh6L0RqZVAzaDZpZGNJNHJmUElvUFczcTc0WnN2RlVVbCtSNHBiL3Q3RWZDK2tMeldJZ0U4UkFQMGJkM2dlZkJZVmVnbm5SRWxKazJHWGR1VHpJNUF4T0Q2a1BnZ0RTQmE2TTAvUVdOWHpkVUl5amo2Q3U1c3AzSG5IVUNNY1BhdG5XQ1pBWDBUc0NhQnlDU3Z2dGNUeVY4RXY2bmlxMXBDNEx6LzlvZDd6UWZMWTRDZ0tIQzB1amlqa3RiQUlJNXlibVNUc2lnb3F3ZHZzRE56Y1BxSXFYVGY1anF6WEtVdXoxYU9LVjNBeDd4Q2NjQUtabHE4SjhwR0FjbncvOFZ1a0xYRWNrSi9IRktNK0w3MVpNN2xFVnExdUJLTFRFdjJhOWdLRWxFTmtzMm1nYmlQblVybElVUmpzaTUvZWRmM1hJMTE2WTk3MHBMd2FDNzVZbExOTEtLN1pJbUltblNUbmx2VkNUZklIdytnYldlVmNQQzNOcTJSQ0pkLzFQbUptdUFSeG8wQT09IiwibWFjIjoiYTk0MmIwMjU4YTIwODg0MDRmMGU4M2Q4NDQ0M2I0ZjFlZGI1NzQyNTBjNDdjZTUwZjA5MTJmMzAyNzkzODQ3NyIsInRhZyI6IiJ9', 'Active', '2023-02-03 17:10:11', '2023-04-15 10:53:26'),
-(2, 'privacy-policy', 'Privacy Policy', 'eyJpdiI6Img5Tnp3Y1IwRVNMSFZ0Z1Z0SExpMGc9PSIsInZhbHVlIjoib0dadmoyOHkrZlFQb0JMTytXcks0SzZSWW1lRnRQU2xGNWtzcU9iVGR2MmViZ3BGK3dvUnlqMElaM0duT0ZuajRwUDBtbE94MXozdUkyaHpaTjFvMFhKTTI3SGFLaEZRaUhOSllxYzdPZzNxaEs4MVJ5WHoxbmVmTlFtOHBIOGg3eFlGcGZFc2hZRDJSZDNGMUFSQkNXNXJoNWovNnpWTE9EZWthN0VrNXNQeElxR3ZPVWNvM2hpQVdsbnFoOGtzejNxQTEweTBkY0FzS2JZRnRjNlBRYXpEOEF4ZmFnU1lJalQwY2N6bmFGcFcydlZyeXJCVjVsZHV0LzdEZ2VkQzhwTDlBVDVsMzNJM2dZU0tLODFJMnZLazVzOEJiUFgvc0RoTUxnYWMwNjJ6a0Y3RXFETStRV29DWCtXUkIxRWJ3a2h1MTg5TnE3Qmd5K3A0ZTI3a3o2RFJzZGplZXVBamFISVViYjZBUmpyQlhpK1diRkYwM3hIdHNIY0phRUdPYStmQlZTc1dzdk44Unk5TURXTDU3VUx5VnpDRGRtZHJQaEFHblB5VlJGMGI3Q3RvZ2hFSXpTam16TEdwQ2NuMWhEYlhjZkk1ZHhVcEZ4eHZCc2RTRjQ1ZUlzL1Q4Qm1ZZExKU0FrN3NYR0pQYnVyamhtOGduUFNxY21oblNCM2hPY253MzkxOFM2M1ZIcFBqR05HUzVQREJoSm5uSmlRbklISVF3WXZZOFJNRmdLaTFEYlVSRUVJU2FLVWFQcmpjSUtBbUoweEtHYjJFUS92SWxEdlZXR2M3SHdibzdUZExpaXNBWXBrL3g5MmQ1dUxXMHBNSkRWSm9rR1Z2UW13Y20zUVVEMnQrUXYreEpkU1JnUHRGUHBzTzVpekxsLzVtUXd1cnZhSjlJQytqTWtXMFQ1Z0tZd3BFeWd4d1JFdEFwNW8xOUUrZVNjbXpmSHhhd0pqaXN1bFVFWkdFbWd6WjZERnF5amt0SWRXUW8vSmdNRWRHTDlRQlE2d1lOV1V3bDJZQ0Yrem1SWkQzTTdxMW1CZzkzdUpsbTVRcm9aS3Jwa2FCTzZONWNJRW1UcWNPczJseWI0UituTVdwOVNRL05pOVNzMjl6TzJvTlNrUlMxUUMxR1FYaFFBR0JZRGdITlZjMmM1UXpCQlRVa0ZqeDQzWjhuYlBUTGptZmgyRHJXQU1VUFJaODdPL1hPdFJoNWhoK2pyQmxRaytWWUJLZ2NMTWFqdWdzYy9HeUNoL2dMU203UTlBWUdlTytSSGgvIiwibWFjIjoiNWYxMGFlYzYwMjA2MGQ4ZDA3ODBjNTVjZjAzNmFlMDhmOTA3MjNlMWNlYzY4ODFlMGExMjg1MTlhNzYyYThhMyIsInRhZyI6IiJ9', 'Active', '2023-02-03 17:10:11', '2023-02-07 14:24:59'),
-(3, 'terms-conditions', 'Terms Conditions', 'eyJpdiI6ImxFTkp5VFVwc2VLSERFYXNZbVFKNlE9PSIsInZhbHVlIjoiRVpFMDUxKzhrVlE4dWtVejNGZG9OSmU1UG8xZXdQV2dUVVp6elJOdDk3QmFNRFVyR1BIUi81Qi9IQXQyYUQraTMwUzJUZVFnV1BmY0xlU0FSaU05Zm85NThTa3ZMQWZTVTdJamdxcHJ5Ly9weUZiVnhQKzZNR2lhb0FtV3hxd2lCbDU4TzY4QW5IVndwZjQrTWhiWHhJcU5Icy9wSDZ3cmVXd0JUS2xYeG5tRThsUnA2V001ZXljdHlTODh3SU5RRERWbncyZDMrQzFJYTE1czEvQ21YdDNqYjR2Y21kbGUrQXdsRjhka0ducTJSNFZRd3JJM1JGT2NjaEVZQ3AxdmZuVDdCNFdSS0dFNUtTdkZ3cFBBNC9ha2hmZ2ZkOFc5R29Od2JlamZzYjRGbW5hbVF5NGFvRzVScXZNZjlwMk91ZStrZlgyd2k2UXRSVW40K0N3cXlvVnRlMWI2RUw5RUN5UElIRTFzcU5CcVJ1THBaUmNtWW0wdUJaNmN0Y0oxZlIvb1JSMTUyTm1KV1hWTmtkeVlLdXZqUEVzLzZteHNGNmRmTVVtWVAyUGtBVWFhcWd4MSsvYjBVTm1jQzVobGlZUE5FYk9VSUQwK2RmdnVSeUtZdFg1aTM0VDFOYXowa0NCbnZUYWl5aGpQcTl1Q21uUXJ5aWhMQjFtdHkvbVU1RVNHZk8xVmhLYWt1dWYvR0tQc0JaajhERzFkU1k3aTFyY0lZbVdIT3lCRjc0TWM4MGxaYVBVU2lReEtEcUFpWHFtUVpndy9scmxwa1lhNHZjbkNpaXBQLzhCSllKODRZdWk5TjRkU1JGZmJKbkF0TFRmL052RTRCUmc1YjF6YVRneThJUEN4SVU0bis0bXBKekQ0cUlDRExNV05lMEU3b0tSM1Z4bTFXaEFOZDFkcW5FcFNQamZFSlVudWRRbmd3cllZbTkrSFYvMFZoZUxNd1crVTB6eHk0Zm41R1BjQVByNXE2ZGdRVjZJalJkeTlKWWpoOHZOMVg5OTkvckhvQjRJOGltWHArQ3BoSFl2MnNCaDY4NVdWZTg3aWJMeFJNY0FBYnYvRmR1ak5IUjFXdk96ZHpVM0M4UWVrUWY4MTkydktIUm5EVVZTc0lMcmZaMTVTZzBZUVVxNW1lQ2hCWFNsdmFraFFKR2VNRWozdG5tS1J1eWFCUzFDOVU0dmtZVmZGQjQ5dnl3SDJPT2tRWlg3bWliOVVPV0FYMDdvaXpXLytZeitNc2pxVUdLYXowaGw5ZENoTVRiSkhML1luTW1pMmcvait2WG42OG54QnZNVjJaUT09IiwibWFjIjoiODk2NWZkODVhOWQ5ZDcxMWQxNzNiNjg4NGZhY2QzMzUyNTg3MmY5ODNmNTZlYmQ2NDA5MDc3ZDJlY2EyYTgyNCIsInRhZyI6IiJ9', 'Active', '2023-02-03 17:10:11', '2023-03-02 17:20:03');
+INSERT INTO `contents` (`id`, `user_id`, `slug`, `title`, `description`, `images`, `status`, `created_at`, `updated_at`) VALUES
+(1, 2, 'about-us', 'About Us', 'eyJpdiI6Im5PR3VGVUplRVhjWExNbjFpV3N1Umc9PSIsInZhbHVlIjoiWFJudFlOME1QT2RpK0tCVmIxLy82ZzNtbUdDcW1VQ3NFNTdVVUtmcS9yOTQ1akQ3YVlKRFJ4dmppRTRORVVEM2JUN214dmxvV3RNNlRKNnIrd2x6eHNIYlpuOEplN0UrdnlzVWNCTS82SFBqVFJvM0I2TzBEcitKdzFRQzhwVTRUVmlUSGhvQ3ZWR1JzeXBSM2E3eHlWb1Rpb1pZaENmNWJXVHp3Qmd1UVBSajcwdlY3cjRmWnphNVcrTFlqSHVxLzdNU2ZBWU9HdUNPNEhhMktadzlKZlZPeEVDZWtQOHd1Ti8reEZYWkNTeDk0M3UraW1ObmgzSGZBOXJMTFU2bVd1eG1sQTV1RDEyNVFMRTViWkJHRTdPS1B5ZWdtVlVWSVQrM2s2WWVRS1hKYVNwOS8xZGhBd2RNTTQvRnU5TlM2NEtjZGFhUk5wT0NWdmc5b3NyV2VEWWZFOE1PbWRyZjF4RkxDaG1LcmU0b1pnMXNraGJFUm1kYTJjY2hYeWtlVUNpeHZTNllpWEx3NnZOQkNEVkNJbngzdmNMc1VPVWJ3QnBKSjkrRTUrVE42V2Rva0hvSWNvaFIxSjZoRnpTTDZSQmpBUm83dFVyaEtjc2o1KzBmbGZPd3I4S3RicUhHU0thYzZ0dEZSM0lwNi81Y3pldDh3dmdBWDV5OHNFMnVrSXRSNmxOWmIzVHpWQmpZcVptdmR1ZkR1YzMxRVV1MDdLMzJ5elA0Wk53WHA1c1hlUU00a2dFVGhLcDd2LzBNdGNTZkRhb1hwQXlNbEFWNlEvMnFTUWJYbUNyOXZWbU9nKzA5dmZCN1RwQnhOZzFWakVFT1VxazcveWNpTjdUVllqZ0RKUk1sNHYxOERzajBlVTFCQXp0OEUvQ2FkbUFmUUFhZ1JEcHpidStMSU9MNHlyRTQrZkdiNHVQK3UvWE1lYUd6LzI2enVLQVZ3ME50cSs2eHI0NytvdDh2MXY0c3pLSmEyUUZiWjNPVEs3UFJpWVc3N1VBeng5ZUtneGE3WHgrREc0djBZcDlmdFUzby9KUWlZQjl5S05BbDQ0b3duUzBFN3NXSlpzaDhuYkgvd2hCa2libVN5bVIxZ2xLRkk1eVFyL29hMDVXVXJXZVJZcytFdzg3NDlKWmFZNm1OMnNRVldIcVhUczEzalpWQW9wY0o0OWoycmNtcDdUMkFsaVpFQkVtOU9PZ2hRbW54OFgwenFJOGNOTnE1Tmxxa2xnaVVnNDN1SXk3ZTMrN1FDbHp3NFNIOXRsSy9Rd3BjUitTdEczMjNZbXlyQlAyWm80YXg1OUpEMkVaWjJKRGg4L1BCNko1ZmZIY0h1RFIxNDJtRnI2NzAvRzcvcCtDR29wMEo5Q1JHUHAvdnJBUXlLWWUzWE9DWmFFVTJVbmZqa24rbnJGbjRGeTErN0JFMGJvZ1FacHdtUVpDTTB0OWF6T1hDRE80KzBLQmkxTGZSZmg1bnZLNE45cFZLVWw1TXJ4V0x2ZmNhb2tsMlJ6Z1pqOGM2b3NZV1VFRGZGeGVreGR3bzUyQlB1V3VVS3ZaNDR5dHRhV0t2RjlXeFJJYXlVOGtvMGZya0QrV0RPbjg5WEhlNThoaG5RVlhZcFBlQkd6aHlWUjV3QnFySGRnZlJCSGxUWThmTy9iNGZyQnZNZENscXowK0E4M1F0U3c4SmNlaERVUVhLMFo3aGxaTGpkcnNKUWpMOWhHM1dZQTVPS2NuSTk3cGV2V0NNUFNhWlMrUU5vdWJzUkI0OVZ6UUlQNjMyakN2T2xvc1lXQ01hV0tSQjJGTHVwRlM1MXRhMm0wbjdCTTRSTjB3ZHV1bjZybFNMV0NkWno4dmxib3JURzFYeHdEazgyOWc5bGw5bUlBejJRYzJCV0dESGZTdjU0TlBxL1BaaUVETWhhQUpWNmc2L3B3SFJLOFc5d1lOa0pXTUdXOFRZVEtFSitSTklld1hmK0YwOXc0L3VjNGROYXpOcEVnZi9meldwL0swUThhRWpTejhOZWloZC9TRUhJak10VytQUXFsaHBUd3N4U3RyZk5FNW9zYnVFNm42RVJxdUlVdz09IiwibWFjIjoiOTllMTFiODA4ZTFkMDk4YzRjMjY0ZmM3MTIyODJhOTc2MDc1ZjA0ZTI4MTU0YTIxMTBiNDYwZWRlZDMwMTc2MyIsInRhZyI6IiJ9', '', 'Active', '2023-02-03 17:10:11', '2023-04-15 17:04:37'),
+(2, 2, 'privacy-policy', 'Privacy Policy', 'eyJpdiI6Img5Tnp3Y1IwRVNMSFZ0Z1Z0SExpMGc9PSIsInZhbHVlIjoib0dadmoyOHkrZlFQb0JMTytXcks0SzZSWW1lRnRQU2xGNWtzcU9iVGR2MmViZ3BGK3dvUnlqMElaM0duT0ZuajRwUDBtbE94MXozdUkyaHpaTjFvMFhKTTI3SGFLaEZRaUhOSllxYzdPZzNxaEs4MVJ5WHoxbmVmTlFtOHBIOGg3eFlGcGZFc2hZRDJSZDNGMUFSQkNXNXJoNWovNnpWTE9EZWthN0VrNXNQeElxR3ZPVWNvM2hpQVdsbnFoOGtzejNxQTEweTBkY0FzS2JZRnRjNlBRYXpEOEF4ZmFnU1lJalQwY2N6bmFGcFcydlZyeXJCVjVsZHV0LzdEZ2VkQzhwTDlBVDVsMzNJM2dZU0tLODFJMnZLazVzOEJiUFgvc0RoTUxnYWMwNjJ6a0Y3RXFETStRV29DWCtXUkIxRWJ3a2h1MTg5TnE3Qmd5K3A0ZTI3a3o2RFJzZGplZXVBamFISVViYjZBUmpyQlhpK1diRkYwM3hIdHNIY0phRUdPYStmQlZTc1dzdk44Unk5TURXTDU3VUx5VnpDRGRtZHJQaEFHblB5VlJGMGI3Q3RvZ2hFSXpTam16TEdwQ2NuMWhEYlhjZkk1ZHhVcEZ4eHZCc2RTRjQ1ZUlzL1Q4Qm1ZZExKU0FrN3NYR0pQYnVyamhtOGduUFNxY21oblNCM2hPY253MzkxOFM2M1ZIcFBqR05HUzVQREJoSm5uSmlRbklISVF3WXZZOFJNRmdLaTFEYlVSRUVJU2FLVWFQcmpjSUtBbUoweEtHYjJFUS92SWxEdlZXR2M3SHdibzdUZExpaXNBWXBrL3g5MmQ1dUxXMHBNSkRWSm9rR1Z2UW13Y20zUVVEMnQrUXYreEpkU1JnUHRGUHBzTzVpekxsLzVtUXd1cnZhSjlJQytqTWtXMFQ1Z0tZd3BFeWd4d1JFdEFwNW8xOUUrZVNjbXpmSHhhd0pqaXN1bFVFWkdFbWd6WjZERnF5amt0SWRXUW8vSmdNRWRHTDlRQlE2d1lOV1V3bDJZQ0Yrem1SWkQzTTdxMW1CZzkzdUpsbTVRcm9aS3Jwa2FCTzZONWNJRW1UcWNPczJseWI0UituTVdwOVNRL05pOVNzMjl6TzJvTlNrUlMxUUMxR1FYaFFBR0JZRGdITlZjMmM1UXpCQlRVa0ZqeDQzWjhuYlBUTGptZmgyRHJXQU1VUFJaODdPL1hPdFJoNWhoK2pyQmxRaytWWUJLZ2NMTWFqdWdzYy9HeUNoL2dMU203UTlBWUdlTytSSGgvIiwibWFjIjoiNWYxMGFlYzYwMjA2MGQ4ZDA3ODBjNTVjZjAzNmFlMDhmOTA3MjNlMWNlYzY4ODFlMGExMjg1MTlhNzYyYThhMyIsInRhZyI6IiJ9', '', 'Active', '2023-02-03 17:10:11', '2023-02-07 14:24:59'),
+(3, 2, 'terms-conditions', 'Terms Conditions', 'eyJpdiI6ImxFTkp5VFVwc2VLSERFYXNZbVFKNlE9PSIsInZhbHVlIjoiRVpFMDUxKzhrVlE4dWtVejNGZG9OSmU1UG8xZXdQV2dUVVp6elJOdDk3QmFNRFVyR1BIUi81Qi9IQXQyYUQraTMwUzJUZVFnV1BmY0xlU0FSaU05Zm85NThTa3ZMQWZTVTdJamdxcHJ5Ly9weUZiVnhQKzZNR2lhb0FtV3hxd2lCbDU4TzY4QW5IVndwZjQrTWhiWHhJcU5Icy9wSDZ3cmVXd0JUS2xYeG5tRThsUnA2V001ZXljdHlTODh3SU5RRERWbncyZDMrQzFJYTE1czEvQ21YdDNqYjR2Y21kbGUrQXdsRjhka0ducTJSNFZRd3JJM1JGT2NjaEVZQ3AxdmZuVDdCNFdSS0dFNUtTdkZ3cFBBNC9ha2hmZ2ZkOFc5R29Od2JlamZzYjRGbW5hbVF5NGFvRzVScXZNZjlwMk91ZStrZlgyd2k2UXRSVW40K0N3cXlvVnRlMWI2RUw5RUN5UElIRTFzcU5CcVJ1THBaUmNtWW0wdUJaNmN0Y0oxZlIvb1JSMTUyTm1KV1hWTmtkeVlLdXZqUEVzLzZteHNGNmRmTVVtWVAyUGtBVWFhcWd4MSsvYjBVTm1jQzVobGlZUE5FYk9VSUQwK2RmdnVSeUtZdFg1aTM0VDFOYXowa0NCbnZUYWl5aGpQcTl1Q21uUXJ5aWhMQjFtdHkvbVU1RVNHZk8xVmhLYWt1dWYvR0tQc0JaajhERzFkU1k3aTFyY0lZbVdIT3lCRjc0TWM4MGxaYVBVU2lReEtEcUFpWHFtUVpndy9scmxwa1lhNHZjbkNpaXBQLzhCSllKODRZdWk5TjRkU1JGZmJKbkF0TFRmL052RTRCUmc1YjF6YVRneThJUEN4SVU0bis0bXBKekQ0cUlDRExNV05lMEU3b0tSM1Z4bTFXaEFOZDFkcW5FcFNQamZFSlVudWRRbmd3cllZbTkrSFYvMFZoZUxNd1crVTB6eHk0Zm41R1BjQVByNXE2ZGdRVjZJalJkeTlKWWpoOHZOMVg5OTkvckhvQjRJOGltWHArQ3BoSFl2MnNCaDY4NVdWZTg3aWJMeFJNY0FBYnYvRmR1ak5IUjFXdk96ZHpVM0M4UWVrUWY4MTkydktIUm5EVVZTc0lMcmZaMTVTZzBZUVVxNW1lQ2hCWFNsdmFraFFKR2VNRWozdG5tS1J1eWFCUzFDOVU0dmtZVmZGQjQ5dnl3SDJPT2tRWlg3bWliOVVPV0FYMDdvaXpXLytZeitNc2pxVUdLYXowaGw5ZENoTVRiSkhML1luTW1pMmcvait2WG42OG54QnZNVjJaUT09IiwibWFjIjoiODk2NWZkODVhOWQ5ZDcxMWQxNzNiNjg4NGZhY2QzMzUyNTg3MmY5ODNmNTZlYmQ2NDA5MDc3ZDJlY2EyYTgyNCIsInRhZyI6IiJ9', '', 'Active', '2023-02-03 17:10:11', '2023-03-02 17:20:03');
 
 -- --------------------------------------------------------
 
@@ -276,6 +324,91 @@ CREATE TABLE `failed_jobs` (
   `exception` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `failed_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `inventories`
+--
+
+CREATE TABLE `inventories` (
+  `id` int NOT NULL,
+  `user_id` int NOT NULL,
+  `product_id` int NOT NULL DEFAULT '1',
+  `qty_num` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `qty_opt` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `price` varchar(250) NOT NULL,
+  `total_cr` decimal(50,2) NOT NULL DEFAULT '0.00',
+  `total_dr` decimal(50,2) NOT NULL DEFAULT '0.00',
+  `total_available` decimal(50,2) NOT NULL DEFAULT '0.00',
+  `status` varchar(100) NOT NULL DEFAULT 'Active',
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `inventories`
+--
+
+INSERT INTO `inventories` (`id`, `user_id`, `product_id`, `qty_num`, `qty_opt`, `price`, `total_cr`, `total_dr`, `total_available`, `status`, `created_at`, `updated_at`) VALUES
+(1, 2, 1, '1', 'kg', '100', '7.00', '0.00', '7.00', 'Active', '2023-04-23 15:01:21', '2023-04-23 17:23:41'),
+(2, 2, 1, '1', 'Quintal', '100', '14.00', '0.00', '14.00', 'Active', '2023-04-23 15:11:20', '2023-04-23 17:23:11');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `inventories_requests`
+--
+
+CREATE TABLE `inventories_requests` (
+  `id` int NOT NULL,
+  `user_id` int NOT NULL,
+  `product_id` int NOT NULL DEFAULT '1',
+  `qty` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `status` enum('Pending','Accept','Delivered','') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'Pending',
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `inventories_requests`
+--
+
+INSERT INTO `inventories_requests` (`id`, `user_id`, `product_id`, `qty`, `status`, `created_at`, `updated_at`) VALUES
+(1, 67, 1, '1', 'Pending', '2023-04-23 21:55:36', '2023-04-23 21:55:36'),
+(2, 67, 1, '1', 'Pending', '2023-04-23 21:56:13', '2023-04-23 21:56:13');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `inventory_trackings`
+--
+
+CREATE TABLE `inventory_trackings` (
+  `id` int NOT NULL,
+  `user_id` int NOT NULL,
+  `product_id` int NOT NULL DEFAULT '1',
+  `inventory_id` int NOT NULL,
+  `cr_qty` decimal(50,2) NOT NULL,
+  `dr_qty` decimal(50,2) NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `inventory_trackings`
+--
+
+INSERT INTO `inventory_trackings` (`id`, `user_id`, `product_id`, `inventory_id`, `cr_qty`, `dr_qty`, `created_at`, `updated_at`) VALUES
+(1, 2, 1, 1, '5.00', '0.00', '2023-04-23 15:01:22', '2023-04-23 15:01:22'),
+(2, 2, 1, 1, '1.00', '0.00', '2023-04-23 15:09:22', '2023-04-23 15:09:22'),
+(3, 2, 1, 2, '5.00', '0.00', '2023-04-23 15:11:20', '2023-04-23 15:11:20'),
+(4, 2, 1, 2, '5.00', '0.00', '2023-04-23 17:11:50', '2023-04-23 17:11:50'),
+(5, 2, 1, 2, '1.00', '0.00', '2023-04-23 17:13:21', '2023-04-23 17:13:21'),
+(6, 2, 1, 2, '1.00', '0.00', '2023-04-23 17:14:33', '2023-04-23 17:14:33'),
+(7, 2, 1, 2, '1.00', '0.00', '2023-04-23 17:15:35', '2023-04-23 17:15:35'),
+(8, 2, 1, 2, '1.00', '0.00', '2023-04-23 17:23:11', '2023-04-23 17:23:11'),
+(9, 2, 1, 1, '1.00', '0.00', '2023-04-23 17:23:41', '2023-04-23 17:23:41');
 
 -- --------------------------------------------------------
 
@@ -348,6 +481,14 @@ CREATE TABLE `orders` (
   `prepared_time` text COLLATE utf8mb4_unicode_ci
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `orders`
+--
+
+INSERT INTO `orders` (`id`, `table_id`, `user_id`, `branch_id`, `coupon_id`, `coupon_code`, `price`, `discount_amount`, `final_amount`, `shipping_price`, `order_in_process`, `created_at`, `updated_at`, `transation_id`, `assign_chef_id`, `unique_id`, `prepared_time`) VALUES
+(12, 'TBL-002672671', 70, 2, 0, NULL, '50.00', '5.00', '45.00', '0.00', 4, '2023-04-20 16:50:36', '2023-04-22 13:19:55', '10', 68, 'ODR-000012', NULL),
+(14, 'TBL-002672671', 70, 2, 0, NULL, '120.00', '12.00', '108.00', '0.00', 3, '2023-04-22 12:42:58', '2023-04-22 15:11:39', '12', 71, 'ODR-000014', '22:43');
+
 -- --------------------------------------------------------
 
 --
@@ -364,6 +505,14 @@ CREATE TABLE `orders_items` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `orders_items`
+--
+
+INSERT INTO `orders_items` (`id`, `order_id`, `user_id`, `product_id`, `qty`, `product_price`, `created_at`, `updated_at`) VALUES
+(16, 12, 70, 5, 1, '50.00', '2023-04-20 16:50:36', '2023-04-20 16:50:36'),
+(18, 14, 70, 3, 1, '120.00', '2023-04-22 12:42:58', '2023-04-22 12:42:58');
 
 -- --------------------------------------------------------
 
@@ -418,6 +567,35 @@ CREATE TABLE `personal_access_tokens` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `products`
+--
+
+CREATE TABLE `products` (
+  `id` int NOT NULL,
+  `user_id` int NOT NULL,
+  `product_name` varchar(250) NOT NULL,
+  `status` varchar(100) NOT NULL DEFAULT 'Active',
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `products`
+--
+
+INSERT INTO `products` (`id`, `user_id`, `product_name`, `status`, `created_at`, `updated_at`) VALUES
+(1, 2, 'priyanka', 'Active', '2023-04-19 14:07:37', '2023-04-19 14:31:56'),
+(2, 2, 'priyanka', 'Inactive', '2023-04-19 14:08:21', '2023-04-19 14:31:10'),
+(3, 2, 'dfghj', 'Active', '2023-04-19 14:13:01', '2023-04-19 14:32:03'),
+(4, 2, 'dfghjkdfsdsA', 'Active', '2023-04-19 14:22:56', '2023-04-19 14:32:09'),
+(5, 2, 'test11111111', 'Inactive', '2023-04-19 14:28:24', '2023-04-19 14:28:51'),
+(6, 2, 'vjhyuvgvg', 'Active', '2023-04-19 14:31:34', '2023-04-19 14:31:34'),
+(7, 2, 'das', 'Active', '2023-04-19 16:22:28', '2023-04-19 16:22:28'),
+(8, 2, 'sdadasdsa', 'Active', '2023-04-19 22:02:44', '2023-04-22 23:15:40');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `services`
 --
 
@@ -439,9 +617,9 @@ CREATE TABLE `services` (
 
 INSERT INTO `services` (`id`, `user_id`, `unique_id`, `title`, `description`, `status`, `created_at`, `updated_at`, `icon`) VALUES
 (1, 2, 'BNR-00021', 'Services', 'sasd', 'Inactive', '2023-04-01 03:19:23', '2023-04-09 15:56:19', '/upload/restaurent/service/168033896316.jpg'),
-(2, 2, 'BNR-00022', 'services2', 'asa', 'Inactive', '2023-04-01 03:19:49', '2023-04-09 15:55:33', '/upload/restaurent/service/168033898946.png'),
+(2, 2, 'BNR-00022', 'services2', 'asa', 'Active', '2023-04-01 03:19:49', '2023-04-22 17:33:31', '/upload/restaurent/service/168033898946.png'),
 (3, 2, 'BNR-00023', 'test', 'sdsd', 'Active', '2023-04-09 16:13:54', '2023-04-09 16:13:54', '/upload/restaurent/service/16810568344.jpg'),
-(4, 2, 'BNR-00024', 'ss', 's', 'Inactive', '2023-04-09 16:19:30', '2023-04-09 16:20:31', '/upload/restaurent/service/1681057192.png');
+(4, 2, 'BNR-00024', 'ss', 's', 'Active', '2023-04-09 16:19:30', '2023-04-22 17:33:25', '/upload/restaurent/service/1681057192.png');
 
 -- --------------------------------------------------------
 
@@ -494,6 +672,17 @@ CREATE TABLE `tables` (
   `updated_at` datetime DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `tables`
+--
+
+INSERT INTO `tables` (`id`, `unique_id`, `restaurent_id`, `user_id`, `qrcode`, `status`, `created_at`, `updated_at`) VALUES
+(13, 'TBL-002672671', 2, 67, 'qrimages/RES-0002/MAN-000267/table/TBL-002672671.svg', 'Active', '2023-04-15 14:31:43', '2023-04-15 14:31:43'),
+(14, 'TBL-002671326714', 2, 67, 'qrimages/RES-0002/MAN-000267/table/TBL-002671326714.svg', 'Active', '2023-04-15 14:31:59', '2023-04-15 14:31:59'),
+(15, 'TBL-002671326715', 2, 67, 'qrimages/RES-0002/MAN-000267/table/TBL-002671326715.svg', 'Active', '2023-04-15 14:31:59', '2023-04-15 14:31:59'),
+(16, 'TBL-002671526716', 2, 67, 'qrimages/RES-0002/MAN-000267/table/TBL-002671526716.svg', 'Active', '2023-04-22 23:20:53', '2023-04-22 23:20:53'),
+(17, 'TBL-002671526717', 2, 67, 'qrimages/RES-0002/MAN-000267/table/TBL-002671526717.svg', 'Active', '2023-04-22 23:20:53', '2023-04-22 23:20:53');
+
 -- --------------------------------------------------------
 
 --
@@ -511,6 +700,14 @@ CREATE TABLE `transations` (
   `unique_id` text COLLATE utf8mb4_unicode_ci
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `transations`
+--
+
+INSERT INTO `transations` (`id`, `order_id`, `from_id`, `to_id`, `status`, `created_at`, `updated_at`, `unique_id`) VALUES
+(10, 12, 70, 2, 'Successfully', '2023-04-20 16:50:36', '2023-04-20 16:50:36', 'TRN-000010'),
+(12, 14, 70, 2, 'Successfully', '2023-04-22 12:42:58', '2023-04-22 12:42:58', 'TRN-000012');
+
 -- --------------------------------------------------------
 
 --
@@ -523,7 +720,7 @@ CREATE TABLE `users` (
   `branch_id` int DEFAULT '0',
   `unique_id` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `user_id` int DEFAULT '0',
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Restaurent Name\r\n',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Restaurent Name\r\n',
   `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
   `is_admin` tinyint(1) DEFAULT NULL COMMENT '1 for super admin\r\n2 for restaurent\r\n3 for manager\r\n4 for cife',
@@ -557,7 +754,12 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `slug`, `branch_id`, `unique_id`, `user_id`, `name`, `email`, `email_verified_at`, `is_admin`, `firstname`, `lastname`, `image`, `password`, `upassword`, `bill_gst`, `remember_token`, `FSSAI`, `pen_card`, `aadhar_card`, `GST`, `other_mobile_number`, `mobile_number`, `created_at`, `updated_at`, `status`, `local_address`, `permanent_address`, `no_of_table`, `fetch_token`, `fcm_token`) VALUES
 (1, NULL, 0, NULL, 0, 'Super Admin', 'superadmin@yopmail.com', NULL, 1, '', '', NULL, '$2y$10$JX5AmBl5eyhsnQZ3qXGaoO5BM/duSoqwAEN8W4USmoW6NDjp0OKYW', '', 0, NULL, NULL, NULL, NULL, NULL, NULL, '', '2023-02-21 12:06:27', '2023-04-08 10:26:55', 'Active', '', '', 0, NULL, NULL),
 (2, NULL, 0, 'RES-0002', 0, 'Restaurent', 'admin@yopmail.com', NULL, 2, 'dd', 'ss', NULL, '$2y$10$JX5AmBl5eyhsnQZ3qXGaoO5BM/duSoqwAEN8W4USmoW6NDjp0OKYW', '', 1, NULL, '/upload/restaurent/FSSAI/1680801486.png', 'BNZAA2318J', '232323232323', '12', '8229842442', '8829842472', '2023-02-21 12:06:27', '2023-04-07 15:15:00', 'Active', 'sss', 'a', 0, NULL, NULL),
-(67, NULL, 2, 'MAN-000267', 2, 'Restaurent', 'manager2@yopmail.com', NULL, 3, 'shyam', 'sharma', '/upload/restaurent/manager/168131585838.jpg', '$2y$10$lXedRbp6DrkbrdkVN7hW.uuLNI8hsiCNMOImVA74XAyGlBZOOp/QG', 'Admin@12345', 0, NULL, NULL, 'BNZAA2318J', '232323232323', NULL, '2222222222', '4444444444', '2023-04-12 16:10:58', '2023-04-12 16:21:12', 'Active', 's', 's', 0, NULL, NULL);
+(67, NULL, 2, 'MAN-000267', 2, 'Restaurent', 'manager2@yopmail.com', NULL, 3, 'shyam', 'sharma', '/upload/restaurent/manager/168131585838.jpg', '$2y$10$JX5AmBl5eyhsnQZ3qXGaoO5BM/duSoqwAEN8W4USmoW6NDjp0OKYW', 'Admin@12345', 0, NULL, NULL, 'BNZAA2318J', '232323232323', NULL, '2222222222', '4444444444', '2023-04-12 16:10:58', '2023-04-22 17:50:53', 'Active', 's', 's', 5, NULL, NULL),
+(68, NULL, 2, 'CHEFS-0006768', 67, 'Restaurent', 'chef@yopmail.com', NULL, 4, 'Kishan', 'Sharma', '', '$2y$10$.2VWfooMo9ao/RxFNqhMteu29jMurCHRQqtVAJNxJIMSd7Imbxsd.', 'Admin@12345', 0, NULL, NULL, 'BNZAA2318J', '123456789034', NULL, '33333333333', '2222222222', '2023-04-17 16:51:19', '2023-04-17 16:51:19', 'Active', 'sd', 'dd', 0, NULL, NULL),
+(69, NULL, 2, 'CUS-00069', 2, 'Cust', 'customer@yopmail.com', NULL, 5, 'vishal', 'Sharma', '', '$2y$10$.2VWfooMo9ao/RxFNqhMteu29jMurCHRQqtVAJNxJIMSd7Imbxsd.', 'Admin@12345', 0, NULL, NULL, 'BNZAA2318J', '123456789034', NULL, '33333333334', '2222222224', '2023-04-17 16:51:19', '2023-04-17 16:51:19', 'Active', 'sd', 'dd', 0, NULL, NULL),
+(70, NULL, 2, 'CUS-00070', 2, 'customer1Sharma', 'customer1@yopmail.com', NULL, 5, 'customer1', 'Sharma', NULL, '$2y$10$fWUcWKlEUFxe9MyufgEFlOTvH4XYle1GwsRG9KntL1Zr0ESwmKP7a', 'Admin@12345', 0, NULL, NULL, NULL, NULL, NULL, NULL, '1212121212', '2023-04-20 15:37:56', '2023-04-20 15:37:56', 'Active', NULL, NULL, 0, NULL, NULL),
+(71, NULL, 2, 'CHEFS-0006771', 67, 'Restaurent', 'vishal@yopmail.com', NULL, 4, 'vishal', 'sharma', '', '$2y$10$ymwvHHBw4rOjk0ZU9aFCW.ztGniNKnI6raqdZ/cB3OsZDgSGSKeda', 'Admin@12345', 0, NULL, NULL, 'BNZAA2318J', '232323232323', NULL, '2222222222', '3333333333', '2023-04-21 16:33:46', '2023-04-21 16:33:46', 'Active', 'ss', 'ss', 0, NULL, NULL),
+(73, NULL, 0, 'WHE-00073', 2, NULL, 'rahul@yopmail.com', NULL, 6, 'rahul', 'sharma', '/upload/restaurent/warehouse/1682239198.jpg', '$2y$10$osVVBZwgnRYsvX.YVqOtR.VfRgvBDHbVxpybtUfnELZohKeVKaLcG', 'Admin@12345', 0, NULL, NULL, 'BNZAA2318J', '3434343434', NULL, '3333333333', '2222222222', '2023-04-23 08:39:58', '2023-04-23 08:40:05', 'Active', 'ss', 'ss', 0, NULL, NULL);
 
 --
 -- Indexes for dumped tables
@@ -638,6 +840,12 @@ ALTER TABLE `chat_rooms`
   ADD KEY `chat_rooms_user_id_foreign` (`user_id`);
 
 --
+-- Indexes for table `contacts`
+--
+ALTER TABLE `contacts`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `contents`
 --
 ALTER TABLE `contents`
@@ -649,6 +857,24 @@ ALTER TABLE `contents`
 ALTER TABLE `failed_jobs`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`);
+
+--
+-- Indexes for table `inventories`
+--
+ALTER TABLE `inventories`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `inventories_requests`
+--
+ALTER TABLE `inventories_requests`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `inventory_trackings`
+--
+ALTER TABLE `inventory_trackings`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `migrations`
@@ -690,6 +916,12 @@ ALTER TABLE `personal_access_tokens`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `personal_access_tokens_token_unique` (`token`),
   ADD KEY `personal_access_tokens_tokenable_type_tokenable_id_index` (`tokenable_type`,`tokenable_id`);
+
+--
+-- Indexes for table `products`
+--
+ALTER TABLE `products`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `services`
@@ -759,19 +991,19 @@ ALTER TABLE `branch_opening_closeing_time`
 -- AUTO_INCREMENT for table `carts`
 --
 ALTER TABLE `carts`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `cart_items`
 --
 ALTER TABLE `cart_items`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `chat_groups`
@@ -792,6 +1024,12 @@ ALTER TABLE `chat_rooms`
   MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `contacts`
+--
+ALTER TABLE `contacts`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+
+--
 -- AUTO_INCREMENT for table `contents`
 --
 ALTER TABLE `contents`
@@ -804,6 +1042,24 @@ ALTER TABLE `failed_jobs`
   MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `inventories`
+--
+ALTER TABLE `inventories`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `inventories_requests`
+--
+ALTER TABLE `inventories_requests`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `inventory_trackings`
+--
+ALTER TABLE `inventory_trackings`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
@@ -813,19 +1069,25 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `orders_items`
 --
 ALTER TABLE `orders_items`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
 --
 ALTER TABLE `personal_access_tokens`
   MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `products`
+--
+ALTER TABLE `products`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `services`
@@ -843,19 +1105,19 @@ ALTER TABLE `sub_categories`
 -- AUTO_INCREMENT for table `tables`
 --
 ALTER TABLE `tables`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `transations`
 --
 ALTER TABLE `transations`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
 
 --
 -- Constraints for dumped tables

@@ -240,7 +240,11 @@ Route::group(['middleware' => ['is_restaurent']], function(){
  Route::any('restaurent/inventory_manage/update', [App\Http\Controllers\InventoryManageController::class, 'update'])->name('restaurent.inventory_manage.update');
  Route::any('restaurent/inventory_manage/status_change', [App\Http\Controllers\InventoryManageController::class, 'status_change'])->name('restaurent.inventory_manage.status_change');
  
-   Route::get('restaurent/logout', [LoginController::class, 'logout']);
+ //warehouse_manage
+ Route::any('restaurent/warehouse_manage', [App\Http\Controllers\WarehouseController::class, 'create'])->name('restaurent.warehouse_manage');
+ Route::any('restaurent/warehouse_manage/store', [App\Http\Controllers\WarehouseController::class, 'store'])->name('restaurent.warehouse.store');
+ Route::any('restaurent/warehouse_manage/update', [App\Http\Controllers\WarehouseController::class, 'update'])->name('restaurent.warehouse.update');
+Route::get('restaurent/logout', [LoginController::class, 'logout']);
 
 });
   //IsManager
@@ -278,6 +282,13 @@ Route::group(['middleware' => ['is_restaurent']], function(){
    Route::any('manager/order', [App\Http\Controllers\OrderController::class, 'index'])->name('manager.order');
    Route::any('manager/order_status_change', [App\Http\Controllers\OrderController::class, 'order_status'])->name('manager/order_status_change');
    Route::any('manager/order/edit/{id}', [App\Http\Controllers\OrderController::class, 'edit'])->name('manager.order.edit');
+   Route::any('manager/order/show/{id}', [App\Http\Controllers\OrderController::class, 'show'])->name('manager.order.show');
+   
+   
+   Route::any('manager/inventory_request', [App\Http\Controllers\WarehouseController::class, 'manager_request'])->name('manager.inventory_request');
+   Route::any('manager/request_store', [App\Http\Controllers\WarehouseController::class, 'request_store'])->name('manager.request_store');
+
+   
    Route::get('manager/logout', [LoginController::class, 'logout']);
 });
 
@@ -293,14 +304,15 @@ Route::group(['middleware' => ['is_restaurent']], function(){
    Route::any('chef/order/deliverndata', [App\Http\Controllers\OrderController::class, 'deliverndata'])->name('chef/order/deliverndata');
    
    Route::any('chef/order_status_change', [App\Http\Controllers\OrderController::class, 'order_status'])->name('chef/order_status_change');
+   Route::any('chef/order_process_change', [App\Http\Controllers\OrderController::class, 'order_process_change'])->name('chef/order_process_change');
    Route::any('chef/order/edit/{id}', [App\Http\Controllers\OrderController::class, 'edit'])->name('chef.order.edit');
+   Route::any('chef/order/show/{id}', [App\Http\Controllers\OrderController::class, 'show'])->name('chef.order.show');
+
    Route::get('chef/logout', [LoginController::class, 'logout']);
 });
-
-
-
-
-
-
-
-
+//Iswerehousef
+Route::group(['middleware' => ['IsWarehouse']], function(){
+   Route::any('warehouse_manage/dashboard', [App\Http\Controllers\WarehouseController::class, 'dashboard'])->name('warehouse.dashboard');
+   Route::any('warehouse_manage/data', [App\Http\Controllers\WarehouseController::class, 'data'])->name('warehouse_manage/data');
+   Route::get('warehouse_manage/logout', [LoginController::class, 'logout']);
+});

@@ -17,35 +17,7 @@
         </div>
         <!--end breadcrumb-->
    
-                <div class="card ">
-                    <div class="card-header">
-                        
-                        <form  class="row" action="" method="POST">
-                        @csrf
-                        <div class="col-md-3 col-lg-3">
-                            <div class="form-group">
-                                <input type="text" name="search_keyword" value="" placeholder="Search Keyword" class="form-control"/>
-                            </div>
-                        </div>
-                            <div class="col-md-3 col-lg-3">
-                                <div class="form-group">
-                                    <input type="date" name="from_date" value="" placeholder="Search Keyword" class="form-control"/>
-                                </div>
-                            </div>
-                            <div class="col-md-3 col-lg-3">
-                                <div class="form-group">    
-                                    <input type="date" name="to_date" value="" placeholder="Search Keyword" class="form-control"/>
-                                </div>
-                            </div>
-                            <div class="col-md-3 col-lg-3">
-                                <button type="submit" class="btn btn-light px-5">Filter</button>
-                                <a href="" class="btn btn-primary px-5 radius-0">Reset</a>
-                                
-        
-                            </div>
-                        </form>
-                    </div>
-                </div>
+              
         <!--Form Search Close--->
         <div class="row row-cols-12 row-cols-md-12 row-cols-lg-12 row-cols-xl-12">
               <div class="col">
@@ -86,7 +58,7 @@
                                         <div class="d-flex align-items-center">
                                             <div class="tab-icon"><i class="bx bxs-truck font-18 me-1"></i>
                                             </div>
-                                            <div class="tab-title">Shipped</div>
+                                            <div class="tab-title">Prepared</div>
                                         </div>
                                     </a>
                                 </li>
@@ -198,7 +170,7 @@
                                                         <th scope="col">Final Amount</th> 
                                                         <th scope="col">Prepared Time</th>
                                                         <th scope="col">Order Status</th>
-                                                        <th scope="col" width="100px">Assign Chef</th>
+                                                        <!-- <th scope="col" width="100px">Assign Chef</th> -->
                                                         <th scope="col" width="100px">View Details</th>
                                                     </tr>
                                                 </thead>
@@ -405,8 +377,9 @@
                 {data:'discount_amount',name:"discount_amount"},
                 {data:'final_amount',name:'final_amount'},
                 {data:'prepared_time',name:'prepared_time'},
-            
+
                 {data: 'status', name: 'status'},
+                {data:'assign_chef_name',name:"assign_chef_name"},
                 {data: 'action', name: 'action'},
             ]
         });

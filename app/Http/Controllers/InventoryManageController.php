@@ -50,7 +50,7 @@ class InventoryManageController extends Controller
    
         //   dd($request->all());
         $user = auth()->user();
-    //   dd($user);
+    //  dd($request->all());
         if(!is_null($user)){
             
 
@@ -71,8 +71,8 @@ class InventoryManageController extends Controller
             $inventoryData = new Inventory;
             if(!empty($request->all())){
             $check= User::where('id',"!=",0);
-                    
-                    $InventoryData->product_id = $request->product_id;
+               //     dd($request->product_id);
+                    $inventoryData->product_id = $request->product_id;
                     
                   //  $InventoryData->icon = $icon;
                     
@@ -81,14 +81,26 @@ class InventoryManageController extends Controller
                         $inventoryData->qty_num = $request->qty_num;
                         $inventoryData->qty_opt = $request->qty_opt;   
                         $inventoryData->price = $request->price;        
+                  //      dd($inventoryData);
                         if($inventoryData->save()){
                         $inventoryData->save();
                         $InventoryTracking = new InventoryTracking();
+                        $InventoryTracking->inventory_id =$inventoryData->id; 
                         $InventoryTracking->product_id = $request->product_id;
                         $InventoryTracking->user_id = $user->id;
                         $InventoryTracking->cr_qty = $request->qty_num;
+                        $InventoryTracking->dr_qty = 0;
                         $InventoryTracking->save();
-                        
+
+                        $total_invCr=  InventoryTracking::where(['inventory_id'=>$inventoryData->id,'user_id'=>$user->id])->sum('cr_qty');
+                        $total_invdr=  InventoryTracking::where(['inventory_id'=>$inventoryData->id,'user_id'=>$user->id])->sum('dr_qty');
+      
+                        $available = $total_invCr-$total_invdr;
+                        $inventoryData->total_cr =$total_invCr;
+                        $inventoryData->total_dr =$total_invdr;
+                        $inventoryData->total_available =$available;
+                        $inventoryData->save();
+                            
                         return redirect('restaurent/inventory_manage')->with('success','Inventory Added Successfully');
                     }
                     else
@@ -145,14 +157,28 @@ class InventoryManageController extends Controller
             if(!empty($request->all())){
                 $inventoryData =  Inventory::find($request->id);
                 $inventoryData->product_id = isset($request->product_id) ? $request->product_id :$inventoryData->product_id;
-                  
                 $inventoryData->qty_num = isset($request->qty_num) ? $request->qty_num :$inventoryData->qty_num;
                 $inventoryData->qty_opt = isset($request->qty_opt) ? $request->qty_opt :$inventoryData->qty_opt;
                 $inventoryData->price = isset($request->price) ? $request->price :$inventoryData->price;
 
-
                 if($inventoryData->save()){
-                    return redirect('restaurent/inventory_manage')->with('success','Data updated Successfully');
+                    $InventoryTracking = new InventoryTracking();
+                    $InventoryTracking->inventory_id =$inventoryData->id; 
+                    $InventoryTracking->product_id = $request->product_id;
+                    $InventoryTracking->user_id = $user->id;
+                    $InventoryTracking->cr_qty = $request->qty_num;
+                    $InventoryTracking->dr_qty = 0;
+                    $InventoryTracking->save();
+                  
+                  $total_invCr=  InventoryTracking::where(['inventory_id'=>$inventoryData->id,'user_id'=>$user->id])->sum('cr_qty');
+                  $total_invdr=  InventoryTracking::where(['inventory_id'=>$inventoryData->id,'user_id'=>$user->id])->sum('dr_qty');
+                  
+                  $available = $total_invCr-$total_invdr;
+                  $inventoryData->total_cr =$total_invCr;
+                  $inventoryData->total_dr =$total_invdr;
+                  $inventoryData->total_available =$available;
+                  $inventoryData->save();
+                  return redirect('restaurent/inventory_manage')->with('success','Data updated Successfully');
                 }
                 else{
                     return redirect('restaurent/inventory_manage')->with('error','Data updated Failed');
@@ -201,7 +227,7 @@ class InventoryManageController extends Controller
                 $id = $value->id;
 
                 $row['id'] = $i;
-                $row['product_id'] = isset($value->product_id)? $value->product_id:'-';
+                $row['product_name'] = isset($value->productDetails)? $value->productDetails->product_name:'-';
                 
                 $row['qty_num'] = isset($value->qty_num)? $value->qty_num:'-';
                 $row['qty_opt'] = isset($value->qty_opt)? $value->qty_opt:'-';

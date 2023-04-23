@@ -70,6 +70,7 @@ class Kernel extends HttpKernel
         'IsManager'=>\App\Http\Middleware\IsManager::class,
        'is_customer'=>\App\Http\Middleware\IsCustomer::class,
        'IsChef'=>\App\Http\Middleware\IsChef::class,
+       'IsWarehouse'=>\App\Http\Middleware\IsWarehouse::class,
        'prevent-back-history' => \App\Http\Middleware\PreventBackHistory::class,
 
 

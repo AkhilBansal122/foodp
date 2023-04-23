@@ -269,7 +269,6 @@ class ManagerController extends Controller
                 {
                     if(!empty($userData->image))
                     {
-
                         unlink("public/".$userData->image);
                     }
                     $imageName = time().'.'.$request->image->extension();

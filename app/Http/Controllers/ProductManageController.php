@@ -9,7 +9,6 @@ use App\Models\Product;
 use File;
 use DataTables;
 use Str;
-use Validator;
 use Helper;
 class ProductManageController extends Controller
 {

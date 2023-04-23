@@ -105,11 +105,18 @@ $url = Request::segment(2);
 				</li>	
 				@elseif(auth()->user()->is_admin==2)
 				<li class="@if($url=='dashboard')  mm-active  @endif ">
-					<a href="{{url('restaurent.dashboard')}}">
+					<a href="{{url('restaurent/dashboard')}}">
 						<div class="parent-icon"><i class="bx bx-tachometer" aria-hidden="true"></i>
 
 						</div>
 						<div class="menu-title">Dashboard</div>
+					</a>
+				</li>
+				
+				<li  class="@if($url=='branch') mm-active @endif ">
+					<a href="{{route('restaurent.branch')}}">
+						<div class="parent-icon"><i class="bx bx-user" aria-hidden="true"></i></div>
+						<div class="menu-title">Branch Manage</div>
 					</a>
 				</li>
 				<li  class="@if($url=='manager') mm-active @endif ">
@@ -130,12 +137,6 @@ $url = Request::segment(2);
 						<div class="menu-title">Services Manage</div>
 					</a>
 				</li>	
-				<li  class="@if($url=='branch') mm-active @endif ">
-					<a href="{{route('restaurent.branch')}}">
-						<div class="parent-icon"><i class="bx bx-user" aria-hidden="true"></i></div>
-						<div class="menu-title">Branch Manage</div>
-					</a>
-				</li>
 					
 				<li  class="@if($url=='menu') mm-active @endif ">
 					<a href="{{route('restaurent/menus')}}">
@@ -166,6 +167,12 @@ $url = Request::segment(2);
 						<div class="parent-icon"><i class="bx bx-user" aria-hidden="true"></i></div>
 						<div class="inventory_manage-title">Inventory Manage</div>
 					</a>
+				</li>
+				<li  class="@if($url=='warehouse_manage') mm-active @endif ">
+					<a href="{{route('restaurent.warehouse_manage')}}">
+						<div class="parent-icon"><i class="bx bx-user" aria-hidden="true"></i></div>
+						<div class="inventory_manage-title">Warehouse Manage</div>
+					</a>
 				</li>	
 
 				@elseif(auth()->user()->is_admin==3)
@@ -185,15 +192,34 @@ $url = Request::segment(2);
 				</li>
 				<li  class="@if($url=='table') mm-active @endif ">
 					<a href="{{route('manager.table')}}">
-						<div class="parent-icon"><i class="bx bx-user" aria-hidden="true"></i></div>
+						<div class="parent-icon"><i class="bx bx-table" aria-hidden="true"></i></div>
 						<div class="sub_menu-title">Table Manager</div>
 					</a>
 				</li>
-				<li><a href="{{route('manager.order')}}" class="" aria-expanded="false">
-							<i class="bi bi-gear-wide"></i>
-							<span class="nav-text">Order Manager</span>
-						</a>
-					</li>
+				<li  class="@if($url=='order') mm-active @endif ">
+					<a href="{{route('manager.order')}}">
+						<div class="parent-icon"><i class="bx bx-cart" aria-hidden="true"></i></div>
+						<div class="sub_menu-title">Order Manager</div>
+					</a>
+				</li>
+				<li  class="@if($url=='inventory_request') mm-active @endif ">
+					<a href="{{route('manager.inventory_request')}}">
+						<div class="parent-icon"><i class="bx bx-cart" aria-hidden="true"></i></div>
+						<div class="sub_menu-title">Inventory Request Manager</div>
+					</a>
+				</li>
+			
+				
+			
+				@elseif(auth()->user()->is_admin==6)
+				<li class="@if($url=='dashboard')  mm-active  @endif ">
+					<a href="{{url('warehouse_manage/dashboard')}}">
+						<div class="parent-icon"><i class="bx bx-tachometer" aria-hidden="true"></i>
+						</div>
+						<div class="menu-title">Dashboard</div>
+					</a>
+				</li>
+				
 				
 				@endif
 
@@ -254,6 +280,10 @@ $url = Request::segment(2);
 							@endif
 							@if(auth()->user()->is_admin==4)
 							<li><a class="dropdown-item" href="{{url('chef/logout')}}"><i class='bx bx-log-out-circle'></i><span>Logout</span></a>
+							</li>
+							@endif
+							@if(auth()->user()->is_admin==6)
+							<li><a class="dropdown-item" href="{{url('warehouse_manage/logout')}}"><i class='bx bx-log-out-circle'></i><span>Logout</span></a>
 							</li>
 							@endif
 						</ul>
