@@ -13,4 +13,7 @@ class InventoryRequest extends Model
     public function productDetails(){
         return   $this->belongsTo(Product::class,'product_id');
        }
+       public function userDetails(){
+        return   $this->belongsTo(User::class,'user_id');
+       }
 }

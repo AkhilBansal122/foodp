@@ -30,25 +30,66 @@
 				<!--end breadcrumb-->
 				<div class="row">
 					<div class="col-xl-12 mx-auto">
-						
-						<div class="card ">
+						<div class="card">
 							<div class="card-body p-3">
-							@include('flash-message')
+									@include('flash-message')
 								<form class="row" action="{{route('manager.request_store')}}" method="POST" enctype="multipart/form-data">
 									@csrf
 									@include('manager.warehouse.form')
 								</form>
+								<div class="table-responsive">
+									<table id="example" class="table table-bordered data-table" style="width:100%">
+									<thead>
+										<tr>
+											<th>No</th>
+											<th>Unique Id</th>
+											<th>Product Name</th>
+											<th>Quantity</th>
+											<th>Status</th>
+										</tr>
+									</thead>
+									 <tbody></tbody>
+									</table>
+								</div>
 							</div>
 						</div>
-						
-						
+	
+
 					</div>
 				</div>
 				<!--end row-->
 			</div>
 		</div>
+		@include('admin.layout.footer')
+<script type="text/javascript">
+  $(function () {
 
+        var table = $('#example').DataTable({
+        processing: true,
+        serverSide: true,
+        pageLength:10,
+        retrieve:true,
+        ajax: {
+          url: "{{ route('manager/managerrequestdata') }}",
+            data: function (d) {
+                d.search = $('input[type="search"]').val(),
+                d.searchStart_date = $('.searchStart_date').val(),
+                d.searchEndDate = $('.searchEndDate').val()
+            },
+        },
+        columns: [
+            {mData: 'id',
+				render: function (data, type, row, meta) {
+					return meta.row + meta.settings._iDisplayStart + 1;
+				}
+			},
+		     {data:'unique_id'},
+            {data:'product_name'},
+			{data:'qty'},
+			{data:'status'}
+       
+        ]
+    });
 
-		
-		
-@include('admin.layout.footer')
+});
+	</script>

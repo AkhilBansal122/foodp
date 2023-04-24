@@ -219,11 +219,14 @@ $url = Request::segment(2);
 						<div class="menu-title">Dashboard</div>
 					</a>
 				</li>
-				
-				
+				<li class="@if($url=='inventory_request')  mm-active  @endif ">
+					<a href="{{url('warehouse_manage/inventory_request')}}">
+						<div class="parent-icon"><i class="bx bx-tachometer" aria-hidden="true"></i>
+						</div>
+						<div class="menu-title">Inventory Request</div>
+					</a>
+				</li>
 				@endif
-
-			
 			</ul>
 			<!--end navigation-->
 		</div>

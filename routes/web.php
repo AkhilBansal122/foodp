@@ -287,8 +287,7 @@ Route::get('restaurent/logout', [LoginController::class, 'logout']);
    
    Route::any('manager/inventory_request', [App\Http\Controllers\WarehouseController::class, 'manager_request'])->name('manager.inventory_request');
    Route::any('manager/request_store', [App\Http\Controllers\WarehouseController::class, 'request_store'])->name('manager.request_store');
-
-   
+   Route::any('manager/managerrequestdata', [App\Http\Controllers\WarehouseController::class, 'managerrequestdata'])->name('manager/managerrequestdata');
    Route::get('manager/logout', [LoginController::class, 'logout']);
 });
 
@@ -314,5 +313,7 @@ Route::get('restaurent/logout', [LoginController::class, 'logout']);
 Route::group(['middleware' => ['IsWarehouse']], function(){
    Route::any('warehouse_manage/dashboard', [App\Http\Controllers\WarehouseController::class, 'dashboard'])->name('warehouse.dashboard');
    Route::any('warehouse_manage/data', [App\Http\Controllers\WarehouseController::class, 'data'])->name('warehouse_manage/data');
+   Route::any('warehouse_manage/inventory_request', [App\Http\Controllers\WarehouseController::class, 'inventory_request'])->name('warehouse_manage/inventory_request');
+   Route::any('warehouse_manage/inventory_requestdata',[App\Http\Controllers\WarehouseController::class, 'inventory_requestdata'])->name('warehouse_manage/inventory_requestdata');
    Route::get('warehouse_manage/logout', [LoginController::class, 'logout']);
 });

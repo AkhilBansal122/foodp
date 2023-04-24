@@ -62,7 +62,7 @@
         pageLength:10,
         retrieve:true,
         ajax: {
-          url: "{{ route('warehouse_manage/data') }}",
+          url: "{{ route('warehouse_manage/inventory_requestdata') }}",
             data: function (d) {
                 d.search = $('input[type="search"]').val(),
                 d.searchStart_date = $('.searchStart_date').val(),

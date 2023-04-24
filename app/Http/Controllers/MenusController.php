@@ -132,7 +132,7 @@ class MenusController extends Controller
 
     public function update(Request $request){
         $user = auth()->user();
-  //      dd($request->type);
+        //      dd($request->type);
         $request->validate([
             'type' => 'required',
             'name' => 'required|unique:categories,user_id,' . $user->id,

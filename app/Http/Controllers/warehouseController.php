@@ -262,6 +262,8 @@ class WarehouseController extends Controller
             $InventoryRequest->product_id = $request->product_id;
             $InventoryRequest->qty = $request->qty;
             if($InventoryRequest->save()){
+                $InventoryRequest->unique_id = "REQ-000".$InventoryRequest->id;
+                $InventoryRequest->save();
                 return redirect()->back()->with('success','Request Send Successfully');
             }
             else{
@@ -269,6 +271,102 @@ class WarehouseController extends Controller
             }
         }else{
             return redirect('login');
+        }
+    }
+
+    public function managerrequestdata(Request $request){
+        if ($request->ajax()) {
+            $limit = $request->input('length');
+            $start = $request->input('start');
+           
+            $search = $request['search'];
+            $orderby = $request['order']['0']['column'];
+            $order = $orderby != "" ? $request['order']['0']['dir'] : "";
+            $draw = $request['draw'];
+            $querydata = InventoryRequest::where('user_id',auth()->user()->id)->latest();
+             $totaldata = $querydata->count();
+             $response = $querydata->offset($start)
+                    ->limit($limit)
+                    ->get();
+            if (!$response) {
+                $data = [];
+                
+            } else {
+                $data = $response;
+            }
+            $datas = array();
+            $i = 1;
+
+            foreach ($data as $value) {
+                $id = $value->id;
+                    $row['id'] = $i;
+                    $row['unique_id'] = $value->unique_id ?? '-';
+                    $row['product_name'] = $value->productDetails->product_name ?? '-';
+                    $row['qty'] = $value->qty ?? 0;
+                    $row['status'] = $value->status;
+                    $datas[] = $row;
+                $i++;
+            }
+            $return = [
+                "draw" => intval($draw),
+                "recordsFiltered" => intval($totaldata),
+                "recordsTotal" => intval($totaldata),
+                "data" => $datas
+            ];
+            return response()->json($return);
+        }
+    }
+
+    public function inventory_request(){
+        $user = auth()->user();
+        if(!is_null($user) && ($user->is_admin==6)){
+            return view('warehouse/inventory_request');
+        }else{
+            return redirect('login');
+        }
+    }
+
+    public function inventory_requestdata(Request $request){
+        if ($request->ajax()) {
+            $limit = $request->input('length');
+            $start = $request->input('start');
+           
+            $search = $request['search'];
+            $orderby = $request['order']['0']['column'];
+            $order = $orderby != "" ? $request['order']['0']['dir'] : "";
+            $draw = $request['draw'];
+            $querydata = InventoryRequest::where('user_id',auth()->user()->user_id)->latest();
+             $totaldata = $querydata->count();
+             $response = $querydata->offset($start)
+                    ->limit($limit)
+                    ->get();
+            if (!$response) {
+                $data = [];
+                
+            } else {
+                $data = $response;
+            }
+            $datas = array();
+            $i = 1;
+
+            foreach ($data as $value) {
+                $id = $value->id;
+                    $row['id'] = $i;
+                    $row['unique_id'] = $value->unique_id ?? '-';
+                    $row['user_name'] = $value->userDetails->firstname ." ".$value->userDetails->lastname ?? '-';
+                    $row['product_name'] = $value->productDetails->product_name ?? '-';
+                    $row['qty'] = $value->qty ?? 0;
+                    $row['status'] = $value->status;
+                    $datas[] = $row;
+                $i++;
+            }
+            $return = [
+                "draw" => intval($draw),
+                "recordsFiltered" => intval($totaldata),
+                "recordsTotal" => intval($totaldata),
+                "data" => $datas
+            ];
+            return response()->json($return);
         }
     }
 }
