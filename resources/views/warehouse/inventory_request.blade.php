@@ -16,32 +16,26 @@
 					<div class="ps-3">
 						<nav aria-label="breadcrumb">
 							<ol class="breadcrumb mb-0 p-0">
-								<li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
-								</li>
+								<li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a></li>
 								<li class="breadcrumb-item active" aria-current="page">Services Details</li>
 							</ol>
 						</nav>
 					</div>
 				</div>
-				
-         
-
-                        <div class="card">
+                 <div class="card">
 							<div class="card-body">
 								<div class="table-responsive">
 									<table id="example" class="table table-bordered data-table" style="width:100%">
 										<thead>
                                         <tr>
-                                                <th>No</th>
-                                                <th>Product Name</th>
-                                                <th>Total Stock</th>
-												<th>Sellout Stock</th>
-												<th>qty_opt</th>
-                                       		</tr>
-										</thead>
-										<tbody>
-										</tbody>
-										
+                                            <th>No</th>
+                                            <th>Product Name</th>
+                                            <th>Manager Name</th>
+                                            <th>Qty</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead><tbody>
+                                    </tbody>
 									</table>
 								</div>
 							</div>
@@ -62,7 +56,12 @@
         pageLength:10,
         retrieve:true,
         ajax: {
-          url: "{{ route('warehouse_manage/inventory_requestdata') }}",
+            headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          },
+
+            method:"POST",
+            url: "{{ route('warehouse_manage/data2') }}",
             data: function (d) {
                 d.search = $('input[type="search"]').val(),
                 d.searchStart_date = $('.searchStart_date').val(),
@@ -75,13 +74,48 @@
 					return meta.row + meta.settings._iDisplayStart + 1;
 				}
 			},
-		     {data:'product_name',name:"product_name"},
-			 {data:'total_available',name:'total_available'},
-			 {data:'total_dr',name:'total_dr'},
-			 {data:'qty_opt',name:'qty_opt'},
-          
+		      {data:'product_name'},
+			  {data:'user_name'},
+			  {data:'qty'},
+              {data:'action'},
 		]
     });
 
+    $(document).on('change','.statusAction',function(){
+        var id = $(this).attr('data-id');
+        var value = $(this).val();
+        let statusMsg = "";
+        check = false;
+        if(value == 'Accept') {
+            statusMsg = 'Are you sure you want to accept?';
+            check = true;
+        }
+        else if(value == 'Delivered') {
+            statusMsg = 'Are you sure you want to delivered?';
+            check = true;
+        }
+        if(check==true)
+        {
+            if(window.confirm(statusMsg)) {
+            var path = $(this).data('path');               
+      
+            $.ajax({
+                url:path,
+                method: 'post',
+                data: {'id':id,'status':value},
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                success: function(result){
+                toastr.success(result.type,result.message);
+                table.ajax.reload();  
+            }
+            });        
+        }else{
+            var oldValue = $(this).attr('data-value');
+            $(this).val(oldValue);
+            return false;
+        }
+        }
+        
+    });
 });
 	</script>

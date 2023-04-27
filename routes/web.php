@@ -48,6 +48,7 @@ Route::post('/forgot-password', [LoginController::class, 'forgotPassword'])->nam
 Route::get('/resetpassword/{token}', [LoginController::class, 'resetpassword']);
 Route::post('/resetpassword', [LoginController::class, 'resetpassword'])->name('admin/resetpassword');
 Route::any('/{tblid}', [App\Http\Controllers\WebsiteController::class, 'index']);
+
 Route::group(['middleware' => ['is_customer']], function(){
    Route::any('{tblid}/about', [App\Http\Controllers\WebsiteController::class, 'about'])->name('about');
    Route::any('{tblid}/service', [App\Http\Controllers\WebsiteController::class, 'service'])->name('service');
@@ -248,7 +249,7 @@ Route::get('restaurent/logout', [LoginController::class, 'logout']);
 
 });
   //IsManager
-  Route::group(['middleware' => ['IsManager']], function(){
+Route::group(['middleware' => ['IsManager']], function(){
 
    Route::any('manager/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('manager.dashboard');
     //Table  Management
@@ -314,6 +315,10 @@ Route::group(['middleware' => ['IsWarehouse']], function(){
    Route::any('warehouse_manage/dashboard', [App\Http\Controllers\WarehouseController::class, 'dashboard'])->name('warehouse.dashboard');
    Route::any('warehouse_manage/data', [App\Http\Controllers\WarehouseController::class, 'data'])->name('warehouse_manage/data');
    Route::any('warehouse_manage/inventory_request', [App\Http\Controllers\WarehouseController::class, 'inventory_request'])->name('warehouse_manage/inventory_request');
-   Route::any('warehouse_manage/inventory_requestdata',[App\Http\Controllers\WarehouseController::class, 'inventory_requestdata'])->name('warehouse_manage/inventory_requestdata');
+   Route::post('warehouse_manage/data2',[App\Http\Controllers\WarehouseController::class, 'data2'])->name('warehouse_manage/data2');
+
+   Route::any('warehouse_manage/inventory_request_status', [App\Http\Controllers\WarehouseController::class, 'inventory_request_status'])->name('warehouse_manage/inventory_request_status');
+
+
    Route::get('warehouse_manage/logout', [LoginController::class, 'logout']);
 });

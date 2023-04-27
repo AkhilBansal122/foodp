@@ -153,7 +153,6 @@ class TablesController extends Controller
                 $row['qrcode'] = '<img src="'.asset('public/'.$value->qrcode).'" border="0" class="" width="35" align="center" />';
                 $edit = Helper::editAction(url('/manager/tables/edit/'),encrypt($value->id));
                 $view = Helper::viewAction(url('/manager/tables/show/'),encrypt($value->id));
-                
                 $row['action'] = Helper::action($edit." ".$view);
                 $datas[] = $row;
             $i++;

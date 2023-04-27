@@ -11,6 +11,7 @@ use App\Models\InventoryTracking;
 use App\Models\Product;
 use App\Models\InventoryRequest;
 use File;
+use Helper;
 class WarehouseController extends Controller
 {
     public function create(){
@@ -240,7 +241,6 @@ class WarehouseController extends Controller
         $user = auth()->user();
         if(!is_null($user) && ($user->is_admin==3)){
             $product = Inventory::where("user_id",$user->user_id)->get();
-           
             return view('manager/warehouse/create',compact('product'));
         }else{
             return redirect('login');
@@ -248,6 +248,7 @@ class WarehouseController extends Controller
     }
     public function request_store(Request $request){
         $user = auth()->user();
+      //  dd($request->all());
         if(!is_null($user) && ($user->is_admin==3)){
             $request->validate([
                 'product_id' => 'required',
@@ -257,10 +258,12 @@ class WarehouseController extends Controller
                 'product_id.required' => 'Please Select Product.',
             ]);
             $InventoryRequest = new InventoryRequest;
-
-             $InventoryRequest->user_id = $user->id;
+            $InventoryRequest->user_id = $user->id;
+            $InventoryRequest->restaurent_id = $user->user_id;
+            $InventoryRequest->inventories_id = $request->inventory_id;
             $InventoryRequest->product_id = $request->product_id;
             $InventoryRequest->qty = $request->qty;
+          
             if($InventoryRequest->save()){
                 $InventoryRequest->unique_id = "REQ-000".$InventoryRequest->id;
                 $InventoryRequest->save();
@@ -328,6 +331,7 @@ class WarehouseController extends Controller
 
     public function inventory_requestdata(Request $request){
         if ($request->ajax()) {
+            dd($$request->all());
             $limit = $request->input('length');
             $start = $request->input('start');
            
@@ -336,7 +340,8 @@ class WarehouseController extends Controller
             $order = $orderby != "" ? $request['order']['0']['dir'] : "";
             $draw = $request['draw'];
             $querydata = InventoryRequest::where('user_id',auth()->user()->user_id)->latest();
-             $totaldata = $querydata->count();
+          //  dd($querydata);
+            $totaldata = $querydata->count();
              $response = $querydata->offset($start)
                     ->limit($limit)
                     ->get();
@@ -367,6 +372,106 @@ class WarehouseController extends Controller
                 "data" => $datas
             ];
             return response()->json($return);
+        }
+    }
+
+    public function data2(Request $request){
+        if ($request->ajax()) {
+            $limit = $request->input('length');
+            $start = $request->input('start');
+           
+            $search = $request['search'];
+            $orderby = $request['order']['0']['column'];
+            $order = $orderby != "" ? $request['order']['0']['dir'] : "";
+            $draw = $request['draw'];
+            $querydata = InventoryRequest::where('restaurent_id',auth()->user()->user_id)->latest();
+          
+             $totaldata = $querydata->count();
+             $response = $querydata->offset($start)
+                    ->limit($limit)
+                    ->get();
+            if (!$response) {
+                $data = [];
+                
+            } else {
+                $data = $response;
+            }
+            $datas = array();
+            $i = 1;
+            foreach ($data as $value) {
+                $id = $value->id;
+
+                $row['id'] = $i;
+                $row['product_name'] = $value->productDetails->product_name ?? '-';
+                $row['user_name'] = isset($value->userDetails->firstname)?$value->userDetails->firstname ." ". $value->userDetails->lastname:'-';
+                $row['qty'] = isset($value->qty)? $value->qty : 0;
+
+                $sel = "<select class='form-control statusAction' data-path=".route('warehouse_manage/inventory_request_status')."  data-value=".$value->status." data-id = ".$value->id."  >";
+                if($value->status == 'Pending')
+                {
+                    $sel .= "<option value='Pending' " . ((isset($value->status) && $value->status == 'Pending') ? 'Selected' : '') . ">Pending</option>";
+                    $sel .= "<option value='Accept' " . ((isset($value->status) && $value->status == 'Accept') ? 'Selected' : '') . ">Accept</option>";
+                }
+                else if($value->status == 'Accept')
+                {
+                    $sel .= "<option value='Accept' " . ((isset($value->status) && $value->status == 'Accept') ? 'Selected' : '') . ">Accept</option>";
+                    $sel .= "<option value='Delivered' " . ((isset($value->status) && $value->status == 'Delivered') ? 'Selected' : '') . ">Delivered</option>";
+                } 
+                else if($value->status == 'Delivered'){
+                    $sel .= "<option value='Delivered' " . ((isset($value->status) && $value->status == 'Delivered') ? 'Selected' : '') . ">Delivered</option>";
+                }   
+                $sel .= "</select>";
+                $row['action'] = Helper::action($sel);
+             
+                $datas[] = $row;
+            $i++;
+            }
+            //dd($datas);
+            
+            $return = [
+                "draw" => intval($draw),
+                "recordsFiltered" => intval($totaldata),
+                "recordsTotal" => intval($totaldata),
+                "data" => $datas
+            ];
+            return response()->json($return);
+        }
+    }
+
+    public function inventory_request_status(Request $request){
+        if($request->all()){
+           $inventoryRequest= InventoryRequest::where("id",$request->id)->first();
+            if(isset($inventoryRequest)){
+             //   dd($request->status);
+             $inventoryRequest->status = $request->status;
+             
+             if($inventoryRequest->save()){
+                if($request->status=='Delivered')
+                {
+                   $qty = $inventoryRequest->qty;
+                  $getStock= Inventory::where("id",$inventoryRequest->inventories_id)->first();
+                  if($getStock->qty_num>0)
+                  {
+                    $getStock->qty_num = ($getStock->qty_num -$qty);
+                    $getStock->save();
+                    $InventoryTracking = new  InventoryTracking();
+                    $InventoryTracking->user_id =auth()->user()->id;
+                    $InventoryTracking->product_id =$inventoryRequest->product_id;
+                    $InventoryTracking->inventory_id =$inventoryRequest->inventories_id;
+                    $InventoryTracking->cr_qty =0;
+                    $InventoryTracking->dr_qty =$qty;
+                    $InventoryTracking->save();    
+                    }       
+                }
+                return redirect()->back()->with('success','Request '.$request->status.' Successfully');
+                }
+                else{
+                    return redirect()->back()->with('errors','Request Send Failed');
+                }
+            }
+            else{
+                return redirect()->back()->with('errors','Invalid Request');
+            }
         }
     }
 }
