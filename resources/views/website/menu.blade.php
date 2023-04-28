@@ -13,33 +13,104 @@
             </div>
         </div>
         <!-- Navbar & Hero End -->
+
+
          <div class="container-xxl py-5">
-            <div class="container">
-                <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-                    <h5 class="section-title ff-secondary text-center text-primary fw-normal">Food Menu</h5>
-                    <h1 class="mb-5">Most Popular Items</h1>
-                </div>
-                <div class="tab-class text-center wow fadeInUp" data-wow-delay="0.1s">
-                    <ul class="nav nav-pills d-inline-flex justify-content-center border-bottom mb-5">
-                        @if(!empty($getMenu))
-                        <input type="hidden" id="menu_id" value="{{$getMenu[0]['id']}}"/>    
-                            @foreach($getMenu as $k=> $row)
-                        <li class="nav-item">
-                            <a  onClick="menuSelect({{$row->id}},{{$k}});return false" @if($k==0)   class="d-flex align-items-center text-start mx-3 ms-0 pb-3 active menu_active" @else class="d-flex align-items-center text-start mx-3 ms-0 pb-3" @endif  data-bs-toggle="pill" href="#tab-1">
-                                <i class="fa fa-coffee fa-2x text-primary"></i>
-                                <div class="ps-3">
-                                    <small class="text-body">Popular</small>
-                                    <h6 class="mt-n1 mb-0">{{$row->name}}</h6>
-                                </div>
-                            </a>
-                        </li>
-                        @endforeach
-                        @endif
-                    </ul>
-                    <div class="tab-content" id="sub_menu_div"> </div>
-                </div>
+         <div class="container">
+            <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+               <h5 class="section-title ff-secondary text-center text-primary fw-normal">Food Menu</h5>
+               <h1 class="mb-5">Most Popular Items</h1>
             </div>
-        </div>
+            <div class="container-fluid">
+               <div class="row">
+                  <div class="col-8">
+                     <div class="row mt-4">
+                        <div class="col-12">
+                           <nav aria-label="breadcrumb">
+                              <div class="container bttn">
+                                 @if(!empty($getMenu))
+                                 <input type="hidden" id="menu_id" value="{{$getMenu[0]['id']}}"/>    
+                                 @foreach($getMenu as $k=> $row)
+                                 <button onClick="menuSelect({{$row->id}},{{$k}});return false">
+                                    <span>
+                                       Popular 
+                                       <p>{{$row->name}}</p>
+                                    </span>
+                                 </button>
+                                 @endforeach
+                                 @endif
+                              </div>
+                              <style type="text/css">
+                                  .btn-outline-secondary:hover {
+                                        background-color: orange;
+                                        border: none;
+                                    }
+                              </style>
+                              <div class="container mt-5">
+                                <div class="row">
+                                    <div class="tab-content" id="sub_menu_div"> </div>
+                                </div>
+                              </div>
+                           </nav>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col-4">
+                     <div class="container">
+                        <div class="row">
+                           <div class="col-12">
+                              <h4 class="mt-3">My orders</h4>
+                              <hr>
+                              <div class="mt-4">
+                                 <p>Delivery address</p>
+                                 <h4>1341 Morris Streets</h4>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="row">
+                           <div class="col-12">
+                              <div style="border: 1px solid aliceblue; display: flex; background-color: aliceblue; border-radius:10px ;">
+                                 <div>
+                                    <img src="burger.jpg" width="80vh" height="80vh" style="border-radius: 10px;" alt="">
+                                 </div>
+                                 <div>
+                                    <p>Burger mozzo XL</p>
+                                    <p>Extra cheess</p>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        <hr>
+                        <div class="d-flex justify-content-between align-items-center">
+                           <div class="btn-group">
+                              <p>Sub Total</p>
+                           </div>
+                           <small class="text-body-secondary">Rs.120</small>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                           <div class="btn-group">
+                              <p>Delivery Charge</p>
+                           </div>
+                           <small class="text-body-secondary">Rs.00</small>
+                        </div>
+                        <div class="input-group">
+                           <input type="text" class="form-control" placeholder="Find Promotion" aria-label="Input group example" aria-describedby="btnGroupAddon">
+                           <div class="input-group-text" id="btnGroupAddon">Add Coupon</div>
+                        </div>
+                        <hr>
+                        <div class="d-flex justify-content-between align-items-center">
+                           <div class="btn-group">
+                              <p>Total </p>
+                           </div>
+                           <small class="text-body-secondary">Rs.1000</small>
+                        </div>
+                        <button class="form-control" style="border: none; background-color: orange;" >Check Out</button>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
         @include('website.layout.footer')
         <script>
             menuSelect($("#menu_id").val(),"{{auth()->user()->table_id}}");

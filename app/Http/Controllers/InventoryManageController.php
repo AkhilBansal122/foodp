@@ -74,7 +74,6 @@ class InventoryManageController extends Controller
                //     dd($request->product_id);
                     $inventoryData->product_id = $request->product_id;
                     
-                  //  $InventoryData->icon = $icon;
                     
                         $inventoryData->user_id = $user->id;
                     
@@ -94,7 +93,7 @@ class InventoryManageController extends Controller
 
                         $total_invCr=  InventoryTracking::where(['inventory_id'=>$inventoryData->id,'user_id'=>$user->id])->sum('cr_qty');
                         $total_invdr=  InventoryTracking::where(['inventory_id'=>$inventoryData->id,'user_id'=>$user->id])->sum('dr_qty');
-      
+   
                         $available = $total_invCr-$total_invdr;
                         $inventoryData->total_cr =$total_invCr;
                         $inventoryData->total_dr =$total_invdr;

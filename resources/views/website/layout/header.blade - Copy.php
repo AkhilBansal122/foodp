@@ -45,11 +45,6 @@ if(substr($uri1, 0, 4)==="TBL-")
     <link href="{{asset('public/assets/website/lib/owlcarousel/assets/owl.carousel.min.css') }}" rel="stylesheet">
     <link href="{{asset('public/assets/website/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css') }}" rel="stylesheet" />
 
-
- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
-         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-
     <!-- Customized Bootstrap Stylesheet -->
     <link href="{{asset('public/assets/website/css/bootstrap.min.css') }}" rel="stylesheet">
 
@@ -61,14 +56,6 @@ if(substr($uri1, 0, 4)==="TBL-")
 	background-color: #fff !important;
 	border-color: #fff !important;
 }
-
-         .sidebar{position: fixed;}
-         .main_div{display: flex;}
-         .sliderimg{height: 50vh !important;}
-         .bttn {display: flex; justify-content: space-evenly; margin-top: 20px;}
-         .bttn button{border: none; border-bottom: 2px solid grey; padding: 2px 15px; background-color: transparent;}
-         .bttn button:hover{border-bottom: 3px solid orange;}
-   
 </style>
 <body>
     <div class="container-xxl bg-white p-0">
@@ -126,7 +113,7 @@ if(substr($uri1, 0, 4)==="TBL-")
                                 <a href="{{url('/')}}/testimonial" class="dropdown-item {{$uri2=='booking' ? 'active' :'' }}">Testimonial</a>
                             </div>
                         </div> -->
-                        <a href="{{url('')}}/{{$restaurentName}}/contact" class="nav-item nav-link {{$uri2=='contact' ? 'active' :'' }}">Contact</a>
+                        <a href="{{url('')}}/contact" class="nav-item nav-link {{$uri2=='contact' ? 'active' :'' }}">Contact</a>
                     </div>
                     <!-- <a href="{{route('customlogout')}}" class="btn btn-primary py-2 px-4">Login</a>
                     <a href="{{url('/')}}/cartItem" style="" class="btn btn-primary py-2 px-4 "><i class="bi bi-cart-fill"></i></a> -->

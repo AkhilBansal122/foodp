@@ -442,26 +442,29 @@ class WarehouseController extends Controller
         if($request->all()){
            $inventoryRequest= InventoryRequest::where("id",$request->id)->first();
             if(isset($inventoryRequest)){
-             //   dd($request->status);
+               // dd($request->status);
              $inventoryRequest->status = $request->status;
              
              if($inventoryRequest->save()){
                 if($request->status=='Delivered')
                 {
                    $qty = $inventoryRequest->qty;
-                  $getStock= Inventory::where("id",$inventoryRequest->inventories_id)->first();
-                  if($getStock->qty_num>0)
-                  {
-                    $getStock->qty_num = ($getStock->qty_num -$qty);
-                    $getStock->save();
-                    $InventoryTracking = new  InventoryTracking();
-                    $InventoryTracking->user_id =auth()->user()->id;
-                    $InventoryTracking->product_id =$inventoryRequest->product_id;
-                    $InventoryTracking->inventory_id =$inventoryRequest->inventories_id;
-                    $InventoryTracking->cr_qty =0;
-                    $InventoryTracking->dr_qty =$qty;
-                    $InventoryTracking->save();    
-                    }       
+                   $getStock= Inventory::where("id",$inventoryRequest->inventories_id)->first();
+                    
+                   if($getStock->qty_num>0)
+                    {
+                        $getStock->save();
+                        $InventoryTracking = new  InventoryTracking();
+                        $InventoryTracking->user_id =auth()->user()->id;
+                        $InventoryTracking->product_id     = $inventoryRequest->product_id;
+                        $InventoryTracking->inventory_id   = $inventoryRequest->inventories_id;
+                        $InventoryTracking->cr_qty = 0;
+                        $InventoryTracking->dr_qty = $qty;
+                        $InventoryTracking->save();    
+                        $getStock->total_dr=$getStock->total_dr+$qty;
+                        $getStock->total_available = $getStock->total_available > 0 ? ($getStock->total_available -$qty) : $getStock->total_cr - $qty;       
+                        $getStock->save();
+                    }
                 }
                 return redirect()->back()->with('success','Request '.$request->status.' Successfully');
                 }

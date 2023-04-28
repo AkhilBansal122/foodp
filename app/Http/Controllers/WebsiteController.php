@@ -260,24 +260,20 @@ class WebsiteController extends Controller
                 <div class="row g-4">';
                 foreach($getSub as $i =>$row){
                     $respose.='<div class="col-lg-6">
-                                    <div class="d-flex align-items-center">
-                                        <img class="flex-shrink-0 img-fluid rounded" src="'.asset('public/').$row->image.'" alt="" style="width: 80px;">
-                                            <div class="w-100 d-flex flex-column text-start ps-4">
-                                                <h5 class="d-flex justify-content-between border-bottom pb-2">
-                                                    <span>'.$row->name.'</span>
-                                                    <span class="text-primary">'.$row->price.'</span>
-                                                </h5>
-                                                
+                                    <div class="card shadow-sm">
+                                    <img class="bd-placeholder-img card-img-top" width="100%" height="225" src="'.asset('public/').$row->image.'" alt="" srcset="">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                           <div class="btn-group">
+                                              <p>'.$row->name.'</p>
+                                           </div>
+                                           <small class="text-body-secondary">'.$row->price.'</small>
+                                        </div>
 
-                                                
-                                                <small class="fst-italic">'.$row->description.'</small>
-                                                
-                                                <button type="button" class="btn btn-default btn-sm" onClick="add_to_cart("'.auth()->user()->table_id.'",'.$row->id.','.$row->price.',1);return false;">
-                                                    <span class="glyphicon glyphicon-shopping-cart"></span>
-                                                    <b> Add to Cart </b>
-                                                </button>
-                                            </div>
+                                            <small class="fst-italic">'.$row->description.'</small><br></br>
+                                             <button type="button" class="btn btn-sm btn-outline-secondary" onClick="add_to_cart("'.auth()->user()->table_id.'",'.$row->id.','.$row->price.',1);return false;"><b>Add to cart</b></button>
                                     </div>
+                                 </div>
                                 </div>';
                    }
             }
