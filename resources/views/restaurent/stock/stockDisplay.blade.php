@@ -16,12 +16,11 @@
 							<ol class="breadcrumb mb-0 p-0">
 								<li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
 								</li>
-								<li class="breadcrumb-item active" aria-current="page">Content Details</li>
+								<li class="breadcrumb-item active" aria-current="page">Stock Details</li>
 							</ol>
 						</nav>
 					</div>
 				</div>
-
                 <div class="card">
                     <div class="card-body">
                        <div class="table-responsive">
@@ -29,10 +28,11 @@
                                 <thead>
                                 <tr>
                                         <th>No</th>
-                                        <th>title</th>
-                                        <th>Slug</th>
-                                        <th>Status</th>
-                                        <th width="100px">Action</th>
+                                        <th>Product Name</th>
+                                        <th>Total Credit</th>
+                                        <th>Total Dabit</th>
+                                        <th>Qty Option</th>
+                                        <th width="100px">Total Available</th>
                                 </tr>
                             </thead>
                             <tbody></tbody>
@@ -49,59 +49,38 @@
 <script type="text/javascript">
   $(function () {
 
-        var table = $('.data-table').DataTable({
+    var table = $('.data-table').DataTable({
         processing: true,
         serverSide: true,
         pageLength:10,
         retrieve:true,
         ajax: {
-          url: "{{ route('restaurent/content/data') }}",
+            url: "{{ route('restaurent.stockDisplayRestaurent') }}",
             data: function (d) {
                 d.search = $('input[type="search"]').val(),
                 d.search_key = $('.searchRestaurentName').val()
-               
             },
         },
         columns: [
-            {mData: 'id',
+            {
+				mData: 'id',
 				render: function (data, type, row, meta) {
 					return meta.row + meta.settings._iDisplayStart + 1;
 				}
 			},
-            {data:'title',name:'title'},
-            {data:'slug',name:'slug'},
-            {data: 'status', name: 'status'},
-            {data: 'action', name: 'action', orderable: false, searchable: false},
+		     {data:'product_name',name:"product_name"},
+             {data:'total_cr',name:"total_cr"},
+             {data:'total_dr',name:"total_dr"},
+             {data:'qty_opt',name:'qty_opt'},
+             {data:'total_available',name:"total_available"},
         ]
     });
-
-    $(document).on('change','.statusAction',function(){
-        var id = $(this).attr('data-id');
-        var value = $(this).val();
-        let statusMsg = "";
-        if(value == 'Active') {
-            statusMsg = 'Are you sure you want to active?';
-        } else if(value == 'Inactive') {
-            statusMsg = 'Are you sure you want to inactive?';
-        }
-        if(window.confirm(statusMsg)) {
-            var path = $(this).data('path');               
-       //     $('.loader').show();
-            $.ajax({
-                url:path,
-                method: 'post',
-                data: {'id':id,'value':value},
-                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                success: function(result){
-                toastr.success(result.type,result.message);
-                table.ajax.reload();  
-            }
-            });        
-        }else{
-            var oldValue = $(this).attr('data-value');
-            $(this).val(oldValue);
-            return false;
-        }
-    });
+    $('.refresh').click(function (e){
+		$('.search_keyword').val("");
+		tables.ajax.reload();
+	});
+	$('.filter').click(function (e) {
+		tables.ajax.reload();
+	});
 });
 	</script>

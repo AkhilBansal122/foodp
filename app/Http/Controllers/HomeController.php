@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Branch;
 use App\Models\Orders;
+use App\Models\Inventory;
 use DB;
 use Carbon\Carbon;
 
@@ -96,7 +97,7 @@ public function restaurentGraphs(){
     }
 
 }
-public function restaurentGraph(Request $request){
+  public function restaurentGraph(Request $request){
     if($request->all()){
       
         $is_admin  =auth()->user()->is_admin;
@@ -180,4 +181,72 @@ public function restaurentGraph(Request $request){
     }
     }
   }
+
+  public function stockDisplay(){
+    if(auth()->user()->is_admin==2)
+    {
+     return view('restaurent/stock/stockDisplay');
+    }
+  }
+  public function stockDisplayRestaurent(Request $request){
+    if ($request->ajax()) {
+      $limit = $request->input('length');
+      $start = $request->input('start');
+     
+      $search = $request['search'];
+      $search_key = $request['search_key'];
+      $orderby = $request['order']['0']['column'];
+      $order = $orderby != "" ? $request['order']['0']['dir'] : "";
+      $draw = $request['draw'];
+      if(auth()->user()->is_admin==2)
+      {
+
+      
+      $querydata = Inventory::where('user_id',auth()->user()->id)->with('productDetails')->latest();
+      
+      if (!is_null($search) && !empty($search)) {
+          $querydata->where(function($query) use ($search) {
+              $query->where('name', 'LIKE', '%' . $search . '%');
+          });
+      }
+
+      
+
+       $totaldata = $querydata->count();
+       $response = $querydata->offset($start)
+              ->limit($limit)
+              ->get();
+      if (!$response) {
+          $data = [];
+          
+      } else {
+          $data = $response;
+      }
+      $datas = array();
+      $i = 1;
+
+      foreach ($data as $value) {
+          $id = $value->id;
+          $row['id'] = $i;
+          $row['product_name'] = isset($value->productDetails)? $value->productDetails->product_name:'-';
+          $row['total_cr'] = isset($value->total_cr)? $value->total_cr:'-';
+          $row['total_dr'] = isset($value->total_dr)? $value->total_dr:'-';
+          $row['qty_opt']= isset($value->qty_opt) ? $value->qty_opt:'-';
+          $row['total_available'] = isset($value->total_available)? $value->total_available:'-';
+          $datas[] = $row;
+      $i++;
+      }
+
+      $return = [
+          "draw" => intval($draw),
+          "recordsFiltered" => intval($totaldata),
+          "recordsTotal" => intval($totaldata),
+          "data" => $datas
+      ];
+      return response()->json($return);
+    }
+    }
+  }
 }
+
+

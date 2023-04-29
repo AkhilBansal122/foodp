@@ -247,6 +247,12 @@ Route::group(['middleware' => ['is_restaurent']], function(){
  Route::any('restaurent/warehouse_manage/update', [App\Http\Controllers\WarehouseController::class, 'update'])->name('restaurent.warehouse.update');
 Route::get('restaurent/logout', [LoginController::class, 'logout']);
 
+//stockDisplayRestaurent
+
+Route::any('restaurent/stockDisplay', [App\Http\Controllers\HomeController::class, 'stockDisplay'])->name('restaurent.stockDisplay');
+
+Route::any('restaurent/stockDisplayRestaurent', [App\Http\Controllers\HomeController::class, 'stockDisplayRestaurent'])->name('restaurent.stockDisplayRestaurent');
+
 });
   //IsManager
 Route::group(['middleware' => ['IsManager']], function(){

@@ -174,6 +174,12 @@ $url = Request::segment(2);
 						<div class="inventory_manage-title">Warehouse Manage</div>
 					</a>
 				</li>	
+				<li  class="@if($url=='stockDisplay') mm-active @endif ">
+					<a href="{{route('restaurent.stockDisplay')}}">
+						<div class="parent-icon"><i class="bx bx-user" aria-hidden="true"></i></div>
+						<div class="inventory_manage-title">Stock Manage</div>
+					</a>
+				</li>	
 
 				@elseif(auth()->user()->is_admin==3)
 				<li class="@if($url=='dashboard')  mm-active  @endif ">
