@@ -8,10 +8,14 @@ use App\Models\User;
 use App\Models\Inventory;
 use App\Models\InventoryTracking;
 use App\Models\Product;
+
+
 use File;
 use DataTables;
 use Str;
 use Validator;
+use App\Exports\StockHistoryExport;
+use Excel;
 use Helper;
 class InventoryManageController extends Controller
 {
@@ -281,6 +285,10 @@ class InventoryManageController extends Controller
          
           $search = $request['search'];
           $search_key = $request['search_key'];
+         
+          $start_date = $request['start_date'];
+          $end_date = $request['end_date'];
+         
           $orderby = $request['order']['0']['column'];
           $order = $orderby != "" ? $request['order']['0']['dir'] : "";
           $draw = $request['draw'];
@@ -295,16 +303,26 @@ class InventoryManageController extends Controller
                 $where_in=auth()->user()->id.",";
             }
 
-          $querydata = InventoryTracking::whereIn("user_id",explode(",",$where_in))->with('productDetails')->latest();
-          if (!is_null($search) && !empty($search)) {
-              $querydata->where(function($query) use ($search) {
-                  $query->where('name', 'LIKE', '%' . $search . '%');
+          $querydata = InventoryTracking::join('products',"products.id","=","inventory_trackings.product_id")->whereIn("inventory_trackings.user_id",explode(",",$where_in))->latest();
+         
+          if (!is_null($search_key) && !empty($search_key)) {
+              $querydata->where(function($query) use ($search_key) {
+                  $query->where('products.product_name', 'LIKE', '%' . $search_key . '%');
               });
+          }
+
+          if(isset($start_date) && isset($end_date))
+          {
+              $querydata->whereBetween('inventory_trackings.created_at',[$start_date.' 00:00:01',$end_date.' 23:59:59']);
+          }
+          if(isset($start_date))
+          {
+              $querydata->whereBetween('inventory_trackings.created_at',[$start_date.' 00:00:01',date('Y-m-d H:i:s')]);
           }
           $totaldata = $querydata->count();
            $response = $querydata->offset($start)
                   ->limit($limit)
-                  ->get();
+                  ->get(['inventory_trackings.*','products.product_name']);
           if (!$response) {
               $data = [];
               
@@ -336,5 +354,67 @@ class InventoryManageController extends Controller
           return response()->json($return);
         }
         }
-      }
+    }
+    public function exportExcelstockHistory(Request $request){
+        $search = $request['search'];
+        $search_key = $request['search_key'];
+       
+        $start_date = $request['start_date'];
+        $end_date = $request['end_date'];
+       
+        if(auth()->user()->is_admin==2)
+          {
+            $wereHouseId = User::where(["user_id"=>auth()->user()->id,'is_admin'=>6])->first();
+            if(isset($wereHouseId))
+            {
+                $where_in=auth()->user()->id.",".$wereHouseId->id;
+            }
+            else{
+                $where_in=auth()->user()->id.",";
+            }
+
+          $querydata = InventoryTracking::join('products',"products.id","=","inventory_trackings.product_id")->whereIn("inventory_trackings.user_id",explode(",",$where_in))->latest();
+         
+          if (!is_null($search_key) && !empty($search_key)) {
+              $querydata->where(function($query) use ($search_key) {
+                  $query->where('products.product_name', 'LIKE', '%' . $search_key . '%');
+              });
+          }
+
+          if(isset($start_date) && isset($end_date))
+          {
+              $querydata->whereBetween('inventory_trackings.created_at',[$start_date.' 00:00:01',$end_date.' 23:59:59']);
+          }
+          if(isset($start_date))
+          {
+              $querydata->whereBetween('inventory_trackings.created_at',[$start_date.' 00:00:01',date('Y-m-d H:i:s')]);
+          }
+           $response =$querydata->get(['inventory_trackings.*','products.product_name']);
+          if (!$response) {
+              $data = [];
+              
+          } else {
+              $data = $response;
+          }
+          if(!empty($data) && count($data)>0)
+          {
+            $result= array();
+            $i=1;
+            foreach($data as $k=> $record){
+    
+                $result[] = array(
+                   'Sr no'=>$i++,
+                   'Product Name' => isset($record->productDetails) ?  $record->productDetails->product_name :'-',
+                   'Purchase ' => isset($record->cr_qty) ?  $record->cr_qty : '0',
+                   'Sell' => isset($record->dr_qty) ?  $record->dr_qty : '0',
+                   'Purchase Price' => isset($record->purchase_rate) ?  $record->purchase_rate :0,
+                   'option' => isset($record->inventoryDetails->qty_opt) ?  $record->inventoryDetails->qty_opt :0,
+                   'created_at' => isset($record->created_at)? date("d-m-Y", strtotime($record->created_at)) :'-'
+                );
+             }
+          }
+        $file_name = 'StockHostory '.date('Y-m-d-s').'.xlsx'; 
+        return Excel::download(new StockHistoryExport($result), $file_name);
+    }
+}
 }

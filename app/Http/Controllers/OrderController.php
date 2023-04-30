@@ -14,7 +14,7 @@ use App\Models\OrdersItem;
 use App\Models\Tables;
 use App\Models\Orders;
 use App\Models\Transation;
-
+use App\Models\CustomOrders;
 use App\Models\User;
 use DataTables;
 use Str;
@@ -1352,6 +1352,109 @@ class OrderController extends Controller
                return redirect('login');
            }
 
+        }
+    }
+    public function custom_order_request(){
+        if(auth()->user()->is_admin==4)
+        {
+            return view('chef/custom_order/custom_order_request');
+        }else{
+            return redirect('login');
+        }
+    }
+
+    public function custom_order_requestdata(Request $request){
+      
+        if($request->ajax()) {
+            $user= auth()->user();
+            $limit = $request->input('length');
+            $start = $request->input('start');
+            $search = $request['search'];
+            $unique_id = $request['unique_id'];
+            $orderby = $request['order']['0']['column'];
+            $order = $orderby != "" ? $request['order']['0']['dir'] : "";
+            $draw = $request['draw'];
+
+            $querydata =CustomOrders::where("id","!=",0);
+            if(auth()->user()->is_admin==3)
+            {
+                $querydata->where('user_id','=',$user->id);
+            }
+            else if(auth()->user()->is_admin==4){
+                $querydata->where('user_id','=',$user->user_id);
+            }
+            $totaldata = $querydata->count();
+            $response = $querydata->offset($start)
+                    ->limit($limit)
+                    ->get();
+            if (!$response) {
+                $data = [];
+              } else {
+                  $data = $response;
+              }
+            $datas = array();
+            $i = 1;
+  
+            foreach ($data as $value) {
+                  $id = $value->id;
+                  $row['id'] = $i;
+                  $row['unique_id'] = $value->unique_id ?? "-";
+                  $row['category_id'] = $value->uniqye->name ?? '-';
+                 
+                  $row['category_id'] = $value->categoryDetails->name ?? '-';
+                  $row['sub_category_id'] = $value->menuDetails->name ?? '-';
+                  $row['qty'] = $value->qty ?? '-';
+                  $row['price'] = $value->price ?? '-';
+                  $row['total_price'] = isset($value->total_price) ? $value->total_price :'-';
+                  $row['payment_mode'] = $value->payment_mode?? '-';
+                  $row['status'] = $value->order_status;
+             
+                    $sel = "<select class='form-control' onChange=\"select_changes3('$id',this.value);return false;\">";
+                 
+                    if($value->order_status == 'Pending')
+                    {
+                        $sel .= "<option value='Pending' " . ((isset($value->status) && $value->status == "Pending") ? 'Selected' : '') . ">Pending</option>";
+                        $sel .= "<option value='Accept' " . ((isset($value->status) && $value->status == "Accept") ? 'Selected' : '') . ">Accept</option>";
+                        $sel .= "<option value='Delived' " . ((isset($value->status) && $value->status == 'Delived') ? 'Selected' : '') . ">Delived</option>";
+                    }
+                    if($value->order_status == 'Accept')
+                    {
+                        $sel .= "<option value='Accept' " . ((isset($value->status) && $value->status == 'Accept') ? 'Selected' : '') . ">Accept</option>";
+                        $sel .= "<option value='Delived' " . ((isset($value->status) && $value->status == 'Delived') ? 'Selected' : '') . ">Delived</option>";
+                    }
+                    if($value->order_status == 'Delived')
+                    {
+                        $sel .= "<option value='Delived' " . ((isset($value->status) && $value->status == "Delived") ? 'Selected' : '') . ">Delived</option>";
+                    }
+                    $sel .= "</select>";
+                    $row['order_status'] = $sel;
+                  $row['action'] =$querydata->get();
+                  $datas[] = $row;
+              $i++;
+              }
+             // dd($datas);
+              $return = [
+                  "draw" => intval($draw),
+                  "recordsFiltered" => intval($totaldata),
+                  "recordsTotal" => intval($totaldata),
+                  "data" => $datas
+              ];
+              return response()->json($return);
+          }
+    }
+    public function custom_order_status_change(Request $request){
+        
+        if(auth()->user()->is_admin==4){
+           $update= CustomOrders::where("id",$request->id)->update(['order_status'=>$request->status]);
+            if($update)
+            {
+                return ['status'=>true,'type'=>'success','message'=>"Status Change Successfully"];
+            }
+            else{
+                return ['status'=>true,'type'=>'success','message'=>"Status Change Successfully"];
+         
+            }
+          
         }
     }
 }

@@ -254,6 +254,8 @@ Route::any('restaurent/stockDisplay', [App\Http\Controllers\HomeController::clas
 Route::any('restaurent/stockDisplayRestaurent', [App\Http\Controllers\HomeController::class, 'stockDisplayRestaurent'])->name('restaurent.stockDisplayRestaurent');
 Route::any('restaurent/stockHistory', [App\Http\Controllers\InventoryManageController::class, 'stockHistory'])->name('restaurent.stockHistory');
 Route::any('restaurent/stockHistoryRestaurent', [App\Http\Controllers\InventoryManageController::class, 'stockHistoryRestaurent'])->name('restaurent.stockHistoryRestaurent');
+Route::any('restaurent/exportExcelstockHistory', [App\Http\Controllers\InventoryManageController::class, 'exportExcelstockHistory'])->name('restaurent.exportExcelstockHistory');
+
 
 
 
@@ -300,6 +302,15 @@ Route::group(['middleware' => ['IsManager']], function(){
    Route::any('manager/request_store', [App\Http\Controllers\WarehouseController::class, 'request_store'])->name('manager.request_store');
    Route::any('manager/managerrequestdata', [App\Http\Controllers\WarehouseController::class, 'managerrequestdata'])->name('manager/managerrequestdata');
    Route::get('manager/logout', [LoginController::class, 'logout']);
+
+   Route::any('manager/custom_order', [App\Http\Controllers\ManagerController::class, 'custom_order'])->name('manager.custom_order');
+
+   Route::any('manager/get_sub_menu', [App\Http\Controllers\ManagerController::class, 'get_sub_menu'])->name('manager.get_sub_menu');
+
+   Route::any('manager/custom_order_store', [App\Http\Controllers\ManagerController::class, 'custom_order_store'])->name('manager.custom_order_store');
+
+   Route::any('manager/custom_order_requestdata', [App\Http\Controllers\OrderController::class, 'custom_order_requestdata'])->name('manager/custom_order_requestdata');
+
 });
 
  //IsChef
@@ -318,6 +329,13 @@ Route::group(['middleware' => ['IsManager']], function(){
    Route::any('chef/order/edit/{id}', [App\Http\Controllers\OrderController::class, 'edit'])->name('chef.order.edit');
    Route::any('chef/order/show/{id}', [App\Http\Controllers\OrderController::class, 'show'])->name('chef.order.show');
 
+      
+   Route::any('chef/custom_order_request', [App\Http\Controllers\OrderController::class, 'custom_order_request'])->name('chef/custom_order_request');
+   Route::any('chef/custom_order_requestdata', [App\Http\Controllers\OrderController::class, 'custom_order_requestdata'])->name('chef/custom_order_requestdata');
+
+   Route::any('chef/custom_order_status_change', [App\Http\Controllers\OrderController::class, 'custom_order_status_change'])->name('chef/custom_order_status_change');
+
+   
    Route::get('chef/logout', [LoginController::class, 'logout']);
 });
 //Iswerehousef

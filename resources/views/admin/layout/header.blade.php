@@ -107,6 +107,12 @@ $url = Request::segment(2);
 						<div class="menu-title">Order Manager</div>
 					</a>
 				</li>	
+				<li  class="@if($url=='custom_order_request') mm-active @endif">
+					<a href="{{route('chef/custom_order_request')}}">
+						<div class="parent-icon"><i class="bx bx-user" aria-hidden="true"></i></div>
+						<div class="menu-title">Custom Order</div>
+					</a>
+				</li>
 				@elseif(auth()->user()->is_admin==2)
 				<li class="@if($url=='dashboard')  mm-active  @endif">
 					<a href="{{url('restaurent/dashboard')}}">
@@ -116,7 +122,8 @@ $url = Request::segment(2);
 						<div class="menu-title">Dashboard</div>
 					</a>
 				</li>
-				
+
+
 				<li  class="@if($url=='branch') mm-active @endif">
 					<a href="{{route('restaurent.branch')}}">
 						<div class="parent-icon"><i class="bx bx-user" aria-hidden="true"></i></div>
@@ -216,6 +223,12 @@ $url = Request::segment(2);
 					<a href="{{route('manager.order')}}">
 						<div class="parent-icon"><i class="bx bx-cart" aria-hidden="true"></i></div>
 						<div class="sub_menu-title">Order Manager</div>
+					</a>
+				</li>
+				<li  class="@if($url=='custom_order') mm-active @endif">
+					<a href="{{route('manager.custom_order')}}">
+						<div class="parent-icon"><i class="bx bx-user" aria-hidden="true"></i></div>
+						<div class="menu-title">Custom Order</div>
 					</a>
 				</li>
 				<li  class="@if($url=='inventory_request') mm-active @endif">
