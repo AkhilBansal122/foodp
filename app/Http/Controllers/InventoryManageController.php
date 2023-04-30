@@ -89,6 +89,7 @@ class InventoryManageController extends Controller
                         $InventoryTracking->user_id = $user->id;
                         $InventoryTracking->cr_qty = $request->qty_num;
                         $InventoryTracking->dr_qty = 0;
+                        $InventoryTracking->purchase_rate = $request->price;
                         $InventoryTracking->save();
 
                         $total_invCr=  InventoryTracking::where(['inventory_id'=>$inventoryData->id,'user_id'=>$user->id])->sum('cr_qty');
@@ -166,6 +167,7 @@ class InventoryManageController extends Controller
                     $InventoryTracking->product_id = $request->product_id;
                     $InventoryTracking->user_id = $user->id;
                     $InventoryTracking->cr_qty = $request->qty_num;
+                    $InventoryTracking->purchase_rate = $request->price;
                     $InventoryTracking->dr_qty = 0;
                     $InventoryTracking->save();
                   
@@ -264,5 +266,75 @@ class InventoryManageController extends Controller
            }else{
                return ['status'=>0,'type'=>'danger','message'=>"Status Change Failed"];
            }
-       }
+    }
+
+    public function stockHistory(){
+        if(auth()->user()->is_admin==2)
+        {
+            return view('restaurent/stock/stockHistory');
+        }
+    }
+    public function stockHistoryRestaurent(Request $request){
+        if ($request->ajax()) {
+          $limit = $request->input('length');
+          $start = $request->input('start');
+         
+          $search = $request['search'];
+          $search_key = $request['search_key'];
+          $orderby = $request['order']['0']['column'];
+          $order = $orderby != "" ? $request['order']['0']['dir'] : "";
+          $draw = $request['draw'];
+          if(auth()->user()->is_admin==2)
+          {
+            $wereHouseId = User::where(["user_id"=>auth()->user()->id,'is_admin'=>6])->first();
+            if(isset($wereHouseId))
+            {
+                $where_in=auth()->user()->id.",".$wereHouseId->id;
+            }
+            else{
+                $where_in=auth()->user()->id.",";
+            }
+
+          $querydata = InventoryTracking::whereIn("user_id",explode(",",$where_in))->with('productDetails')->latest();
+          if (!is_null($search) && !empty($search)) {
+              $querydata->where(function($query) use ($search) {
+                  $query->where('name', 'LIKE', '%' . $search . '%');
+              });
+          }
+          $totaldata = $querydata->count();
+           $response = $querydata->offset($start)
+                  ->limit($limit)
+                  ->get();
+          if (!$response) {
+              $data = [];
+              
+          } else {
+              $data = $response;
+          }
+          $datas = array();
+          $i = 1;
+    
+          foreach ($data as $value) {
+              $id = $value->id;
+              $row['id'] = $i;
+              $row['product_name'] = isset($value->productDetails)? $value->productDetails->product_name:'-';
+              $row['cr_qty'] = isset($value->cr_qty)? $value->cr_qty:'-';
+              $row['dr_qty'] = isset($value->dr_qty)? $value->dr_qty:'-';
+              $row['purchase_rate'] = isset($value->purchase_rate)? $value->purchase_rate:'-';
+              $row['option'] = isset($value->inventoryDetails->qty_opt)? $value->inventoryDetails->qty_opt:'-';
+              $row['created_at'] = isset($value->created_at)? date("d-m-Y", strtotime($value->created_at)) :'-';
+              $datas[] = $row;
+          $i++;
+          }
+    
+          $return = [
+              "draw" => intval($draw),
+              "recordsFiltered" => intval($totaldata),
+              "recordsTotal" => intval($totaldata),
+              "data" => $datas
+          ];
+          return response()->json($return);
+        }
+        }
+      }
 }

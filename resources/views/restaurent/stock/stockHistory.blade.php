@@ -1,9 +1,6 @@
 @include('admin.layout.header')
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
-<script type="text/javascript" src='https://cdn.jsdelivr.net/sweetalert2/6.3.8/sweetalert2.min.js'></script>
-<link media="screen" rel="stylesheet" href='https://cdn.jsdelivr.net/sweetalert2/6.3.8/sweetalert2.min.css' />
-<link media="screen" rel="stylesheet" href='https://cdn.jsdelivr.net/sweetalert2/6.3.8/sweetalert2.css' />
 
 <div class="page-wrapper">
 			<div class="page-content">
@@ -16,11 +13,23 @@
 							<ol class="breadcrumb mb-0 p-0">
 								<li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
 								</li>
-								<li class="breadcrumb-item active" aria-current="page">Stock Details</li>
+								<li class="breadcrumb-item active" aria-current="page">Stock history Details</li>
 							</ol>
 						</nav>
 					</div>
 				</div>
+                <div class="card">
+				<div class="card-header">
+					<div class="row">
+                    <div class="col-md-4 col-lg-4 col-xl-2"><input type="text" class="form-control search_keyword" placeholder="Search Keyword"></div>
+                    <div class="col-md-4 col-lg-4 col-xl-2"><input type="date" class="form-control start_date" placeholder="From Date"></div>
+						<div class="col-md-4 col-lg-4 col-xl-2"><input type="date" class="form-control end_date"  placeholder="To Date"></div>
+						<div class="col-md-6 col-lg-6 col-xl-6 d-inline-flex btn_grp">
+							<button type="button" class="btn btn-primary filter me-3"><i class='bx bx-filter-alt' ></i>Filter</button>
+							<button type="button" class="btn btn-light refresh me-3 ms-2"><i class='bx bx-refresh'></i></button>
+						</div>
+					</div>
+				</div>  
                 <div class="card">
                     <div class="card-body">
                        <div class="table-responsive">
@@ -31,8 +40,9 @@
                                         <th>Product Name</th>
                                         <th>Total Purchase</th>
                                         <th>Total Sell</th>
-                                        <th>Qty Option</th>
-                                        <th width="100px">Total Available</th>
+                                        <th>Option</th>
+                                        <th>Price</th>
+                                        <th>Created Date</th>
                                 </tr>
                             </thead>
                             <tbody></tbody>
@@ -55,10 +65,12 @@
         pageLength:10,
         retrieve:true,
         ajax: {
-            url: "{{ route('restaurent.stockDisplayRestaurent') }}",
+            url: "{{ route('restaurent.stockHistoryRestaurent') }}",
             data: function (d) {
                 d.search = $('input[type="search"]').val(),
-                d.search_key = $('.searchRestaurentName').val()
+                d.search_key = $('.searchRestaurentName').val(),
+                d.start_date = $('.start_date').val()
+                d.end_date = $('.end_date').val()
             },
         },
         columns: [
@@ -69,13 +81,17 @@
 				}
 			},
 		     {data:'product_name',name:"product_name"},
-             {data:'total_cr',name:"total_cr"},
-             {data:'total_dr',name:"total_dr"},
-             {data:'qty_opt',name:'qty_opt'},
-             {data:'total_available',name:"total_available"},
+             {data:'cr_qty',name:"cr_qty"},
+             {data:'dr_qty',name:"dr_qty"},
+             {data:'option',name:"option"},
+             {data:'purchase_rate',name:"purchase_rate"},
+             {data:'created_at'},
         ]
     });
     $('.refresh').click(function (e){
+        $('.start_date').val("");
+		$('.end_date').val("");
+		
 		$('.search_keyword').val("");
 		tables.ajax.reload();
 	});

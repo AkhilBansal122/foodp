@@ -252,6 +252,10 @@ Route::get('restaurent/logout', [LoginController::class, 'logout']);
 Route::any('restaurent/stockDisplay', [App\Http\Controllers\HomeController::class, 'stockDisplay'])->name('restaurent.stockDisplay');
 
 Route::any('restaurent/stockDisplayRestaurent', [App\Http\Controllers\HomeController::class, 'stockDisplayRestaurent'])->name('restaurent.stockDisplayRestaurent');
+Route::any('restaurent/stockHistory', [App\Http\Controllers\InventoryManageController::class, 'stockHistory'])->name('restaurent.stockHistory');
+Route::any('restaurent/stockHistoryRestaurent', [App\Http\Controllers\InventoryManageController::class, 'stockHistoryRestaurent'])->name('restaurent.stockHistoryRestaurent');
+
+
 
 });
   //IsManager

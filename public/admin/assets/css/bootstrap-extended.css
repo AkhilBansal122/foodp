@@ -318,7 +318,7 @@ body.bg-theme.bg-theme1 {
 
 
 .logoouteradmin {
-    background: #F4A39E;
+    background: rgb(215, 22, 22);
     border-radius: 10px;
     padding: 20px 10px;
 }
@@ -375,13 +375,13 @@ body.bg-theme.bg-theme1 {
 }
 .login-card.card .btn.btn-primary {
     color: #fff !important;
-    background-color: #F4A39E !important;
-    border-color: #F4A39E!important; 
+    background-color:rgb(215, 22, 22);
+    border-color: rgb(215, 22, 22); 
     margin-right: 0px;
     width: auto;
 }
 a {
-    color: #F4A39E !important;
+    color: rgb(215, 22, 22);
 }
 .login-card.card  .form-control::-webkit-input-placeholder { /* Edge */
   color: #334154 !important;
