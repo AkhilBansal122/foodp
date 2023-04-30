@@ -4539,3 +4539,9 @@ button.btn.btn-light.px-5 {
 .canvasjs-chart-credit {
 	display: none;
   }
+  .select2-search--dropdown .select2-search__field {
+	border: 1px solid rgb(255 255 255 / 29%);
+	border-radius: 0.25rem;
+	background: rgb(255 255 255 / 27%);
+	color: #000;
+}

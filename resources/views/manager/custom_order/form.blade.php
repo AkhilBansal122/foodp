@@ -2,7 +2,7 @@
 <div class="col-md-2">
     <div class="form-group">
         <label for="title" class="form-label">Select Category: <span style="color:red">*</span></label>
-        <select name="category_id" id="category_id" class="form-control" >
+        <select name="category_id" id="category_id" class="form-control single-select" >
             <option value="">Select Category</option>
             @if(!empty($category))
                 @foreach($category as $row)
@@ -15,7 +15,7 @@
 <div class="col-md-2">
     <div class="form-group">
         <label for="title" class="form-label">Select Menu: <span style="color:red">*</span></label>
-        <select name="sub_category_id" id="sub_category_id" class="form-control">
+        <select name="sub_category_id" id="sub_category_id" class="form-control single-select">
             <option value="">Select Menu</option>
         </select>
     </div>
