@@ -68,7 +68,7 @@
             url: "{{ route('restaurent.stockHistoryRestaurent') }}",
             data: function (d) {
                 d.search = $('input[type="search"]').val(),
-                d.search_key = $('.searchRestaurentName').val(),
+             //   d.search_key = $('.searchRestaurentName').val(),
                 d.start_date = $('.start_date').val()
                 d.end_date = $('.end_date').val()
             },

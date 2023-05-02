@@ -24,12 +24,13 @@ use Helper;
 class OrderController extends Controller
 {
     public function add_tocart(Request $request,$id){
-       
+      // dd($request->all());
+
         $id= $request->table_id;
          if((auth()->user()) && (auth()->user()->is_admin==5)){
            //  dd($request->all());
              $user_id = auth()->user()->id;
-            $table= Tables::where("unique_id",$id)->first();
+            $table= Tables::where("unique_id",$request->table_id)->first();
            // dd($table);
             $gst =  $table->get_restaurent->GST;
       
@@ -39,13 +40,12 @@ class OrderController extends Controller
                  $cart->user_id = auth()->user()->id;
                  $cart->save();
             }
-            
              $cartDetails = new cartItem();
              $cartDetails->cart_id = $cart->id;
              $cartDetails->user_id = $user_id;
              $cartDetails->product_id = $request->product_id;
-             $cartDetails->product_price = $request->product_price;
-             $cartDetails->qty = $request->qty;
+             $cartDetails->product_price = $request->price;
+             $cartDetails->qty = 1;//$request->qty;
              $cartDetails->save();
             $this->add_tocart_calculation($user_id,$cart->id);
         }
@@ -1354,4 +1354,5 @@ class OrderController extends Controller
 
         }
     }
+
 }
