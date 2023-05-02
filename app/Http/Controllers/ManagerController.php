@@ -6,11 +6,16 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Branch;
+use App\Models\CustomOrders;
 use File;
 use DataTables;
 use Str;
 use Session;
 use Helper;
+
+use App\Models\Category;
+use App\Models\SubCategories;
+
 class ManagerController extends Controller
 {
     public function index($id=null){
@@ -494,5 +499,49 @@ class ManagerController extends Controller
         }
     }
 
+    public function custom_order(){
+        if(auth()->user()->is_admin==3)
+        {
+            $category = Category::where(['user_id'=>auth()->user()->user_id,'status'=>'Active'] )->get();
+            return view('manager/custom_order/create',compact('category'));
+        }
+    }
+
+    public function get_sub_menu(Request $request){
+        if(auth()->user()->is_admin==3)
+        {
+            $category = SubCategories::select('name','price','id')->where(['category_id'=>$request->category_id,'status'=>'Active'] )->get();
+            if(!empty($category)){
+                echo json_encode(array('status'=>true,"data"=>$category));
+            }
+            else{
+                echo json_encode(array('status'=>false,"data"=>$category));
+            }
+        }
+        
+    }
+
+    public function custom_order_store(Request $request){
+        if(auth()->user()->is_admin==3){
+            $CustomOrders = new CustomOrders();
+            $CustomOrders->user_id= auth()->user()->id;
+            $CustomOrders->category_id= $request->category_id;
+            $CustomOrders->sub_category_id= $request->sub_category_id; 
+            $CustomOrders->qty= $request->qty;
+            $CustomOrders->payment_mode= $request->payment_mode;
+            $CustomOrders->price= $request->price;
+            $CustomOrders->total_price= $request->total_price;
+            if($CustomOrders->save())
+            {
+                $CustomOrders->unique_id = "CUSODR-000".$CustomOrders->id;
+                $CustomOrders->save();
+                return redirect()->back()->with('success','Order Place Successfully');
+            }
+            else{
+                return redirect()->back()->with('success','Order Place Successfully');
+            }
+        }
+        
+    }
     
 }

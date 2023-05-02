@@ -27,7 +27,9 @@
 						<div class="col-md-6 col-lg-6 col-xl-6 d-inline-flex btn_grp">
 							<button type="button" class="btn btn-primary filter me-3"><i class='bx bx-filter-alt' ></i>Filter</button>
 							<button type="button" class="btn btn-light refresh me-3 ms-2"><i class='bx bx-refresh'></i></button>
-						</div>
+                            <button onclick="export_data('{{ route('restaurent.exportExcelstockHistory') }}')"  type="button" class="btn btn-success btn-sm"><i class="fa fa-file-excel"></i>Export</button>
+
+                        </div>
 					</div>
 				</div>  
                 <div class="card">
@@ -38,8 +40,8 @@
                                 <tr>
                                         <th>No</th>
                                         <th>Product Name</th>
-                                        <th>Total Purchase</th>
-                                        <th>Total Sell</th>
+                                        <th>Purchase</th>
+                                        <th>Sell</th>
                                         <th>Option</th>
                                         <th>Price</th>
                                         <th>Created Date</th>
@@ -57,6 +59,12 @@
 
 @include('admin.layout.footer')
 <script type="text/javascript">
+    function export_data(url, id) {
+	var start_date 	= 	$('.start_date').val();
+	var end_date	=  	$('.end_date').val();
+	var searchBy 	=   $('.search_keyword').val();
+	window.location.href = url + '?start_date='+start_date+'&end_date=' + end_date+'&searchBy='+searchBy;
+}
   $(function () {
 
     var table = $('.data-table').DataTable({
@@ -68,7 +76,11 @@
             url: "{{ route('restaurent.stockHistoryRestaurent') }}",
             data: function (d) {
                 d.search = $('input[type="search"]').val(),
+<<<<<<< HEAD
              //   d.search_key = $('.searchRestaurentName').val(),
+=======
+                d.search_key = $('.search_keyword').val(),
+>>>>>>> cc16d6d45065aaf089e56f63107ec1c6eebac0ca
                 d.start_date = $('.start_date').val()
                 d.end_date = $('.end_date').val()
             },
@@ -93,10 +105,10 @@
 		$('.end_date').val("");
 		
 		$('.search_keyword').val("");
-		tables.ajax.reload();
+		table.ajax.reload();
 	});
 	$('.filter').click(function (e) {
-		tables.ajax.reload();
+		table.ajax.reload();
 	});
 });
 	</script>

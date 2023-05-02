@@ -53,8 +53,14 @@ class HomeController extends Controller
               $total_branch = Branch::where('user_id',auth()->user()->id)->count();
               $total_manager = User::where('user_id',auth()->user()->id)->where('is_admin',3)->count();
               $total_chef=  User::whereIn('user_id', User::select(['id'])->where(['is_admin'=> 3,'user_id'=>auth()->user()->id]))->where('is_admin', 4)->count();
-              $total_order=0;
-              return view('restaurent/dashboard',compact('total_branch','total_manager','total_chef','total_order'));
+              $total_order=Orders::whereIn("branch_id",Branch::where('user_id',auth()->user()->id)->pluck('id'))->count();
+              $total_order_amount=Orders::whereIn("branch_id",Branch::where('user_id',auth()->user()->id)->pluck('id'))->sum('final_amount');
+              
+              $total_stock_purchase=Inventory::where("user_id",auth()->user()->id)->sum('total_cr');
+              $total_stock_sellout=Inventory::where("user_id",auth()->user()->id)->sum('total_dr');
+              $total_stock_available=Inventory::where("user_id",auth()->user()->id)->sum('total_available');
+              
+              return view('restaurent/dashboard',compact('total_branch','total_manager','total_chef','total_order','total_order_amount','total_stock_purchase','total_stock_sellout','total_stock_available'));
           }
           else if($is_admin==3){
                
@@ -201,14 +207,13 @@ public function restaurentGraphs(){
       if(auth()->user()->is_admin==2)
       {
 
+        $querydata = Inventory::where('user_id',auth()->user()->id)->with('productDetails')->latest();
       
-      $querydata = Inventory::where('user_id',auth()->user()->id)->with('productDetails')->latest();
-      
-      if (!is_null($search) && !empty($search)) {
-          $querydata->where(function($query) use ($search) {
-              $query->where('name', 'LIKE', '%' . $search . '%');
-          });
-      }
+        if (!is_null($search) && !empty($search)) {
+            $querydata->where(function($query) use ($search) {
+                $query->where('name', 'LIKE', '%' . $search . '%');
+            });
+        }
 
       
 

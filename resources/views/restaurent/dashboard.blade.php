@@ -73,9 +73,78 @@
 								</a>
 							</div>
 						</div>
-
-
+						<div class="col_3 col">
+							<div class="card ">
+								<a href="0">
+									<div class="card-body">
+									<div class="d-flex align-items-center">
+										<h5 class="mb-0">{{$total_order_amount}} </h5>
+									</div>
+									<div class="progress my-3" style="height:4px;">
+										<div class="progress-bar" role="progressbar" style="width: 55%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+									</div>
+									<div class="d-flex align-items-center">
+										<p class="mb-0">Total Earn</p>
+									</div>
+									</div>
+								</a>
+							</div>
+						</div>
+						
 					</div><!--end row-->
+					<div class="row">
+					<div class="col_3 col">
+							<div class="card ">
+								<a href="0">
+									<div class="card-body">
+									<div class="d-flex align-items-center">
+										<h5 class="mb-0">{{$total_stock_purchase}} </h5>
+									</div>
+									<div class="progress my-3" style="height:4px;">
+										<div class="progress-bar" role="progressbar" style="width: 55%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+									</div>
+									<div class="d-flex align-items-center">
+										<p class="mb-0">Total Purchase Stock</p>
+									</div>
+									</div>
+								</a>
+							</div>
+						</div>
+						<div class="col_3 col">
+							<div class="card ">
+								<a href="0">
+									<div class="card-body">
+									<div class="d-flex align-items-center">
+										<h5 class="mb-0">{{$total_stock_sellout}} </h5>
+									</div>
+									<div class="progress my-3" style="height:4px;">
+										<div class="progress-bar" role="progressbar" style="width: 55%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+									</div>
+									<div class="d-flex align-items-center">
+										<p class="mb-0">Total Sellout Stock</p>
+									</div>
+									</div>
+								</a>
+							</div>
+						</div>
+						<div class="col_3 col">
+							<div class="card ">
+								<a href="0">
+									<div class="card-body">
+									<div class="d-flex align-items-center">
+										<h5 class="mb-0">{{$total_stock_available}} </h5>
+									</div>
+									<div class="progress my-3" style="height:4px;">
+										<div class="progress-bar" role="progressbar" style="width: 55%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+									</div>
+									<div class="d-flex align-items-center">
+										<p class="mb-0">Total Available Stock</p>
+									</div>
+									</div>
+								</a>
+							</div>
+						</div>
+					</div>
 				</div>
 				</div>
 
