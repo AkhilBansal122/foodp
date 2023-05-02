@@ -64,6 +64,9 @@ Route::group(['middleware' => ['is_customer']], function(){
    Route::any('{tblid}/CartItemIncDec', [App\Http\Controllers\OrderController::class, 'CartItemIncDec'])->name('CartItemIncDec');
    Route::any('{tblid}/remove_cartItem', [App\Http\Controllers\OrderController::class, 'remove_cartItem'])->name('remove_cartItem');
    Route::any('{tblid}/checkout', [App\Http\Controllers\OrderController::class, 'checkout'])->name('checkout');
+   Route::any('{tblid}/shipping_address',[App\Http\Controllers\WebsiteController::class,'shipping_address'])->name('website.shipping_address');
+
+   Route::any('{tblid}/payment_proceed',[App\Http\Controllers\RazorpayController::class,'formPage'])->name('website.payment');
 });
 
 Route::group(['middleware' => ['is_admin']], function(){
@@ -349,4 +352,7 @@ Route::group(['middleware' => ['IsWarehouse']], function(){
 
 
    Route::get('warehouse_manage/logout', [LoginController::class, 'logout']);
+
+
+
 });

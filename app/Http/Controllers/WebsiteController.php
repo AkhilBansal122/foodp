@@ -57,16 +57,22 @@ class WebsiteController extends Controller
         else{
            $restaurentName= $id;
            $getRestaurent = User::where("name",$restaurentName)->where('is_admin',2)->first();
+
+
            $manager_id = [];
            $getMenu =[];
+           $getBanner=null;
+           $getservices = null;
            if(!is_null($getRestaurent)){
            $getAllManager= User::where("user_id",$getRestaurent->id)->where("is_admin",3)->where("status",'Active')->get(['id']);
+            $getBanner = Banners::select('title','images','description')->where('user_id',$getRestaurent->id)->first(); 
             if(!empty($getAllManager)){
                 foreach($getAllManager as $m){
                     array_push($manager_id,$m->id);
                 }
             }
-
+              $getservices = Service::select('title','icon','description')->where(['user_id'=>$getRestaurent->id,'status'=>'Active'])->get(); 
+              
             
             $getmenus= Category::where("user_id",$getRestaurent->id)->where('status','Active')->take(3)->get(['id','name','image']);
             if(!empty($getmenus)){
@@ -78,7 +84,7 @@ class WebsiteController extends Controller
             }
            } 
            $getChefData = User::whereIn('user_id',$manager_id)->where(['is_admin'=>4,'status'=>"Active"])->get();
-            return view('website.layout.main',compact('getMenu','getChefData','restaurentName'));
+            return view('website.layout.main',compact('getMenu','getChefData','restaurentName','getBanner','getservices'));
         }
     }
 
@@ -271,12 +277,21 @@ class WebsiteController extends Controller
                                         </div>
 
                                             <small class="fst-italic">'.$row->description.'</small><br></br>
-                                             <button type="button" class="btn btn-sm btn-outline-secondary" onClick="add_to_cart("'.auth()->user()->table_id.'",'.$row->id.','.$row->price.',1);return false;"><b>Add to cart</b></button>
+                                             <button type="button"
+                                             
+                                               data-table_id="'.$tab_id.'"
+                                              data-id="'.$row->id.'"
+                                               data-price="'.$row->price.'"
+                                               data-seleted ="1"
+
+                                              class="addtocart btn btn-sm btn-outline-secondary" ><b>Add to cart</b></button>
                                     </div>
                                  </div>
                                 </div>';
                    }
             }
+
+            //onClick="add_to_cart("'.auth()->user()->table_id.'",'.$row->id.','.$row->price.',1);return false;"
             if(!empty($respose)){
                 return response()->json(['status'=>true,"data"=>$respose]);
             }
@@ -399,20 +414,24 @@ class WebsiteController extends Controller
                 $r->catagory_name = $r->productDetails->menuDetails->name;
                 $r->product_image =asset('public'). $r->productDetails->image;
             }
-
+            //dd($getCartDetails);
             $result['status'] = true;
             $result['data'] = $getCartDetails;
             $result['cart'] = $getCart;
             }   
-            else{
+            else
+            {
             $result['status'] = false;
             $result['data'] = [];
             $result['cart'] = [];
            }
+         ///  dd($result);
            return response()->json($result);
 
         }
     }
 
-
+    public function shipping_address(){
+            return view('website.shipping');
+        }
 }

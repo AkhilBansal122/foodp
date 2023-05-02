@@ -25,7 +25,7 @@
                         <div class="service-item rounded pt-3">
                             <div class="p-4">
                                 @if(!empty($val->icon))
-                                <img src="{{asset('public/'.$val->icon)}}"/>
+                                <img src="{{asset('public/'.$val->icon)}}" style="width: 80px; height: 80px;" />
                                 @else
                                 <i class="fa fa-3x fa-user-tie text-primary mb-4"></i>
                                 @endif
