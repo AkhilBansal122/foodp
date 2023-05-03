@@ -197,6 +197,7 @@ $url = Request::segment(2);
 						<div class="inventory_manage-title">Stock history</div>
 					</a>
 				</li>	
+				
 
 				@elseif(auth()->user()->is_admin==3)
 				<li class="@if($url=='dashboard')  mm-active  @endif">

@@ -244,6 +244,9 @@ Route::group(['middleware' => ['is_restaurent']], function(){
  Route::any('restaurent/inventory_manage/update', [App\Http\Controllers\InventoryManageController::class, 'update'])->name('restaurent.inventory_manage.update');
  Route::any('restaurent/inventory_manage/status_change', [App\Http\Controllers\InventoryManageController::class, 'status_change'])->name('restaurent.inventory_manage.status_change');
  
+
+
+ 
  //warehouse_manage
  Route::any('restaurent/warehouse_manage', [App\Http\Controllers\WarehouseController::class, 'create'])->name('restaurent.warehouse_manage');
  Route::any('restaurent/warehouse_manage/store', [App\Http\Controllers\WarehouseController::class, 'store'])->name('restaurent.warehouse.store');

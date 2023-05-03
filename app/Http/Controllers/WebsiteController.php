@@ -143,6 +143,9 @@ class WebsiteController extends Controller
         else
         {
             $restaurentName = $id;
+            $getRestaurent = User::where("name",$restaurentName)->where('is_admin',2)->first();
+
+            $getservices = Service::select('title','icon','description')->where(['user_id'=>$getRestaurent->id,'status'=>'Active'])->get(); 
 
         }
        return view('website.service',compact('restaurentName','getservices'));
@@ -244,12 +247,33 @@ class WebsiteController extends Controller
             // Save the data in the database
             $post->save();
 
-        if(auth()->user()->is_admin==5){
-            auth()->user()->table_id = $id;
-        }
+            if(auth()->user()->is_admin==5){
+                auth()->user()->table_id = $id;
+
+            }
             // Session::get('table_id');
             // Session::get('restaurent_id');
         }
+        // else{
+            //   $restaurentName = $id;
+            // $getRestaurent = User::where("name",$restaurentName)->where('is_admin',2)->first();
+
+            // // $getservices = Service::select('title','icon','description')->where(['user_id'=>$getRestaurent->id,'status'=>'Active'])->get();
+            // // Create a new instance of the model
+            // $post = new Contact;
+
+            // // Set the properties with the data from the form
+            // $post->name = $request->input('name');
+            // // dd($post->name);
+            // $post ->user_id=$user_id;
+            // $post->email = $request->input('email');
+            // $post->subject = $request->input('subject');
+            // $post->message = $request->input('message');
+
+            // // Save the data in the database
+            // $post->save();
+
+        // }
 
         return view('website.contact',compact('restaurentName','post'));
     }

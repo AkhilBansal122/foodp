@@ -129,15 +129,16 @@
              qty = qty + 1;
              console.log(qty);
              var id ="'"+ "counting_"+key+"'";
+             console.log(id);
 
-             document.getElementById(id).inner= qty;
+             // document.getElementById(id).inner= qty;
          }
          //creation of decrement function
          function decrement(key,qty) {
              qty = qty - 1;
                var id ="'"+ "counting_"+key+"'";
                console.log(qty);
-             document.getElementById(id).inner = qty;
+             // document.getElementById(id).inner = qty;
             // document.getElementById("counting").innerText = data;
          }
       </script> 
