@@ -26,6 +26,8 @@ class OrderController extends Controller
     public function add_tocart(Request $request,$id){
       // dd($request->all());
 
+     
+
         $id= $request->table_id;
          if((auth()->user()) && (auth()->user()->is_admin==5)){
            //  dd($request->all());
@@ -1354,9 +1356,9 @@ class OrderController extends Controller
 
         }
     }
-<<<<<<< HEAD
+//<<<<<<< HEAD
 
-=======
+//=======
     public function custom_order_request(){
         if(auth()->user()->is_admin==4)
         {
@@ -1460,5 +1462,5 @@ class OrderController extends Controller
           
         }
     }
->>>>>>> cc16d6d45065aaf089e56f63107ec1c6eebac0ca
+//>>>>>>> cc16d6d45065aaf089e56f63107ec1c6eebac0ca
 }

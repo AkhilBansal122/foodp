@@ -197,6 +197,7 @@ $url = Request::segment(2);
 						<div class="inventory_manage-title">Stock history</div>
 					</a>
 				</li>	
+				
 
 				@elseif(auth()->user()->is_admin==3)
 				<li class="@if($url=='dashboard')  mm-active  @endif">
@@ -235,6 +236,12 @@ $url = Request::segment(2);
 					<a href="{{route('manager.inventory_request')}}">
 						<div class="parent-icon"><i class="bx bx-cart" aria-hidden="true"></i></div>
 						<div class="sub_menu-title">Inventory Request Manager</div>
+					</a>
+				</li>
+				<li  class="@if($url=='customer_query') mm-active @endif">
+					<a href="{{url('manager/customer_query')}}">
+						<div class="parent-icon"><i class="bx bx-cart" aria-hidden="true"></i></div>
+						<div class="sub_menu-title">Customer Query</div>
 					</a>
 				</li>
 			
