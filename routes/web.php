@@ -21,7 +21,6 @@ use App\Http\Controllers\ChatController;
 use App\Http\Controllers\WebNotificationController;
 use App\Http\Controllers\RestaurentWebsiteController;
 
-
 //Route::group(['middleware' => 'prevent-back-history'],function(){
    Route::get('/qrcode', 'App\Http\Controllers\QRCodeController@index')->name('home.index');
 
@@ -59,11 +58,14 @@ Route::group(['middleware' => ['is_customer']], function(){
    Route::any('{tblid}/contact', [App\Http\Controllers\WebsiteController::class, 'contact'])->name('contact');
    Route::any('{tblid}/getsub_menu_by_menu_id', [App\Http\Controllers\WebsiteController::class, 'getsub_menu_by_menu_id'])->name('getsub_menu_by_menu_id');
    Route::any('{tblid}/cartItem', [App\Http\Controllers\WebsiteController::class, 'cartItem'])->name('cartItem');
-   Route::any('{tblid}/add_tocart', [App\Http\Controllers\OrderController::class, 'add_tocart'])->name('add_tocart');
+   Route::any('{tblid}/git ', [App\Http\Controllers\OrderController::class, 'add_tocart'])->name('add_tocart');
    Route::any('{tblid}/cartItemList', [App\Http\Controllers\WebsiteController::class, 'cartItemList'])->name('cartItemList');
    Route::any('{tblid}/CartItemIncDec', [App\Http\Controllers\OrderController::class, 'CartItemIncDec'])->name('CartItemIncDec');
    Route::any('{tblid}/remove_cartItem', [App\Http\Controllers\OrderController::class, 'remove_cartItem'])->name('remove_cartItem');
    Route::any('{tblid}/checkout', [App\Http\Controllers\OrderController::class, 'checkout'])->name('checkout');
+   Route::any('{tblid}/shipping_address',[App\Http\Controllers\WebsiteController::class,'shipping_address'])->name('website.shipping_address');
+
+   Route::any('{tblid}/payment_proceed',[App\Http\Controllers\RazorpayController::class,'formPage'])->name('website.payment');
 });
 
 Route::group(['middleware' => ['is_admin']], function(){
@@ -241,6 +243,9 @@ Route::group(['middleware' => ['is_restaurent']], function(){
  Route::any('restaurent/inventory_manage/update', [App\Http\Controllers\InventoryManageController::class, 'update'])->name('restaurent.inventory_manage.update');
  Route::any('restaurent/inventory_manage/status_change', [App\Http\Controllers\InventoryManageController::class, 'status_change'])->name('restaurent.inventory_manage.status_change');
  
+
+
+
  //warehouse_manage
  Route::any('restaurent/warehouse_manage', [App\Http\Controllers\WarehouseController::class, 'create'])->name('restaurent.warehouse_manage');
  Route::any('restaurent/warehouse_manage/store', [App\Http\Controllers\WarehouseController::class, 'store'])->name('restaurent.warehouse.store');
@@ -273,6 +278,10 @@ Route::group(['middleware' => ['IsManager']], function(){
     Route::any('manager/table/store', [App\Http\Controllers\TablesController::class, 'store'])->name('manager.table.store');
     Route::any('manager/table/update', [App\Http\Controllers\TablesController::class, 'update'])->name('manager.table.update');
     Route::any('manager/table/status_change', [App\Http\Controllers\TablesController::class, 'status_change'])->name('manager.table.status_change');
+    
+    //Customer Query
+    Route::any('manager/customer_query', [App\Http\Controllers\CustomerQueryController::class, 'index'])->name('manager.customerquery');
+    Route::post('manager/send-oder-mail',[App\Http\Controllers\CustomerQueryController::class,'SendMail'])->name('manager/send-oder-mail');
    
    //Chefs
    Route::any('manager/chefs/data', [App\Http\Controllers\ChefsController::class, 'data'])->name('manager/chefs/data');
@@ -311,6 +320,8 @@ Route::group(['middleware' => ['IsManager']], function(){
 
    Route::any('manager/custom_order_requestdata', [App\Http\Controllers\OrderController::class, 'custom_order_requestdata'])->name('manager/custom_order_requestdata');
 
+
+  
 });
 
  //IsChef
@@ -349,4 +360,7 @@ Route::group(['middleware' => ['IsWarehouse']], function(){
 
 
    Route::get('warehouse_manage/logout', [LoginController::class, 'logout']);
+
+
+
 });
