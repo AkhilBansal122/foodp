@@ -198,7 +198,7 @@ class WebsiteController extends Controller
            $getChefData = User::whereIn('user_id',$manager_id)->where(['is_admin'=>4,'status'=>"Active"])->get();
             
         }
-        return view('website.menu',compact('getMenu','getChefData','restaurentName'));
+        return view('website.menu',compact('getMenu','getChefData','restaurentName','id'));
     }
 
     public function booking($id){
@@ -227,6 +227,9 @@ class WebsiteController extends Controller
     }
 
     public function contact($id, Request $request){
+          $post = new Contact;
+         $user_id="";
+
         $restaurentName="";
         if(substr($id, 0, 4)==="TBL-")
         {
@@ -234,8 +237,7 @@ class WebsiteController extends Controller
             $user_id = $gettables->user_id;
 
             // Create a new instance of the model
-            $post = new Contact;
-
+          
             // Set the properties with the data from the form
             $post->name = $request->input('name');
             // dd($post->name);
@@ -254,26 +256,25 @@ class WebsiteController extends Controller
             // Session::get('table_id');
             // Session::get('restaurent_id');
         }
-        // else{
-            //   $restaurentName = $id;
-            // $getRestaurent = User::where("name",$restaurentName)->where('is_admin',2)->first();
+        else{
+              $restaurentName = $id;
+            $getRestaurent = User::where("name",$restaurentName)->where('is_admin',2)->first();
 
-            // // $getservices = Service::select('title','icon','description')->where(['user_id'=>$getRestaurent->id,'status'=>'Active'])->get();
-            // // Create a new instance of the model
-            // $post = new Contact;
+            // $getservices = Service::select('title','icon','description')->where(['user_id'=>$getRestaurent->id,'status'=>'Active'])->get();
+            // Create a new instance of the model
+          
+            // Set the properties with the data from the form
+            $post->name = $request->input('name');
+            // dd($post->name);
+            $post ->user_id=$getRestaurent->user_id;
+            $post->email = $request->input('email');
+            $post->subject = $request->input('subject');
+            $post->message = $request->input('message');
 
-            // // Set the properties with the data from the form
-            // $post->name = $request->input('name');
-            // // dd($post->name);
-            // $post ->user_id=$user_id;
-            // $post->email = $request->input('email');
-            // $post->subject = $request->input('subject');
-            // $post->message = $request->input('message');
+            // Save the data in the database
+            $post->save();
 
-            // // Save the data in the database
-            // $post->save();
-
-        // }
+        }
 
         return view('website.contact',compact('restaurentName','post'));
     }

@@ -238,6 +238,12 @@ $url = Request::segment(2);
 						<div class="sub_menu-title">Inventory Request Manager</div>
 					</a>
 				</li>
+				<li  class="@if($url=='customer_query') mm-active @endif">
+					<a href="{{url('manager/customer_query')}}">
+						<div class="parent-icon"><i class="bx bx-cart" aria-hidden="true"></i></div>
+						<div class="sub_menu-title">Customer Query</div>
+					</a>
+				</li>
 			
 				
 			
