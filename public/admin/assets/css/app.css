@@ -134,7 +134,7 @@ a {
 
 	cursor: pointer;
 
-	color: #f2a29f
+	color: rgb(56, 60, 63)
 
 }
 
@@ -384,7 +384,7 @@ a {
 
 	text-decoration: none;
 
-	background:rgb(215, 22, 22);
+	background:rgb(56, 60, 63);
 
 }
 
@@ -664,7 +664,7 @@ a {
 
 	padding-right: .5rem;
 
-	color: #f2a29f;
+	color: rgb(56, 60, 63);
 
 	font-family: LineIcons;
 

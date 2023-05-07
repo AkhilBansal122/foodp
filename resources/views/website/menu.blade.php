@@ -1,4 +1,5 @@
 @include('website.layout.header')
+
 <input type="hidden" id="table_id" value="{{$id}}"/>
             <div class="container-xxl py-5 bg-dark hero-header mb-5">
                 <div class="container text-center my-5 pt-5 pb-4">
@@ -107,6 +108,12 @@
                            </div>
                            <small class="text-body-secondary" id="shipping_amount">Rs.00</small>
                         </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                           <div class="btn-group">
+                              <p>GST Amount</p>
+                           </div>
+                           <small class="text-body-secondary" id="gstAmount">Rs.00</small>
+                        </div>
                         <hr>
                         <div class="d-flex justify-content-between align-items-center">
                            <div class="btn-group">
@@ -177,7 +184,7 @@
 
          }
          function CartItemIncDec(data,table_id){
-            console.log("::->",data);
+          //  console.log("::->",data);
             $.ajax({
                      url: "{{url('"+table_id+"/CartItemIncDec')}}",
                      method: 'POST',
@@ -197,19 +204,22 @@
             
             $(document).on("click",".addtocart",function(){
               id= $(this).data("id");
-              table_id= $(this).data("table_id");
+              table_id = $("#table_id").val();
+              // table_id= $(this).data("table_id");
               price= $(this).data("price");
-              selected=  $(this).data("seleted");      
-                  $.ajax({
-                     url: "{{url('"+table_id+"/add_tocart')}}",
-                     method: 'POST',
-                     cache: false,
+              selected=  $(this).data("seleted");  
+              var routes =  "{{url('"+table_id+"/add_tocart')}}"; 
+                $.ajax({
+                     url: routes,
                      data: {"product_id":id,"table_id":table_id,"price":price},
+                     
+                     method: 'POST',
+                     type: "post",
+                     cache: false,
+                   //  data: data,
                      dataType: 'JSON',
-
-                     
-                     
                      headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+
                      success:function(response)
                      {
                         console.log(response);
@@ -222,7 +232,36 @@
                      }
                });
             });
-            
+
+            $(document).on("click",".remove_cartItem",function(e){
+               var cart_id = $(this).data("cart_id");
+               var cart_item_id = $(this).data("cart_item_id");
+               var  table_id = $("#table_id").val();
+               var index = $(this).data('index');
+               var classs = ".remove_cartItem_"+index;
+               $(classs).hide();
+
+            //   alert(cart_id);
+               $.ajax({
+                     url: "{{url('"+table_id+"/remove_cartItem')}}",
+                     method: 'POST',
+                     cache: false,
+                     data: {"cart_item_id":cart_item_id,"table_id":table_id,"cart_id":cart_id},
+                     dataType: 'JSON',
+                     headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                     success:function(response)
+                     {
+                        if(response.status == true)
+                        {
+                           cartItemCAll(table_id);
+                        }
+                     },
+                     error: function(response) {
+                     }
+               });
+
+            });
+
             cartItemCAll('TBL-002672671');
 
       function cartItemCAll(table_id){
@@ -246,10 +285,12 @@
                var discount_amount = response.cart.discount_amount;
                var shipping_price = response.cart.shipping_price;
                var price = response.cart.price;
-               
+               var gstAmount = response.cart.gstAmount;
+
                $("#sub_total").text("Rs."+price);
                $("#discount_amount").text("Rs."+discount_amount);
                $("#shipping_amount").text("Rs."+shipping_price);
+               $("#gstAmount").text("Rs."+gstAmount);
                $("#total_final_amount").text("Rs."+final_amount);
               
                $.each( result, function( key, value ) {
@@ -259,11 +300,11 @@
                   var cart_id = value.cart_id;
                   var id = value.id;
                   var product_qty = value.qty;
-                    html +='<div style="display: flex;" class="card mt-3 px-2 py-2">';
+                    html +='<div style="display: flex;" class="card mt-3 px-2 py-2 remove_cartItem_'+key+'">';
                                  html+='<div style="display: flex;">';
                                     html+='<img src="'+product_image+'" width="80vh" height="80vh" alt="">';
                                     html+='<div>';
-                                    html+='<i class="bi bi-file-x" style="color: #fb0606; margin-left: 170px;"></i>';
+                                    html+='<i class="bi bi-file-x remove_cartItem" data-index='+key+' data-cart_id='+cart_id+' data-cart_item_id='+id+' style="color: #fb0606; margin-left: 170px;"></i>';
                                  html+='</div>';
                                  html+='</div>';
                                  html+='<div class="mx-2">';

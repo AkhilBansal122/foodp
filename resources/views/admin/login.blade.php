@@ -30,7 +30,7 @@
 					<div class="col mx-auto">
 						<div class="login-card card">
 							<div class="text-center">
-								<div class="logoouteradmin"><img src="{{asset('public/admin/assets/images/logo-full.png')}}" alt="B2BJewelry Logo"></div>
+								<div class="logoouteradmin"><img src="{{asset('public/admin/assets/images/logo-full.jpg')}}"></div>
 							</div>
 							<div class="card-body p-3">
 										<h3 class="">Login</h3>

@@ -24,38 +24,52 @@ use Helper;
 class OrderController extends Controller
 {
     public function add_tocart(Request $request,$id){
-      // dd($request->all());
-
-     
-
         $id= $request->table_id;
-         if((auth()->user()) && (auth()->user()->is_admin==5)){
-           //  dd($request->all());
-             $user_id = auth()->user()->id;
+        if((auth()->user()) && (auth()->user()->is_admin==5)){
+            $user_id = auth()->user()->id;
             $table= Tables::where("unique_id",$request->table_id)->first();
-           // dd($table);
-            $gst =  $table->get_restaurent->GST;
-      
-            $cart = Cart::where("user_id",$user_id)->first();
-            if(is_null($cart)){
-                 $cart = new Cart();
-                 $cart->user_id = auth()->user()->id;
-                 $cart->save();
+            if(!is_null($table))
+            {
+                $gst =  $table->get_restaurent->GST;
+                $cart = Cart::where("user_id",$user_id)->first();
+                $checked =  cartItem::where(['cart_id'=>$request->cart_id,'product_id'=>$request->product_id])->first();
+                if(!is_null($checked))
+                {
+                    return response()->json(['status'=>true, "message" =>"This Item Already add to Cart then Select Quentity"]);
+                }
+                else{
+                    if(is_null($cart)){
+                        $cart = new Cart();
+                        $cart->user_id = auth()->user()->id;
+                        $cart->save();
+                    }
+                    $cartDetails = new cartItem();
+                    $cartDetails->cart_id = $cart->id;
+                    $cartDetails->user_id = $user_id;
+                    $cartDetails->product_id = $request->product_id;
+                    $cartDetails->product_price = $request->price;
+                    $cartDetails->qty = 1;//$request->qty;
+                    $cartDetails->save();
+                    if($this->add_tocart_calculation($user_id,$cart->id))
+                    {
+                        return response()->json(['status'=>true, "message" =>"Add Item To Cart Successfully"]);
+                    }
+                    else{
+                        return response()->json(['status'=>true, "message" =>"Add Item To Cart Successfully"]);
+                    }
+                }   
             }
-             $cartDetails = new cartItem();
-             $cartDetails->cart_id = $cart->id;
-             $cartDetails->user_id = $user_id;
-             $cartDetails->product_id = $request->product_id;
-             $cartDetails->product_price = $request->price;
-             $cartDetails->qty = 1;//$request->qty;
-             $cartDetails->save();
-            $this->add_tocart_calculation($user_id,$cart->id);
         }
     }
 
      public function add_tocart_calculation($user_id,$cart_id){
         $cart =Cart::where("id",$cart_id)->first();
-        $final_amount =0;
+        
+       $user =  auth()->user();
+       $bill_gst =$user ->bill_gst;
+       $GST = $user->GST;
+
+       $final_amount =0;
         $discount_amount = 0;
         $total_price=0;
         if(!is_null($cart)){
@@ -72,8 +86,18 @@ class OrderController extends Controller
             $discount_amount = $total_price * 10/100;
           
             $cart->discount_amount = $discount_amount;
-          
-            $cart->final_amount =$total_price- $discount_amount;
+            
+            $final_amount = $total_price - $discount_amount;
+            if($bill_gst==1)
+            {
+                $gstAmount = round($final_amount * $GST, 2);
+                $totalPrice = $final_amount + $gstAmount;
+                $cart->gstAmount = $gstAmount;
+            }else{
+                $total_price = $final_amount;
+            }
+            
+            $cart->final_amount = $total_price;
           
             if($cart->save()){
                 return true;
@@ -115,17 +139,21 @@ class OrderController extends Controller
    //remove_cartItem
    public function remove_cartItem(Request $request,$id){
     if((auth()->user()) && (auth()->user()->is_admin==5) && $request->all()){
-        
+      // dd($request->all());
         $user_id = auth()->user()->id;
-        $cart_details_id = $request->cart_details_id;
-        $cartItem = cartItem::find($cart_details_id);
-        $cart_id = $cartItem->cart_id;
-        if($cartItem->delete()){
-            $this->add_tocart_calculation($user_id,$cart_id);
-            return response()->json(['status'=>true, "message" =>"Remove Item From Cart Successfully"]);
-        }
-        else{
-            return response()->json(['status'=>false, "message" =>"Remove Item From Cart Failed"]);
+         $cart_details_id = $request->cart_item_id;
+        if(!is_null($cart_details_id))
+        {
+             $cartItem = cartItem::find($cart_details_id);
+            //dd($cartItem);
+            $cart_id = $cartItem->cart_id;
+            if($cartItem->delete()){
+                $this->add_tocart_calculation($user_id,$cart_id);
+                return response()->json(['status'=>true, "message" =>"Remove Item From Cart Successfully"]);
+            }
+            else{
+                return response()->json(['status'=>false, "message" =>"Remove Item From Cart Failed"]);
+            }
         }
     }
    }
