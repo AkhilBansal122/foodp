@@ -1,5 +1,5 @@
 @include('website.layout.header')
-
+        
 <input type="hidden" id="table_id" value="{{$id}}"/>
             <div class="container-xxl py-5 bg-dark hero-header mb-5">
                 <div class="container text-center my-5 pt-5 pb-4">
@@ -17,7 +17,7 @@
         <!-- Navbar & Hero End -->
 
 
-         <div class="container-xxl py-5">
+      <div class="container-xxl py-5">
          <div class="container">
             <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
                <h5 class="section-title ff-secondary text-center text-primary fw-normal">Food Menu</h5>
@@ -134,7 +134,7 @@
          //initialising a variable name data
   
          var data = 0;
-           
+        //   $("#spinner").hide();
          //printing default value of data that is 0 in h2 tag
        //  document.getElementById("counting").innerText = data;
            
@@ -193,6 +193,9 @@
                      data: data,
                      dataType: 'JSON',
                      headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                     beforeSend:function(){
+                        $("#spinner").addClass("show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center");
+                      },   
                      success:function(response)
                      {
                         cartItemCAll(table_id);
@@ -203,25 +206,29 @@
          }
             
             $(document).on("click",".addtocart",function(){
+          
               id= $(this).data("id");
               table_id = $("#table_id").val();
               // table_id= $(this).data("table_id");
               price= $(this).data("price");
+              id= $(this).data("id");
               selected=  $(this).data("seleted");  
               var routes =  "{{url('"+table_id+"/add_tocart')}}"; 
                 $.ajax({
                      url: routes,
-                     data: {"product_id":id,"table_id":table_id,"price":price},
-                     
+                     data: {"product_id":id,"table_id":table_id,"price":price,'id':id},
                      method: 'POST',
                      type: "post",
                      cache: false,
                    //  data: data,
                      dataType: 'JSON',
                      headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-
+                     beforeSend:function(){
+                        $("#spinner").addClass("show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center");
+                      },
                      success:function(response)
                      {
+                        $("#spinner").removeClass("show");
                         console.log(response);
                         if(response.status == true)
                         {
@@ -249,8 +256,12 @@
                      data: {"cart_item_id":cart_item_id,"table_id":table_id,"cart_id":cart_id},
                      dataType: 'JSON',
                      headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                     beforeSend:function(){
+                     $("#spinner").addClass("show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center");
+                     },
                      success:function(response)
                      {
+                        $("#spinner").removeClass("show");
                         if(response.status == true)
                         {
                            cartItemCAll(table_id);
@@ -274,8 +285,12 @@
             data: {"table_id":table_id,},
             dataType: 'JSON',
             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+            beforeSend:function(){
+               $("#spinner").addClass("show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center");
+            },
             success:function(response)
             {
+               $("#spinner").removeClass("show");
                html ="";
                if(response.status==true){
                var result  =response.data;

@@ -304,7 +304,7 @@ class WebsiteController extends Controller
                                             <small class="fst-italic">'.$row->description.'</small><br></br>
                                              <button type="button"
                                                 data-table_id="'.$tab_id.'"
-                                              data-id="'.$row->id.'"
+                                                data-id="'.$row->id.'"
                                                data-price="'.$row->price.'"
                                                data-seleted ="1"
                                                 

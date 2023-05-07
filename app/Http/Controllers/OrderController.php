@@ -32,7 +32,7 @@ class OrderController extends Controller
             {
                 $gst =  $table->get_restaurent->GST;
                 $cart = Cart::where("user_id",$user_id)->first();
-                $checked =  cartItem::where(['cart_id'=>$request->cart_id,'product_id'=>$request->product_id])->first();
+                $checked =  cartItem::where(['cart_id'=>$cart->id,'product_id'=>$request->product_id])->first();
                 if(!is_null($checked))
                 {
                     return response()->json(['status'=>true, "message" =>"This Item Already add to Cart then Select Quentity"]);
