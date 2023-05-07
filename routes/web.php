@@ -58,7 +58,7 @@ Route::group(['middleware' => ['is_customer']], function(){
    Route::any('{tblid}/contact', [App\Http\Controllers\WebsiteController::class, 'contact'])->name('contact');
    Route::any('{tblid}/getsub_menu_by_menu_id', [App\Http\Controllers\WebsiteController::class, 'getsub_menu_by_menu_id'])->name('getsub_menu_by_menu_id');
    Route::any('{tblid}/cartItem', [App\Http\Controllers\WebsiteController::class, 'cartItem'])->name('cartItem');
-   Route::any('{tblid}/git ', [App\Http\Controllers\OrderController::class, 'add_tocart'])->name('add_tocart');
+   Route::any('{tblid}/add_tocart', [App\Http\Controllers\OrderController::class, 'add_tocart'])->name('add_tocart');
    Route::any('{tblid}/cartItemList', [App\Http\Controllers\WebsiteController::class, 'cartItemList'])->name('cartItemList');
    Route::any('{tblid}/CartItemIncDec', [App\Http\Controllers\OrderController::class, 'CartItemIncDec'])->name('CartItemIncDec');
    Route::any('{tblid}/remove_cartItem', [App\Http\Controllers\OrderController::class, 'remove_cartItem'])->name('remove_cartItem');

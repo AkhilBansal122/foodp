@@ -114,14 +114,14 @@ a:hover {
     margin-left: 0 !important;
 }
 .btn-light {
-    color: rgb(245 171 159);
+    color: rgb(56, 60, 63);
     background-color: transparent;
-    border-color: rgb(245 171 159) !important;
+    border-color: rgb(56, 60, 63) !important;
     padding: 7px 15px !important;
 }
 .btn-light:hover {
 	color: #fff !important;
-	background-color: rgb(245 171 159) !important;
+	background-color: rgb(56, 60, 63) !important;
 	border-color: rgb(255 255 255 / 40%);
 }
 
@@ -210,7 +210,7 @@ a:hover {
 
 .progress-bar {
     color: #fff;
-    background-color: #f2a29f;
+    background-color: rgb(56, 60, 63);
 }
 .list-group-item {
     color: rgba(255, 255, 255, 0.85);
@@ -318,7 +318,7 @@ body.bg-theme.bg-theme1 {
 
 
 .logoouteradmin {
-    background: rgb(215, 22, 22);
+    background: rgb(56, 60, 63);
     border-radius: 10px;
     padding: 20px 10px;
 }
@@ -364,7 +364,7 @@ body.bg-theme.bg-theme1 {
     background-color: #c7c7c7;
 }
 .form-switch .form-check-input:checked {
-    background-color: #f2a29f;
+    background-color: rgb(56, 60, 63);
 }
 .login-card.card .input-group input {
     border-radius: 5px 0 0 5px !important;
@@ -375,13 +375,13 @@ body.bg-theme.bg-theme1 {
 }
 .login-card.card .btn.btn-primary {
     color: #fff !important;
-    background-color:rgb(215, 22, 22);
-    border-color: rgb(215, 22, 22); 
+    background-color:rgb(56, 60, 63);
+    border-color: rgb(56, 60, 63); 
     margin-right: 0px;
     width: auto;
 }
 a {
-    color: rgb(215, 22, 22);
+    color: rgb(56, 60, 63);
 }
 .login-card.card  .form-control::-webkit-input-placeholder { /* Edge */
   color: #334154 !important;
@@ -520,15 +520,15 @@ td a.btn.btn-light i {
     margin: 0 !important;
 }
 .btn-primary {
-    background: rgb(245 171 159);
+    background: rgb(56, 60, 63);
     color: #fff !important;
-    border-color: rgb(245 171 159) !important;
+    border-color: rgb(56, 60, 63) !important;
     padding: 7px 15px !important;
 }
 
 .btn-primary:hover {
     background: transparent;
-    color: #f0a1a0 !important;
+    color: rgb(56, 60, 63)!important;
 }
 .pace.pace-active {
     background-color: #ffffff;
@@ -584,7 +584,7 @@ td select.form-select {
     display: block;
 }
 button:focus:not(:focus-visible) {
-    background: rgb(245 171 159) !important;
+    background: rgb(56, 60, 63) !important;
     color: #fff
 }
 .chart_head {
@@ -672,7 +672,7 @@ li.mm-active {
 }
 
 .img-wrap-main .img-wrap .close {
-    background: #f2a29f;
+    background: rgb(56, 60, 63);
     opacity: 1;
     color: #000 !important;
     font-size: 14px;
@@ -724,8 +724,8 @@ li.mm-active {
     font-weight: 500;
 }
 .card-header .nav.nav-tabs .nav-item a.active {
-    border-color: #f2a29f !important;
-    color: #f2a29f !important;
+    border-color: rgb(56, 60, 63) !important;
+    color: rgb(56, 60, 63) !important;
 }
 .receipt-left.invoice-right .receipt-right {margin-left: 15px;}
 .receipt-header {
